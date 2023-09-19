@@ -2,17 +2,29 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
 import { createVuetify } from "vuetify";
-import { aliases, md } from "vuetify/iconsets/md";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+import VueSidebarMenu from "vue-sidebar-menu";
+import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
+import { initializeApp } from "firebase/app";
+import firebaseConfig from "@/utils/firebaseConfig";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 
+initializeApp(firebaseConfig);
+const auth = getAuth();
+auth.useDeviceLanguage();
+
+//firebase
 const vuetify = createVuetify({
-  icons: {
-    defaultSet: "md",
-    aliases,
-    sets: {
-      md,
-    },
-  },
+  components,
+  directives,
 });
-
-createApp(App).use(router).use(store).use(vuetify).mount("#app");
+createApp(App)
+  .use(router)
+  .use(VueSidebarMenu)
+  .use(store)
+  .use(vuetify)
+  .mount("#app");

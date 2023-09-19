@@ -1,8 +1,9 @@
 <template>
   <v-app>
-    <v-main>
+    <CustomSidebar />
+    <v-main class="content-view">
       <HeaderSection />
-      <router-view />
+      <router-view> </router-view>
     </v-main>
   </v-app>
 </template>
@@ -16,5 +17,16 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { reactive, ref, onBeforeMount } from "vue";
+import axios from "axios";
+import CustomSidebar from "@/components/CustomSidebar.vue";
 import HeaderSection from "./components/HeaderSection.vue";
 </script>
+
+<style>
+.content-view {
+  margin-left: 290px;
+}
+</style>
+
+<!-- //-->
