@@ -21,24 +21,17 @@ import { useAuth, firebaseUser } from "@/composable/useAuth";
 const auth = getAuth();
 useAuth();
 const provider = new GithubAuthProvider();
+provider.setCustomParameters({
+  allow_signup: "false",
+});
 const signIn = async () => {
   console.log("here");
   await signInWithPopup(auth, provider)
     .then((result) => {
       console.log(result);
-      // var token = result.credential.accessToken;
-      // var user = result.user;
-
-      // console.log("token : " + token);
-      // console.log("user : " + user);
     })
     .catch((err) => {
       alert("에러 : " + err.message);
     });
-  // await signInWithEmailAndPassword(auth, "test@test.com", "test123").then(
-  //   (res) => {
-  //     console.log(res);
-  //   }
-  // );
 };
 </script>
