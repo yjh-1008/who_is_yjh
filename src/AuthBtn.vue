@@ -1,25 +1,32 @@
 <template>
   <v-icon
     size="large"
-    v-if="firebaseUser"
-    icon="mdi-account"
-    @click="signOut(auth)"
+    :icon="store.state.authState ? 'mdi-account' : 'mdi-close'"
+    @click="store.state.authState ? fsSignOut() : signIn()"
   />
-  <v-icon size="large" v-else icon="mdi-login" @click="signIn" />
 </template>
 <script setup lang="ts">
-import firebaseConfig from "@/utils/firebaseConfig";
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
 import {
-  GoogleAuthProvider,
   signInWithPopup,
   signOut,
   getAuth,
-  signInWithEmailAndPassword,
   GithubAuthProvider,
+  onAuthStateChanged,
+  User,
 } from "firebase/auth";
-import { useAuth, firebaseUser } from "@/composable/useAuth";
+const store = useStore();
+const firebaseUser = ref<User | null>(null);
+
 const auth = getAuth();
-useAuth();
+const useAuth = onAuthStateChanged(auth, (user) => {
+  firebaseUser.value = user;
+  store.commit("setAuthState", firebaseUser.value !== null);
+});
+const authState = computed(() => {
+  return store.state.authState;
+});
 const provider = new GithubAuthProvider();
 provider.setCustomParameters({
   allow_signup: "false",
@@ -29,9 +36,14 @@ const signIn = async () => {
   await signInWithPopup(auth, provider)
     .then((result) => {
       console.log(result);
+      store.commit("setAuthState", true);
     })
     .catch((err) => {
       alert("에러 : " + err.message);
     });
+};
+const fsSignOut = () => {
+  console.log("here");
+  signOut(auth);
 };
 </script>
