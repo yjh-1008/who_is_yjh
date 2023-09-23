@@ -9,7 +9,8 @@ import {
   User,
   signOut,
 } from "firebase/auth";
-
-initializeApp(firebaseConfig);
+import { getFirestore } from "firebase/firestore";
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const auth = getAuth();
-export { auth };
+export { auth, db };

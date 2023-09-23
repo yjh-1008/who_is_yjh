@@ -24,9 +24,6 @@ const useAuth = onAuthStateChanged(auth, (user) => {
   firebaseUser.value = user;
   store.commit("setAuthState", firebaseUser.value !== null);
 });
-const authState = computed(() => {
-  return store.state.authState;
-});
 const provider = new GithubAuthProvider();
 provider.setCustomParameters({
   allow_signup: "false",

@@ -37,10 +37,11 @@
 import { reactive, ref } from "vue";
 import { github } from "@/utils/profileLink";
 import { SidebarMenu } from "vue-sidebar-menu";
-import router from "@/router";
+import { useStore } from "vuex";
 const connect = (url: string) => {
   window.location.href = url;
 };
+const store = useStore();
 const menu = reactive([
   {
     href: "/",
@@ -59,6 +60,16 @@ const menu = reactive([
       element: "v-icon",
       attributes: {
         icon: "mdi-account",
+      },
+    },
+  },
+  {
+    href: "/edit_content",
+    title: "Edit content",
+    icon: {
+      element: "v-icon",
+      attributes: {
+        icon: "mdi-note-text-outline",
       },
     },
   },

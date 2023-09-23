@@ -10,15 +10,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
 export default defineComponent({
   name: "App",
 });
 </script>
 
 <script setup lang="ts">
-import { reactive, ref, onBeforeMount } from "vue";
-import axios from "axios";
 import CustomSidebar from "@/components/CustomSidebar.vue";
 import HeaderSection from "./components/HeaderSection.vue";
 </script>
