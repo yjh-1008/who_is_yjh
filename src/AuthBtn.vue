@@ -1,7 +1,7 @@
 <template>
   <v-icon
     size="large"
-    :icon="store.state.authState ? 'mdi-account' : 'mdi-close'"
+    :icon="store.state.authState ? 'mdi-logout' : 'mdi-account'"
     @click="store.state.authState ? fsSignOut() : signIn()"
   />
 </template>
@@ -20,7 +20,7 @@ const store = useStore();
 const firebaseUser = ref<User | null>(null);
 
 const auth = getAuth();
-const useAuth = onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, (user) => {
   firebaseUser.value = user;
   store.commit("setAuthState", firebaseUser.value !== null);
 });

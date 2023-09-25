@@ -6,7 +6,7 @@
 import { ref, onMounted } from "vue";
 import Viewer from "@toast-ui/editor/dist/toastui-editor-viewer";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
-import { emit } from "process";
+// import { emit } from "process";
 const viewer = ref<Viewer | null>();
 const props = defineProps<{ content: string }>();
 const editorRef = ref();

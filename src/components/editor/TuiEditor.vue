@@ -1,12 +1,12 @@
 <template>
-  <div ref="editorRef" />
+  <div ref="editorRef" class="w-50" />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { emit } from "process";
+// import { emit } from "process";
 const props = defineProps<{ modelValue: string }>();
 const emits = defineEmits<{ (e: "update:modelValue", value: string): void }>();
 const editorRef = ref();
