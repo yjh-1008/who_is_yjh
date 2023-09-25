@@ -53,7 +53,7 @@ const options = ref();
 const router = useRouter();
 const text = ref("abcd");
 const store = useStore();
-const title = ref("");
+const title = ref(""); // '/', ., .., 정규표현식 사용 금지.
 const dialogState = computed(() => {
   return !store.state.authState;
 });
@@ -65,5 +65,6 @@ const onSubmit = async () => {
     title: title.value,
     last: "JUN",
   });
+  router.push("/");
 };
 </script>

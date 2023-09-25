@@ -22,7 +22,6 @@ import { onBeforeMount, reactive, ref, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import ProfileContainer from "./ProfileContainer.vue";
 import HomeContentCard from "@/components/HomeContentCard.vue";
-import axios from "axios";
 const router = useRouter();
 const contents = ref<HomeContentType[]>([]);
 
