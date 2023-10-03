@@ -1,6 +1,6 @@
 <template>
-  <v-card v-for="doc in documents" class="ma-3" :key="doc.id">
-    <v-card-title>{{ doc.id }}</v-card-title>
+  <v-card v-for="doc in documents" class="ma-3" :key="doc.title">
+    <v-card-title>{{ doc.title }}</v-card-title>
     <v-card-text> I should occupy rest of the available space </v-card-text>
   </v-card>
   <v-pagination
@@ -18,7 +18,6 @@
 
 <script setup>
 import { computed, ref, onBeforeMount, onMounted } from "vue";
-import { HomeContentType } from "@/utils/types";
 import {
   getDocs,
   collection,
@@ -29,6 +28,7 @@ import {
   DocumentData,
 } from "firebase/firestore";
 import { db } from "@/utils/firebase";
+import { getPost, Content } from "@/utils/types";
 const page = ref(1);
 const onNext = () => {
   page.value++;
@@ -51,10 +51,10 @@ const props = defineProps({
     required: true,
   },
 });
-const docs = ref < QueryDocumentSnapshot > [];
+const docs = ref([]);
 onMounted(async () => {
-  const q = query(collection(db, "documents"));
-  const querySnapshot = await getDocs(q);
+  // const q = query(collection(db, "documents"));
+  const querySnapshot = await getPost();
   console.log(docs);
   console.log(DocumentData);
   querySnapshot.forEach((v) => {

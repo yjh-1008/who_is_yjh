@@ -46,8 +46,9 @@ import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import TuiEditor from "@/components/editor/TuiEditor.vue";
 import TuiViewer from "@/components/editor/TuiViewer.vue";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, setDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
+import { setPost, Content } from "@/utils/types";
 // import firebase from "firebase/firebase";
 const options = ref();
 const router = useRouter();
@@ -61,10 +62,6 @@ onMounted(() => {
   console.log(db, "here");
 });
 const onSubmit = async () => {
-  const ret = await addDoc(collection(db, "documents"), {
-    title: title.value,
-    last: "JUN",
-  });
-  router.push("/");
+  const ret = await setPost(new Content("a", "b"));
 };
 </script>
