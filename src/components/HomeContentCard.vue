@@ -1,7 +1,30 @@
 <template>
-  <v-card v-for="doc in documents" class="ma-3" :key="doc.title">
-    <v-card-title>{{ doc.title }}</v-card-title>
-    <v-card-text> I should occupy rest of the available space </v-card-text>
+  <v-card v-for="doc in docs" class="ma-3" :key="doc.title">
+    <div class="d-flex flex-no-wrap">
+      <v-avatar size="125" rounded="0">
+        <v-img
+          src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
+          alt="img"
+        />
+      </v-avatar>
+      <div class="w-100">
+        <div class="d-flex justify-space-between">
+          <v-card-title>{{
+            doc.title === "" ? "test" : doc.title
+          }}</v-card-title>
+          <v-btn @click="onUpdate"> 수정하기 </v-btn>
+        </div>
+
+        <v-card-subtitle>{{
+          typeof doc.createdAt === "object"
+            ? `${doc.createdAt.getFullYear()}-${
+                doc.createdAt.getMonth() + 1
+              }-${doc.createdAt.getDate()}`
+            : ""
+        }}</v-card-subtitle>
+        <v-card-text> {{ doc.content }}</v-card-text>
+      </div>
+    </div>
   </v-card>
   <v-pagination
     v-model="page"
@@ -18,17 +41,8 @@
 
 <script setup>
 import { computed, ref, onBeforeMount, onMounted } from "vue";
-import {
-  getDocs,
-  collection,
-  query,
-  where,
-  QuerySnapshot,
-  QueryDocumentSnapshot,
-  DocumentData,
-} from "firebase/firestore";
 import { db } from "@/utils/firebase";
-import { getPost, Content } from "@/utils/types";
+import { getPost, Content, updatePost } from "@/utils/types";
 const page = ref(1);
 const onNext = () => {
   page.value++;
@@ -53,15 +67,12 @@ const props = defineProps({
 });
 const docs = ref([]);
 onMounted(async () => {
-  // const q = query(collection(db, "documents"));
   const querySnapshot = await getPost();
-  console.log(docs);
-  console.log(DocumentData);
-  querySnapshot.forEach((v) => {
-    docs.value.push(v);
-  });
   querySnapshot.docs.forEach((doc) => {
-    console.log(doc);
+    docs.value.push(doc.data());
   });
 });
+const onUpdate = async () => {
+  await updatePost("a", "adadadadad");
+};
 </script>

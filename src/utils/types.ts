@@ -7,6 +7,7 @@ import {
   query,
   where,
   getDocs,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "./firebase";
 //메인화면 요약 카드 타입
@@ -58,4 +59,9 @@ export const getPost = () => {
   const ref = collection(db, "documents").withConverter(converter);
   const q = query(ref);
   return getDocs(q);
+};
+
+export const updatePost = (id: string, content: string) => {
+  const ref = doc(db, "documents", id).withConverter(converter);
+  return updateDoc(ref, { content: content, updateAt: new Date() });
 };
