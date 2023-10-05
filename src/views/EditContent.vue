@@ -36,7 +36,8 @@ import { db } from "@/utils/firebase";
 import { setPost, Content } from "@/utils/types";
 // import firebase from "firebase/firebase";
 onBeforeMount(() => {
-  if (!store.commit("getAuthState")) {
+  console.log(store.commit("getAuthState"));
+  if (!store.state.authState) {
     alert("인증된 사용자만 작성할 수 있습니다.");
     router.push("/");
   }

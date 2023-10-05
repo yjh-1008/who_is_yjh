@@ -22,6 +22,7 @@ const firebaseUser = ref<User | null>(null);
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
   firebaseUser.value = user;
+  console.log(firebaseUser.value);
   store.commit("setAuthState", firebaseUser.value !== null);
 });
 const provider = new GithubAuthProvider();
