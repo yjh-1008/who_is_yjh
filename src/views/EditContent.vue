@@ -33,7 +33,7 @@ import TuiEditor from "@/components/editor/TuiEditor.vue";
 import TuiViewer from "@/components/editor/TuiViewer.vue";
 import { addDoc, collection, setDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
-import { setPost, Content } from "@/utils/types";
+import { setPost, Content } from "@/models/content";
 // import firebase from "firebase/firebase";
 onBeforeMount(() => {
   console.log(store.commit("getAuthState"));
