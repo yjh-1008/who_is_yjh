@@ -40,7 +40,6 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, Ref } from "vue";
-import { loadFile } from "@/plugins/firebase";
 import MyBadges from "@/components/MyBadges.vue";
 import GithubStacks from "@/components/GithubStacks.vue";
 const profile_pircutre: Ref<any> = ref("");

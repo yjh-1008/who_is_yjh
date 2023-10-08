@@ -8,6 +8,7 @@ import {
   query,
   where,
   getDocs,
+  getDoc,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "@/utils/firebase";
@@ -36,7 +37,7 @@ export const setPost = (post: Content) => {
   return setDoc(ref, post);
 };
 
-export const getPost = () => {
+export const getPosts = () => {
   const ref = collection(db, "documents").withConverter(converter);
   const q = query(ref);
   return getDocs(q);
@@ -45,4 +46,9 @@ export const getPost = () => {
 export const updatePost = (id: string, content: string) => {
   const ref = doc(db, "documents", id).withConverter(converter);
   return updateDoc(ref, { content: content, updateAt: new Date() });
+};
+
+export const getPost = (id: string) => {
+  const ref = doc(db, "documents", id).withConverter(converter);
+  return getDoc(ref);
 };

@@ -1,5 +1,10 @@
 <template>
-  <v-card v-for="doc in docs" class="ma-3" :key="doc.title">
+  <v-card
+    v-for="doc in docs"
+    class="ma-3"
+    :key="doc.title"
+    :to="`/content/${doc.title}`"
+  >
     <div class="d-flex flex-no-wrap">
       <v-avatar size="125" rounded="0">
         <v-img
@@ -42,7 +47,7 @@
 <script setup>
 import { computed, ref, onBeforeMount, onMounted } from "vue";
 import { db } from "@/utils/firebase";
-import { getPost, Content, updatePost } from "@/utils/types";
+import { getPosts, Content, updatePost } from "@/models/content";
 const page = ref(1);
 const onNext = () => {
   page.value++;
@@ -67,7 +72,7 @@ const props = defineProps({
 });
 const docs = ref([]);
 onMounted(async () => {
-  const querySnapshot = await getPost();
+  const querySnapshot = await getPosts();
   querySnapshot.docs.forEach((doc) => {
     docs.value.push(doc.data());
   });

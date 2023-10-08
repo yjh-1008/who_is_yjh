@@ -22,6 +22,10 @@ const routes: Array<RouteRecordRaw> = [
     path: "/edit_content",
     component: () => import("@/views/EditContent.vue"),
   },
+  {
+    path: "/content/:id",
+    component: () => import("@/views/ContentView.vue"),
+  },
 ];
 
 const router = createRouter({
