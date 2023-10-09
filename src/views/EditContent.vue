@@ -25,19 +25,17 @@
 
 <script setup>
 import "@toast-ui/editor/dist/toastui-editor.css";
-import Editor from "@toast-ui/editor";
 import { useRouter } from "vue-router";
-import { ref, onBeforeMount, computed } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
+import { setPost } from "@/models/content";
 import TuiEditor from "@/components/editor/TuiEditor.vue";
 import TuiViewer from "@/components/editor/TuiViewer.vue";
-import { addDoc, collection, setDoc } from "firebase/firestore";
-import { db } from "@/utils/firebase";
-import { setPost, Content } from "@/models/content";
-// import firebase from "firebase/firebase";
-onBeforeMount(() => {
-  console.log(store.commit("getAuthState"));
-  if (!store.state.authState) {
+import { Content } from "@/utils/types";
+const store = useStore();
+onMounted(() => {
+  console.log(store.getters.getAuthState);
+  if (!store.getters.getAuthState) {
     alert("인증된 사용자만 작성할 수 있습니다.");
     router.push("/");
   }
@@ -45,13 +43,18 @@ onBeforeMount(() => {
 const options = ref();
 const router = useRouter();
 const text = ref("abcd");
-const store = useStore();
+
 const title = ref(""); // '/', ., .., 정규표현식 사용 금지.
 const dialogState = computed(() => {
   return !store.state.authState;
 });
 
 const onSubmit = async () => {
-  const ret = await setPost(new Content("a", "b"));
+  // const user = stroe.getAuthState;
+  const ret = await setPost(
+    "test",
+    "bdsfhsdafhjdasfjkldashfgdsvbuiash",
+    store.getters.getAuthState
+  );
 };
 </script>

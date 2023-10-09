@@ -1,6 +1,9 @@
 <template>
   <div v-if="!content">error</div>
-  <div v-else>{{ content.content }}</div>
+  <template v-else>
+    <div>{{ content.postContent }}</div>
+  </template>
+
   <v-btn></v-btn>
 </template>
 
@@ -13,8 +16,8 @@ const props = defineProps<{
 }>();
 const content = ref<Content | null>();
 onMounted(async () => {
-  return getPost(props.id).then((res) => {
-    content.value = res.data();
+  return getPost(props.id).then((data) => {
+    content.value = data;
   });
 });
 </script>

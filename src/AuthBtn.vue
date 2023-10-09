@@ -1,8 +1,8 @@
 <template>
   <v-icon
     size="large"
-    :icon="store.state.authState ? 'mdi-logout' : 'mdi-account'"
-    @click="store.state.authState ? fsSignOut() : signIn()"
+    :icon="store.getters.getAuthState ? 'mdi-logout' : 'mdi-account'"
+    @click="store.getters.getAuthState ? fsSignOut() : signIn()"
   />
 </template>
 <script setup lang="ts">
@@ -23,7 +23,7 @@ const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
   firebaseUser.value = user;
   console.log(firebaseUser.value);
-  store.commit("setAuthState", firebaseUser.value !== null);
+  store.commit("setAuthState", user);
 });
 const provider = new GithubAuthProvider();
 provider.setCustomParameters({
@@ -34,7 +34,6 @@ const signIn = async () => {
   await signInWithPopup(auth, provider)
     .then((result) => {
       console.log(result);
-      store.commit("setAuthState", true);
     })
     .catch((err) => {
       alert("에러 : " + err.message);

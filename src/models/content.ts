@@ -1,25 +1,32 @@
-import { Content } from "@/utils/types";
+import { Content, PostContent } from "@/utils/types";
 import {
   FirestoreDataConverter,
   doc,
-  setDoc,
   Timestamp,
   collection,
   query,
-  where,
   getDocs,
   getDoc,
+  writeBatch,
+  SetOptions,
   updateDoc,
+  serverTimestamp,
 } from "firebase/firestore";
+import { User } from "firebase/auth";
 import { db } from "@/utils/firebase";
+import { converter as postConverter } from "@/models/postContent";
+import { getPostContents } from "@/models/postContent";
+const titleToId = (text: string) => {
+  // eslint-disable-next-line no-useless-escape
+  const ptrn = /[\{\}\[\]?.,:;\)*~'!^\_+<>@\#$%&\\\=\(\`\")]/gi;
+
+  return text.replace(ptrn, "").split(" ").join("-");
+};
+
 const converter: FirestoreDataConverter<Content> = {
-  toFirestore(model: Content) {
-    return {
-      title: model.title,
-      content: model.content,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+  toFirestore(model: Content, options?: SetOptions) {
+    if (options) return Object.assign(model, { updatedAt: serverTimestamp() });
+    return model.toJSON();
   },
   fromFirestore(snapshot: any) {
     const data = snapshot.data();
@@ -32,9 +39,29 @@ const converter: FirestoreDataConverter<Content> = {
   },
 };
 
-export const setPost = (post: Content) => {
-  const ref = doc(db, "documents", post.title).withConverter(converter);
-  return setDoc(ref, post);
+const textsToChunks = (str: string) => {
+  return str.match(/.{1,10}/g) || [];
+};
+
+export const setPost = async (title: string, text: string, user: User) => {
+  // const store = useStore();
+  // console.log(user);
+  // const user = store.getters.getAuthState;
+  if (!user) throw new Error("error!");
+  const batch = writeBatch(db);
+  const userRef = doc(db, "users", user.uid);
+  const id = titleToId(title);
+  const chunks = textsToChunks(text);
+  const content = new Content(title, text, userRef);
+  const postRef = doc(db, "documents", id).withConverter(converter);
+  batch.set(postRef, content);
+  chunks.forEach((c, i) => {
+    const ref = doc(collection(db, "documents", id, "contents")).withConverter(
+      postConverter
+    );
+    batch.set(ref, new PostContent(i, c));
+  });
+  return await batch.commit();
 };
 
 export const getPosts = () => {
@@ -48,7 +75,14 @@ export const updatePost = (id: string, content: string) => {
   return updateDoc(ref, { content: content, updateAt: new Date() });
 };
 
-export const getPost = (id: string) => {
+export const getPost = async (id: string) => {
+  console.log(id);
   const ref = doc(db, "documents", id).withConverter(converter);
-  return getDoc(ref);
+  const contentSnapshot = await getDoc(ref);
+  const content = contentSnapshot.data();
+  if (!content) throw Error("post not exist");
+  const postContentSnpashot = await getPostContents(id);
+  const postContents = postContentSnpashot.docs.map((d) => d.data().content);
+  content.postContent = postContents.join("");
+  return content;
 };
