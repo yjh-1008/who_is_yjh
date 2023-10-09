@@ -1,5 +1,10 @@
 <template>
-  <v-card v-for="doc in docs" class="ma-3" :key="doc.title">
+  <v-card
+    v-for="doc in docs"
+    class="ma-3"
+    :key="doc.title"
+    :to="`/content/${doc.title}`"
+  >
     <div class="d-flex flex-no-wrap">
       <v-avatar size="125" rounded="0">
         <v-img
@@ -7,12 +12,10 @@
           alt="img"
         />
       </v-avatar>
-      <div class="w-100" :to="`/content/${doc.title}`">
+      <div class="w-100">
         <div class="d-flex justify-space-between">
-          <v-card-title>{{
-            doc.title === "" ? "test" : doc.title
-          }}</v-card-title>
-          <v-btn @click="onUpdate"> 수정하기 </v-btn>
+          <v-card-title>{{ doc.title }}</v-card-title>
+          <v-btn :to="`content/update/${doc.title}`"> 수정하기 </v-btn>
         </div>
 
         <v-card-subtitle>{{
@@ -77,6 +80,7 @@ const docs = ref([]);
 onMounted(async () => {
   const querySnapshot = await getPosts();
   querySnapshot.docs.forEach((doc) => {
+    console.log(doc);
     docs.value.push(doc.data());
   });
 });

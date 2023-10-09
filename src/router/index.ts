@@ -26,6 +26,10 @@ const routes: Array<RouteRecordRaw> = [
     path: "/content/:id",
     component: () => import("@/views/ContentView.vue"),
   },
+  {
+    path: "/content/update/:id",
+    component: () => import("@/views/mgmt/UpdatePage.vue"),
+  },
 ];
 
 const router = createRouter({

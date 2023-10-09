@@ -55,13 +55,16 @@ export const setPost = async (title: string, text: string, user: User) => {
   const content = new Content(title, text, userRef);
   const postRef = doc(db, "documents", id).withConverter(converter);
   batch.set(postRef, content);
+  const sn = await getPostContents(id);
+  sn.docs.forEach((d) => batch.delete(d.ref));
   chunks.forEach((c, i) => {
     const ref = doc(collection(db, "documents", id, "contents")).withConverter(
       postConverter
     );
     batch.set(ref, new PostContent(i, c));
   });
-  return await batch.commit();
+  await batch.commit();
+  return id;
 };
 
 export const getPosts = () => {
