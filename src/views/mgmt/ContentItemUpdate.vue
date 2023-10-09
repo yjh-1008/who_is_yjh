@@ -2,7 +2,11 @@
   <div>
     <div v-if="!post">null</div>
     <v-card v-else>
-      <EditContent :id="id" :title="post.title" :text="post.text" />
+      <EditContent
+        :id="id"
+        :title="post.title"
+        :text="post.postContent || ''"
+      />
     </v-card>
   </div>
 </template>
@@ -16,8 +20,9 @@ const props = defineProps<{
   id: string;
 }>();
 const post = ref<Content | null>();
-onMounted(() => {
+onMounted(async () => {
   return getPost(props.id).then((data) => {
+    console.log(data);
     post.value = data;
   });
 });
