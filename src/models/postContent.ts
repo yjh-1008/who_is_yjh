@@ -21,6 +21,7 @@ export const getPostContents = async (id: string) => {
   const ref = collection(db, "documents", id, "contents").withConverter(
     converter
   );
+  console.log(ref);
   const q = query(ref, orderBy("no"));
   return await getDocs(q);
 };

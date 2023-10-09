@@ -1,10 +1,5 @@
 <template>
-  <v-card
-    v-for="doc in docs"
-    class="ma-3"
-    :key="doc.title"
-    :to="`/content/${doc.title}`"
-  >
+  <v-card v-for="doc in docs" class="ma-3" :key="doc.title">
     <div class="d-flex flex-no-wrap">
       <v-avatar size="125" rounded="0">
         <v-img
@@ -12,7 +7,7 @@
           alt="img"
         />
       </v-avatar>
-      <div class="w-100">
+      <div class="w-100" :to="`/content/${doc.title}`">
         <div class="d-flex justify-space-between">
           <v-card-title>{{
             doc.title === "" ? "test" : doc.title
@@ -29,6 +24,7 @@
         }}</v-card-subtitle>
         <v-card-text> {{ doc.content }}</v-card-text>
       </div>
+      <v-btn @click="remove(doc.title)">삭제</v-btn>
     </div>
   </v-card>
   <v-pagination
@@ -48,7 +44,14 @@
 import { computed, ref, onBeforeMount, onMounted } from "vue";
 import { db } from "@/utils/firebase";
 import { getPosts, Content, updatePost } from "@/models/content";
+import { deleteContent } from "@/models/content";
+const emit = defineEmits(["refresh"]);
 const page = ref(1);
+const remove = async (title) => {
+  console.log(title);
+  await deleteContent(title);
+  emit("refresh");
+};
 const onNext = () => {
   page.value++;
 };
