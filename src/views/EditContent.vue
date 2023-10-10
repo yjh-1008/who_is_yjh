@@ -55,6 +55,43 @@ const contentTitle = ref(props.title); // '/', ., .., 정규표현식 사용 금
 const dialogState = computed(() => {
   return !store.state.authState;
 });
+
+const tumbnails = computed(() => {
+  const ts = contentText.value.split("");
+  let step = 0;
+  const buf = [];
+  const urls = [];
+
+  while (ts.length) {
+    const t = ts.shift();
+    switch (step) {
+      case 0:
+        if (t === "!") step++;
+        break;
+      case 1:
+        if (t === "[") step++;
+        else step = 0;
+        break;
+      case 2:
+        if (t === "]") step++;
+        else buf.push(t);
+        break;
+      case 3:
+        if (t === "(") step++;
+        break;
+      case 4:
+        if (t === ")") {
+          const url = buf.join("");
+          buf.splice(0, buf.length);
+          urls.push(url);
+          step = 0;
+        }
+        break;
+    }
+  }
+  return urls;
+});
+
 const addImage = async (
   file: Blob | File,
   callback: (url: string, text?: string) => void
@@ -62,8 +99,10 @@ const addImage = async (
   const user = store.getters.getAuthState;
   const id = await setImage(file as File, user);
   const origin = await getURL(`images/${id}/origin`);
-  callback(origin, "12312");
+  const tumbnail = await getURL(`images/${id}/tumbnail`);
+  callback(origin, tumbnail);
 };
+
 const onReset = () => {
   contentText.value = "";
   contentTitle.value = "";

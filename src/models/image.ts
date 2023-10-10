@@ -9,7 +9,7 @@ import { ContentImage } from "@/utils/types";
 import { db } from "@/utils/firebase";
 import { User } from "firebase/auth";
 import useStorage from "@/composable/useStorage";
-const { uploadFile } = useStorage();
+const { uploadFile, imageCompress } = useStorage();
 export const converter: FirestoreDataConverter<ContentImage> = {
   toFirestore(model: ContentImage) {
     return model.toJSON();
@@ -24,7 +24,6 @@ export const converter: FirestoreDataConverter<ContentImage> = {
     );
   },
 };
-
 export const setImage = async (file: File, firebaseUser: User) => {
   if (!firebaseUser) throw Error("user not exist");
   const userRef = doc(db, "users", firebaseUser.uid);
@@ -32,6 +31,9 @@ export const setImage = async (file: File, firebaseUser: User) => {
   const originPath = `images/${imageRef.id}/origin`;
 
   await uploadFile(originPath, file);
+  const tumbnailPath = `images/${imageRef.id}/tumbnail`;
+  const tumbnailFile = await imageCompress(file);
+  await uploadFile(tumbnailPath, tumbnailFile);
   const contentImage = new ContentImage(file.name, file.size, userRef);
   await setDoc(imageRef, contentImage);
   return imageRef.id;
