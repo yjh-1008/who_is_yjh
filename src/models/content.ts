@@ -40,7 +40,18 @@ const converter: FirestoreDataConverter<Content> = {
 };
 
 const textsToChunks = (str: string) => {
-  return str.match(/.{1,10}/g) || [];
+  const chunks = [];
+  const tmps = [];
+  const lines = str.split("\n");
+  for (const line of lines) {
+    tmps.push(line);
+    const joinStr = tmps.join("\n");
+    if (joinStr.length < 1000) continue;
+    chunks.push(joinStr);
+    tmps.splice(0, tmps.length);
+  }
+  if (tmps.length) chunks.push(tmps.join("\n"));
+  return chunks;
 };
 
 export const setPost = async (title: string, text: string, user: User) => {

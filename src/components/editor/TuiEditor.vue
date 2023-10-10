@@ -8,9 +8,22 @@ import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 // import { emit } from "process";
 const props = defineProps<{ modelValue: string }>();
-const emits = defineEmits<{ (e: "update:modelValue", value: string): void }>();
+const emits = defineEmits<{
+  (e: "update:modelValue", value: string): void;
+  (
+    e: "addImage",
+    file: File,
+    callback: (url: string, text?: string) => void
+  ): void;
+}>();
 const editorRef = ref();
 const editor = ref<Editor | null>();
+const add = (
+  blob: Blob | File,
+  callback: (url: string, text?: string) => void
+) => {
+  emits("addImage", blob as File, callback);
+};
 onMounted(() => {
   editor.value = new Editor({
     el: editorRef.value as HTMLDivElement,
@@ -23,6 +36,9 @@ onMounted(() => {
         if (!editor.value) return;
         emits("update:modelValue", editor.value.getMarkdown());
       },
+    },
+    hooks: {
+      addImageBlobHook: add,
     },
   });
 });

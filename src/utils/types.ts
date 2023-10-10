@@ -1,5 +1,5 @@
 import { User } from "@/models/user";
-import { DocumentSnapshot } from "firebase-admin/firestore";
+import { DocumentSnapshot, Timestamp } from "firebase-admin/firestore";
 import {
   deleteDoc,
   doc,
@@ -52,6 +52,24 @@ export class PostContent {
     return {
       no: this.no,
       content: this.content,
+    };
+  }
+}
+
+export class ContentImage {
+  constructor(
+    readonly name: string,
+    readonly size: number,
+    readonly userRef: DocumentReference,
+    readonly createdAt?: Date | undefined
+  ) {}
+
+  toJSON() {
+    return {
+      name: this.name,
+      size: this.size,
+      userRef: this.userRef,
+      createdAt: this.createdAt || serverTimestamp(),
     };
   }
 }

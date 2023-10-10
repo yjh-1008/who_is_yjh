@@ -16,7 +16,7 @@
         </v-col>
       </v-row>
       <v-row justify="center">
-        <TuiEditor v-model="contentText" />
+        <TuiEditor v-model="contentText" @addImage="addImage" />
         <TuiViewer :content="contentText" />
       </v-row>
     </v-card>
@@ -31,9 +31,11 @@ import { useStore } from "vuex";
 import { setPost } from "@/models/content";
 import TuiEditor from "@/components/editor/TuiEditor.vue";
 import TuiViewer from "@/components/editor/TuiViewer.vue";
-import { Content } from "@/utils/types";
+import { setImage } from "@/models/image";
+import useStorage from "@/composable/useStorage";
 import { deleteContent } from "@/models/content";
 const store = useStore();
+const { getURL } = useStorage();
 const props = defineProps<{
   id: string;
   title: string;
@@ -49,11 +51,19 @@ onMounted(() => {
 const options = ref();
 const router = useRouter();
 const contentText = ref(props.text);
-
 const contentTitle = ref(props.title); // '/', ., .., 정규표현식 사용 금지.
 const dialogState = computed(() => {
   return !store.state.authState;
 });
+const addImage = async (
+  file: Blob | File,
+  callback: (url: string, text?: string) => void
+) => {
+  const user = store.getters.getAuthState;
+  const id = await setImage(file as File, user);
+  const origin = await getURL(`images/${id}/origin`);
+  callback(origin, "12312");
+};
 const onReset = () => {
   contentText.value = "";
   contentTitle.value = "";
