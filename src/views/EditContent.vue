@@ -11,12 +11,20 @@
             hint="제목을 입력해주세요."
           />
         </v-col>
+        <SelectCategory
+          :model-value="chips"
+          @update:modelValue="(val) => (chips = val)"
+        />
         <v-col cols="1">
           <v-btn @click="onSubmit">업로드</v-btn>
         </v-col>
       </v-row>
       <v-row justify="center">
-        <TuiEditor v-model="contentText" @addImage="addImage" />
+        <TuiEditor
+          v-model="contentText"
+          @addImage="addImage"
+          :loading="loading"
+        />
         <TuiViewer :content="contentText" />
       </v-row>
     </v-card>
@@ -28,12 +36,13 @@ import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRouter } from "vue-router";
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
-import { setPost } from "@/models/content";
+import { setPost, getPost } from "@/models/content";
 import TuiEditor from "@/components/editor/TuiEditor.vue";
 import TuiViewer from "@/components/editor/TuiViewer.vue";
 import { setImage } from "@/models/image";
 import useStorage from "@/composable/useStorage";
 import { deleteContent } from "@/models/content";
+import SelectCategory from "@/components/SelectCategory.vue";
 const store = useStore();
 const { getURL } = useStorage();
 const props = defineProps<{
@@ -41,12 +50,20 @@ const props = defineProps<{
   title: string;
   text: string;
 }>();
-onMounted(() => {
+const loading = ref(false);
+const chips = ref<string[]>([]);
+onMounted(async () => {
   console.log(store.getters.getAuthState);
   if (!store.getters.getAuthState) {
     alert("인증된 사용자만 작성할 수 있습니다.");
     router.push("/");
   }
+
+  if (!props.id) {
+    loading.value = false;
+    return;
+  }
+  const doc = await getPost(props.id);
 });
 const options = ref();
 const router = useRouter();

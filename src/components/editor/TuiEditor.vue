@@ -3,11 +3,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import Editor from "@toast-ui/editor";
 import "@toast-ui/editor/dist/toastui-editor.css";
 // import { emit } from "process";
-const props = defineProps<{ modelValue: string }>();
+const props = defineProps<{ modelValue: string; loading: boolean }>();
 const emits = defineEmits<{
   (e: "update:modelValue", value: string): void;
   (
@@ -24,7 +24,15 @@ const add = (
 ) => {
   emits("addImage", blob as File, callback);
 };
-onMounted(() => {
+watch(
+  () => props.loading,
+  (cur: boolean) => {
+    if (editor.value) editor.value.destroy();
+    if (!cur) initialize();
+  }
+);
+
+const initialize = () => {
   editor.value = new Editor({
     el: editorRef.value as HTMLDivElement,
     height: "85vh",
@@ -41,5 +49,5 @@ onMounted(() => {
       addImageBlobHook: add,
     },
   });
-});
+};
 </script>
