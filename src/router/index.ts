@@ -20,7 +20,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/edit_content",
-    component: () => import("@/views/EditContent.vue"),
+    component: () => import("@/views/WritePage.vue"),
   },
   {
     path: "/content/:id",

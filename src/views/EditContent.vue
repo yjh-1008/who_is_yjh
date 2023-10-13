@@ -19,14 +19,13 @@
           <v-btn @click="onSubmit">업로드</v-btn>
         </v-col>
       </v-row>
-      <v-row justify="center">
-        <TuiEditor
-          v-model="contentText"
-          @addImage="addImage"
-          :loading="loading"
-        />
-        <TuiViewer :content="contentText" />
-      </v-row>
+      <TuiEditor
+        v-model="contentText"
+        @addImage="addImage"
+        :loading="loading"
+      />
+      <TuiViewer :content="contentText" />
+      <v-row justify="center"> </v-row>
     </v-card>
   </v-container>
 </template>
@@ -59,7 +58,7 @@ onMounted(async () => {
     router.push("/");
   }
 
-  if (!props.id) {
+  if (!props.id.length) {
     loading.value = false;
     return;
   }

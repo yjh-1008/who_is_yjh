@@ -3,8 +3,8 @@
     <div v-if="!post">null</div>
     <v-card v-else>
       <EditContent
-        :id="id"
-        :title="post.title"
+        :id="props.id"
+        :title="post.title || ''"
         :text="post.postContent || ''"
       />
     </v-card>

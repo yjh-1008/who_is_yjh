@@ -31,7 +31,9 @@ watch(
     if (!cur) initialize();
   }
 );
-
+onMounted(() => {
+  if (!props.loading) initialize();
+});
 const initialize = () => {
   editor.value = new Editor({
     el: editorRef.value as HTMLDivElement,
