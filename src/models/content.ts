@@ -33,6 +33,9 @@ const converter: FirestoreDataConverter<Content> = {
     return new Content(
       data.title,
       data.content,
+      data.category,
+      data.tags,
+      data.userRef,
       data.createdAt instanceof Timestamp ? data.createdAt.toDate() : undefined,
       data.updatedAt instanceof Timestamp ? data.updatedAt.toDate() : undefined
     );
@@ -54,7 +57,14 @@ const textsToChunks = (str: string) => {
   return chunks;
 };
 
-export const setPost = async (title: string, text: string, user: User) => {
+export const setPost = async (
+  title: string,
+  text: string,
+  tumbnail: string,
+  category: string,
+  tags: string[],
+  user: User
+) => {
   // const store = useStore();
   // console.log(user);
   // const user = store.getters.getAuthState;
@@ -63,7 +73,7 @@ export const setPost = async (title: string, text: string, user: User) => {
   const userRef = doc(db, "users", user.uid);
   const id = titleToId(title);
   const chunks = textsToChunks(text);
-  const content = new Content(title, text, userRef);
+  const content = new Content(title, text, tumbnail, category, tags, userRef);
   const postRef = doc(db, "documents", id).withConverter(converter);
   batch.set(postRef, content);
   const sn = await getPostContents(id);

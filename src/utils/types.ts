@@ -19,6 +19,9 @@ export class Content {
   constructor(
     readonly title: string,
     readonly summary: string,
+    readonly tumbnail: string,
+    readonly category: string,
+    readonly tags: string[],
     readonly userRef: DocumentReference,
     readonly createdAt?: Date | undefined,
     readonly updatedAt?: Date | undefined,
@@ -30,6 +33,9 @@ export class Content {
     return {
       title: this.title,
       summary: this.summary,
+      tumbnail: this.tumbnail,
+      category: this.category,
+      tags: this.tags,
       userRef: this.userRef,
       createdAt: this.createdAt || serverTimestamp(),
       updatedAt: this.updatedAt || serverTimestamp(),

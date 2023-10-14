@@ -15,12 +15,9 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import CustomCard from "@/components/CustomCard.vue";
-import CustomTags from "@/components/CustomTags.vue";
-import HomeContentType from "@/utils/types";
-import { onBeforeMount, reactive, ref, nextTick } from "vue";
+import { HomeContentType } from "@/utils/types";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
-import ProfileContainer from "./ProfileContainer.vue";
 import HomeContentCard from "@/components/HomeContentCard.vue";
 const router = useRouter();
 const contents = ref<HomeContentType[]>([]);

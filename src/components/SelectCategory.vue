@@ -9,9 +9,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 const props = defineProps<{
-  modelValue: Array<string>;
+  modelValue: string[] | undefined;
 }>();
 const emit = defineEmits<{
   (e: "update:modelValue", value: string[]): void;

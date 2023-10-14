@@ -11,8 +11,11 @@ import {
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import { getDatabase } from "firebase/database";
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
+
+const database = getDatabase();
 const auth = getAuth();
-export { auth, db, storage };
+export { auth, db, storage, database };

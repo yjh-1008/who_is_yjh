@@ -4,27 +4,31 @@
       <v-row justify="space-between" align="start" class="mb-4">
         <v-col cols="6" offset="3">
           <v-text-field
-            v-model="contentTitle"
+            v-model="title"
             density="compact"
             variant="outlined"
             label="제목"
             hint="제목을 입력해주세요."
           />
         </v-col>
-        <SelectCategory
+        <!-- <SelectCategory
           :model-value="chips"
           @update:modelValue="(val) => (chips = val)"
+        /> -->
+        <SelectTags
+          :model-value="tags"
+          @update:modelValue="(val) => (tags = val)"
         />
         <v-col cols="1">
           <v-btn @click="onSubmit">업로드</v-btn>
         </v-col>
       </v-row>
       <TuiEditor
-        v-model="contentText"
+        v-model="postContent"
         @addImage="addImage"
         :loading="loading"
       />
-      <TuiViewer :content="contentText" />
+      <TuiViewer :content="postContent" />
       <v-row justify="center"> </v-row>
     </v-card>
   </v-container>
@@ -42,6 +46,9 @@ import { setImage } from "@/models/image";
 import useStorage from "@/composable/useStorage";
 import { deleteContent } from "@/models/content";
 import SelectCategory from "@/components/SelectCategory.vue";
+import { Content, PostContent } from "@/utils/types";
+import { getPostContents } from "@/models/postContent";
+import SelectTags from "@/components/SelectTags.vue";
 const store = useStore();
 const { getURL } = useStorage();
 const props = defineProps<{
@@ -49,8 +56,19 @@ const props = defineProps<{
   title: string;
   text: string;
 }>();
+const content = ref<Content | null>();
+const title = ref("");
+const postContent = ref("");
+const tumbnail = ref("");
+const category = ref("");
+const tags = ref<string[]>();
+const options = ref();
+const router = useRouter();
+const dialogState = computed(() => {
+  return !store.state.authState;
+});
 const loading = ref(false);
-const chips = ref<string[]>([]);
+const chips = ref<string[]>();
 onMounted(async () => {
   console.log(store.getters.getAuthState);
   if (!store.getters.getAuthState) {
@@ -62,18 +80,19 @@ onMounted(async () => {
     loading.value = false;
     return;
   }
-  const doc = await getPost(props.id);
-});
-const options = ref();
-const router = useRouter();
-const contentText = ref(props.text);
-const contentTitle = ref(props.title); // '/', ., .., 정규표현식 사용 금지.
-const dialogState = computed(() => {
-  return !store.state.authState;
+  await getPost(props.id).then((data) => {
+    content.value = data;
+    title.value = content.value.title;
+    postContent.value = content.value.postContent || "";
+    tumbnail.value = content.value.tumbnail;
+    category.value = content.value.category;
+    tags.value = content.value.tags;
+    loading.value = false;
+  });
 });
 
 const tumbnails = computed(() => {
-  const ts = contentText.value.split("");
+  const ts = postContent.value.split("");
   let step = 0;
   const buf = [];
   const urls = [];
@@ -120,17 +139,22 @@ const addImage = async (
 };
 
 const onReset = () => {
-  contentText.value = "";
-  contentTitle.value = "";
+  title.value = "";
+  postContent.value = "";
+  tags.value = [];
+  category.value = "";
 };
 const onSubmit = async () => {
   // const user = stroe.getAuthState;
   if (props.id) {
-    if (props.title !== contentTitle.value) await deleteContent(props.id);
+    if (props.title !== title.value) await deleteContent(props.id);
   }
   const id = await setPost(
-    "test",
+    "test123",
     "bdsfhsdafhjdasfjkldashfgdsvbuiash",
+    tumbnail.value,
+    category.value,
+    tags.value === undefined ? [""] : tags.value,
     store.getters.getAuthState
   );
   await router.push(`/content/${id}`);
