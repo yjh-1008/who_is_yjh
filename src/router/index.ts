@@ -30,6 +30,10 @@ const routes: Array<RouteRecordRaw> = [
     path: "/content/update/:id",
     component: () => import("@/views/mgmt/UpdatePage.vue"),
   },
+  {
+    path: "/categories/:id",
+    component: () => import("@/views/mgmt/CategoryView.vue"),
+  },
 ];
 
 const router = createRouter({

@@ -1,26 +1,24 @@
 <template>
   <v-container class="mr-0 ml-0 pa-0" fluid>
     <v-card>
-      <v-row justify="space-between" align="start" class="mb-4">
+      <v-row justify="space-between" align="start" class="mt-2">
         <v-col cols="6" offset="3">
           <v-text-field
             v-model="title"
             density="compact"
             variant="outlined"
             label="제목"
-            hint="제목을 입력해주세요."
+            :rules="[validLen, validSign]"
           />
         </v-col>
-        <!-- <SelectCategory
-          :model-value="chips"
-          @update:modelValue="(val) => (chips = val)"
-        /> -->
-        <SelectTags
-          :model-value="tags"
-          @update:modelValue="(val) => (tags = val)"
-        />
+
         <v-col cols="1">
-          <v-btn @click="onSubmit">업로드</v-btn>
+          <v-btn @click="onUpload"
+            >업로드
+            <template v-slot:append>
+              <v-icon icon="mdi-upload" />
+            </template>
+          </v-btn>
         </v-col>
       </v-row>
       <TuiEditor
@@ -31,6 +29,10 @@
       <TuiViewer :content="postContent" />
       <v-row justify="center"> </v-row>
     </v-card>
+    <UploadDialog
+      :modelValue="uploadDialog"
+      @update:modelValue="(val) => (uploadDialog = val)"
+    />
   </v-container>
 </template>
 
@@ -45,10 +47,11 @@ import TuiViewer from "@/components/editor/TuiViewer.vue";
 import { setImage } from "@/models/image";
 import useStorage from "@/composable/useStorage";
 import { deleteContent } from "@/models/content";
-import SelectCategory from "@/components/SelectCategory.vue";
+import UploadDialog from "@/components/UploadDialog.vue";
 import { Content, PostContent } from "@/utils/types";
 import { getPostContents } from "@/models/postContent";
-import SelectTags from "@/components/SelectTags.vue";
+
+import { validLen, validSign } from "@/utils/textFieldRule";
 const store = useStore();
 const { getURL } = useStorage();
 const props = defineProps<{
@@ -60,17 +63,12 @@ const content = ref<Content | null>();
 const title = ref("");
 const postContent = ref("");
 const tumbnail = ref("");
-const category = ref("");
-const tags = ref<string[]>();
 const options = ref();
 const router = useRouter();
-const dialogState = computed(() => {
-  return !store.state.authState;
-});
+const uploadDialog = ref(false);
 const loading = ref(false);
-const chips = ref<string[]>();
+
 onMounted(async () => {
-  console.log(store.getters.getAuthState);
   if (!store.getters.getAuthState) {
     alert("인증된 사용자만 작성할 수 있습니다.");
     router.push("/");
@@ -85,8 +83,9 @@ onMounted(async () => {
     title.value = content.value.title;
     postContent.value = content.value.postContent || "";
     tumbnail.value = content.value.tumbnail;
-    category.value = content.value.category;
-    tags.value = content.value.tags;
+    //TODO Write Update EDIT CONTENT 분리해야함.
+    // category.value = content.value.category;
+    // tags.value = content.value.tags;
     loading.value = false;
   });
 });
@@ -141,10 +140,11 @@ const addImage = async (
 const onReset = () => {
   title.value = "";
   postContent.value = "";
-  tags.value = [];
-  category.value = "";
 };
-const onSubmit = async () => {
+const onUpload = () => {
+  uploadDialog.value = true;
+};
+const onSubmit = async (tags: string[], category: string) => {
   // const user = stroe.getAuthState;
   if (props.id) {
     if (props.title !== title.value) await deleteContent(props.id);
@@ -153,8 +153,8 @@ const onSubmit = async () => {
     "test123",
     "bdsfhsdafhjdasfjkldashfgdsvbuiash",
     tumbnail.value,
-    category.value,
-    tags.value === undefined ? [""] : tags.value,
+    category,
+    tags === undefined ? [""] : tags,
     store.getters.getAuthState
   );
   await router.push(`/content/${id}`);
