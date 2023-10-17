@@ -2,7 +2,7 @@
   <div class="d-flex flex-column mb-6">
     <v-layout column class="fill-height w-100">
       <v-flex class="white--text green flex darken-3 ƒ-auto w-100">
-        <HomeContentCard :contents="contents" />
+        <ContentItems :contents="contents" />
       </v-flex>
     </v-layout>
   </div>
@@ -18,7 +18,7 @@ export default {
 import { HomeContentType } from "@/utils/types";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import HomeContentCard from "@/components/HomeContentCard.vue";
+import ContentItems from "@/components/ContentItems.vue";
 const router = useRouter();
 const contents = ref<HomeContentType[]>([]);
 

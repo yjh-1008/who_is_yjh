@@ -7,10 +7,7 @@
   >
     <div class="d-flex flex-no-wrap">
       <v-avatar size="125" rounded="0">
-        <v-img
-          src="https://cdn.vuetifyjs.com/images/cards/foster.jpg"
-          alt="img"
-        />
+        <img :src="doc.tumbnail" alt="img" />
       </v-avatar>
       <div class="w-100">
         <div class="d-flex justify-space-between">
@@ -80,7 +77,7 @@ const docs = ref([]);
 onMounted(async () => {
   const querySnapshot = await getPosts();
   querySnapshot.docs.forEach((doc) => {
-    console.log(doc);
+    console.log(doc.data());
     docs.value.push(doc.data());
   });
 });

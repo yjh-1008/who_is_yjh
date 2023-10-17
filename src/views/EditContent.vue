@@ -21,13 +21,15 @@
           </v-btn>
         </v-col>
       </v-row>
-      <TuiEditor
-        v-model="postContent"
-        @addImage="addImage"
-        :loading="loading"
-      />
-      <TuiViewer :content="postContent" />
-      <v-row justify="center"> </v-row>
+
+      <v-row justify="center">
+        <TuiEditor
+          v-model="postContent"
+          @addImage="addImage"
+          :loading="loading"
+        />
+        <TuiViewer :content="postContent" />
+      </v-row>
     </v-card>
     <UploadDialog
       :modelValue="uploadDialog"
@@ -156,10 +158,12 @@ const onSubmit = async (tags: string[], category: string) => {
   if (props.id) {
     if (props.title !== title.value) await deleteContent(props.id);
   }
+  let t = tumbnail.value;
+  if (!t && tumbnails.value.length) t = tumbnails.value[0];
   const id = await setPost(
     title.value,
     postContent.value,
-    tumbnail.value,
+    t,
     category,
     tags === undefined ? [""] : tags,
     store.getters.getAuthState

@@ -11,6 +11,7 @@ import {
   SetOptions,
   updateDoc,
   serverTimestamp,
+  where,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { db } from "@/utils/firebase";
@@ -32,7 +33,8 @@ const converter: FirestoreDataConverter<Content> = {
     const data = snapshot.data();
     return new Content(
       data.title,
-      data.content,
+      data.summary,
+      data.tumbnail,
       data.category,
       data.tags,
       data.userRef,
@@ -88,6 +90,12 @@ export const setPost = async (
 export const getPosts = () => {
   const ref = collection(db, "documents").withConverter(converter);
   const q = query(ref);
+  return getDocs(q);
+};
+
+export const getFilterContents = (tp: string, val: string) => {
+  const ref = collection(db, "documents").withConverter(converter);
+  const q = query(ref, where(tp, "==", val));
   return getDocs(q);
 };
 
