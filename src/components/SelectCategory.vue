@@ -1,23 +1,35 @@
 <template>
   <v-combobox
     v-model="select"
-    @input="(val:string) => emit('update:modelValue', val)"
     label="I'm readonly"
     chips
+    :items="items"
+    clearable
+    :rules="[validLen]"
   ></v-combobox>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { useDatabase } from "@/composable/useDatabase";
+import { validLen } from "@/utils/textFieldRule";
+const { getCategories } = useDatabase();
 const props = defineProps<{
-  modelValue: string | undefined;
+  modelValue: string;
 }>();
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;
 }>();
-const items = ref(["foo", "bar", "fizz", "buzz"]);
-const select = ref(props.modelValue);
-const remove = (item: any) => {
-  console.log(item);
-};
+const items = ref<string[]>([]);
+onMounted(async () => {
+  items.value = (await getCategories()).val() as string[];
+});
+const select = computed({
+  get: () => {
+    return props.modelValue;
+  },
+  set: (c: string) => {
+    emit("update:modelValue", c);
+  },
+});
 </script>

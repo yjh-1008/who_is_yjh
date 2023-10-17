@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <CustomSidebar />
+    <AlertDialog />
     <v-main class="content-view">
       <HeaderSection />
       <router-view> </router-view>
@@ -18,6 +19,7 @@ export default defineComponent({
 <script setup lang="ts">
 import CustomSidebar from "@/components/CustomSidebar.vue";
 import HeaderSection from "./components/HeaderSection.vue";
+import AlertDialog from "./components/AlertDialog.vue";
 </script>
 
 <style>

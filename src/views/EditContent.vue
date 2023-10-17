@@ -32,6 +32,7 @@
     <UploadDialog
       :modelValue="uploadDialog"
       @update:modelValue="(val) => (uploadDialog = val)"
+      @on-submit="onSubmit"
     />
   </v-container>
 </template>
@@ -84,8 +85,6 @@ onMounted(async () => {
     postContent.value = content.value.postContent || "";
     tumbnail.value = content.value.tumbnail;
     //TODO Write Update EDIT CONTENT 분리해야함.
-    // category.value = content.value.category;
-    // tags.value = content.value.tags;
     loading.value = false;
   });
 });
@@ -142,6 +141,14 @@ const onReset = () => {
   postContent.value = "";
 };
 const onUpload = () => {
+  if (!title.value.length || !postContent.value.length) {
+    store.commit("setAlDialog", {
+      state: true,
+      title: "정확한 정보를 기입해주시기 하랍니다",
+      content: "",
+    });
+    return;
+  }
   uploadDialog.value = true;
 };
 const onSubmit = async (tags: string[], category: string) => {
@@ -150,8 +157,8 @@ const onSubmit = async (tags: string[], category: string) => {
     if (props.title !== title.value) await deleteContent(props.id);
   }
   const id = await setPost(
-    "test123",
-    "bdsfhsdafhjdasfjkldashfgdsvbuiash",
+    title.value,
+    postContent.value,
     tumbnail.value,
     category,
     tags === undefined ? [""] : tags,

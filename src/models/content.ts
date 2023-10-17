@@ -65,9 +65,6 @@ export const setPost = async (
   tags: string[],
   user: User
 ) => {
-  // const store = useStore();
-  // console.log(user);
-  // const user = store.getters.getAuthState;
   if (!user) throw new Error("error!");
   const batch = writeBatch(db);
   const userRef = doc(db, "users", user.uid);

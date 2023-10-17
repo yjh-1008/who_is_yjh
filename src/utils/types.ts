@@ -79,3 +79,9 @@ export class ContentImage {
     };
   }
 }
+
+export interface AlDialog {
+  state: boolean;
+  title: string;
+  content: string;
+}

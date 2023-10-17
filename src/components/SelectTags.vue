@@ -6,15 +6,15 @@
     chips
     :items="items"
     multiple
-  ></v-combobox
-  >C
+    :rules="[validLen]"
+  ></v-combobox>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { useDatabase } from "@/composable/useDatabase";
-
-const { getTags, setTags } = useDatabase();
+import { validLen } from "@/utils/textFieldRule";
+const { getTags } = useDatabase();
 const props = defineProps<{
   modelValue: Array<string> | undefined;
 }>();
@@ -28,10 +28,7 @@ const remove = (item: any) => {
 };
 onMounted(async () => {
   await getTags().then((data) => {
-    // setTags(["vue", "알고리즘"]);
-    console.log(data);
     items.value = (data.val() as string[]) || [];
   });
-  // items.value = getTags();
 });
 </script>
