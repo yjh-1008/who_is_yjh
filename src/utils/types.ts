@@ -17,6 +17,7 @@ export interface HomeContentType {
 
 export class Content {
   constructor(
+    readonly id: string,
     readonly title: string,
     readonly summary: string,
     readonly tumbnail: string,
@@ -31,6 +32,7 @@ export class Content {
 
   toJSON() {
     return {
+      id: this.id,
       title: this.title,
       summary: this.summary,
       tumbnail: this.tumbnail,

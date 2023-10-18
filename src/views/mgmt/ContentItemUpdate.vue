@@ -21,7 +21,8 @@ const props = defineProps<{
 }>();
 const post = ref<Content | null>();
 onMounted(async () => {
-  return getPost(props.id).then((data) => {
+  console.log(props.id);
+  return getPost(props.id).then((data): void => {
     console.log(data);
     post.value = data;
   });

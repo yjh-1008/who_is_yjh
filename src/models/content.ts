@@ -32,6 +32,7 @@ const converter: FirestoreDataConverter<Content> = {
   fromFirestore(snapshot: any) {
     const data = snapshot.data();
     return new Content(
+      data.id,
       data.title,
       data.summary,
       data.tumbnail,
@@ -72,7 +73,15 @@ export const setPost = async (
   const userRef = doc(db, "users", user.uid);
   const id = titleToId(title);
   const chunks = textsToChunks(text);
-  const content = new Content(title, text, tumbnail, category, tags, userRef);
+  const content = new Content(
+    id,
+    title,
+    text,
+    tumbnail,
+    category,
+    tags,
+    userRef
+  );
   const postRef = doc(db, "documents", id).withConverter(converter);
   batch.set(postRef, content);
   const sn = await getPostContents(id);
@@ -105,8 +114,10 @@ export const updatePost = (id: string, content: string) => {
 };
 
 export const getPost = async (id: string) => {
+  console.group(id);
   const ref = doc(db, "documents", id).withConverter(converter);
   const contentSnapshot = await getDoc(ref);
+
   const content = contentSnapshot.data();
   if (!content) throw Error("post not exist");
   const postContentSnpashot = await getPostContents(id);

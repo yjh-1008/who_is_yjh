@@ -7,7 +7,7 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 import ContentItem from "@/components/ContentItem.vue";
 const route = useRoute();
-const id = computed(() => {
-  return route.params.id;
+const id = computed<string>(() => {
+  return route.params.id as string;
 });
 </script>

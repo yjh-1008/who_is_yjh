@@ -32,3 +32,9 @@
   text-align: center;
 }
 
+.card-content {
+  font-size: 18px;
+  text-align: left;
+  max-width: 350px;
+  text-align: center;
+}

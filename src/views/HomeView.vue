@@ -36,12 +36,3 @@ const showEssay = () => {
   });
 };
 </script>
-
-<style scoped>
-.card-content {
-  font-size: 18px;
-  text-align: left;
-  max-width: 350px;
-  text-align: center;
-}
-</style>

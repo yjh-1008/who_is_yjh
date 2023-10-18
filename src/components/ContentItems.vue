@@ -3,7 +3,7 @@
     v-for="doc in docs"
     class="ma-3"
     :key="doc.title"
-    :to="`/content/${doc.title}`"
+    :to="`/content/${doc.id}`"
   >
     <div class="d-flex flex-no-wrap">
       <v-avatar size="125" rounded="0">
@@ -12,7 +12,7 @@
       <div class="w-100">
         <div class="d-flex justify-space-between">
           <v-card-title>{{ doc.title }}</v-card-title>
-          <v-btn :to="`content/update/${doc.title}`"> 수정하기 </v-btn>
+          <v-btn :to="`content/update/${doc.id}`"> 수정하기 </v-btn>
         </div>
 
         <v-card-subtitle>{{

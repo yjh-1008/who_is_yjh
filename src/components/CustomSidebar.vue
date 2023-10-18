@@ -16,14 +16,18 @@
       </div>
     </template>
     <template v-slot:footer>
-      <div class="sidebar_footer mb-10">
+      <div class="sidebar_footer mb-10 mx-auto">
         <v-icon
           @click="connect('mailTo:exesea12@gmail.com')"
           size="x-large"
           color="white"
           >mdi-mail</v-icon
         >
-        <v-icon @click="connect(github)" size="x-large" color="white"
+        <v-icon
+          @click="connect(github)"
+          size="x-large"
+          color="white"
+          class="mx-5"
           >mdi-github</v-icon
         >
         <v-icon :to="loginURL" size="x-large" color="white">mdi-github</v-icon>
