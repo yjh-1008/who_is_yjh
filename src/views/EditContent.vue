@@ -51,8 +51,7 @@ import { setImage } from "@/models/image";
 import useStorage from "@/composable/useStorage";
 import { deleteContent } from "@/models/content";
 import UploadDialog from "@/components/UploadDialog.vue";
-import { Content, PostContent } from "@/utils/types";
-import { getPostContents } from "@/models/postContent";
+import { Content } from "@/utils/types";
 
 import { validLen, validSign } from "@/utils/textFieldRule";
 const store = useStore();

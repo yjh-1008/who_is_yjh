@@ -7,7 +7,9 @@
           <div class="title w-50">
             <v-text-field :value="content.title" readonly>
               <template v-slot:append>
-                <v-btn @click="onModify" size="large"> 수정 </v-btn>
+                <v-btn v-if="authState" @click="onModify" size="large">
+                  수정
+                </v-btn>
               </template>
             </v-text-field>
           </div>
@@ -39,10 +41,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 import { getPost } from "@/models/content";
 import { Content } from "@/utils/types";
 import TuiViewer from "./editor/TuiViewer.vue";
+import { useStore } from "vuex";
+
+const store = useStore();
+const authState = computed(() => store.getters.getAuthState);
 const props = defineProps<{
   id: string;
 }>();

@@ -12,7 +12,9 @@
       <div class="w-100">
         <div class="d-flex justify-space-between">
           <v-card-title>{{ doc.title }}</v-card-title>
-          <v-btn :to="`content/update/${doc.id}`"> 수정하기 </v-btn>
+          <v-btn v-if="authState !== null" :to="`content/update/${doc.id}`">
+            수정하기
+          </v-btn>
         </div>
 
         <v-card-subtitle>{{
@@ -45,6 +47,9 @@ import { computed, ref, onBeforeMount, onMounted } from "vue";
 import { db } from "@/utils/firebase";
 import { getPosts, Content, updatePost } from "@/models/content";
 import { deleteContent } from "@/models/content";
+import { useStore } from "vuex";
+const store = useStore();
+const authState = computed(() => store.getters.getAuthState);
 const emit = defineEmits(["refresh"]);
 const page = ref(1);
 const remove = async (title) => {
