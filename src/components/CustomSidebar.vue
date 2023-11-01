@@ -1,18 +1,21 @@
 <template>
   <SidebarMenu :menu="menu" :hideToggle="true" style="max-width: 290px">
     <template v-slot:header>
-      <div class="sidebar_header pl-6 py-5">
-        <div>
+      <div class="sidebar_header py-5">
+        <div style="text-align: center">
           <img
-            width="100"
-            height="100"
+            width="130"
+            height="130"
             :src="require('@/assets/images/profile.webp')"
-            class="sidebar_profile"
+            class="sidebar_profile mx-auto"
             fetchpriority="high"
           />
         </div>
         <h2>JJunBLOG</h2>
-        <div class="subline">Frontend Developer/Algorithm, Frontend Study</div>
+        <div class="subline">
+          <div>Frontend Developer/Algorithm</div>
+          <div>더 편한 서비스를 개발하고 싶은 개발자 유준호입니다.</div>
+        </div>
       </div>
     </template>
     <template v-slot:footer>
@@ -38,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, onBeforeMount, nextTick } from "vue";
+import { reactive, onBeforeMount, nextTick } from "vue";
 import { github } from "@/utils/profileLink";
 import { SidebarMenu, SidebarItem } from "vue-sidebar-menu";
 import { useStore } from "vuex";
@@ -66,16 +69,6 @@ const menu = reactive<SidebarItem[]>([
       element: "v-icon",
       attributes: {
         icon: "mdi-account",
-      },
-    },
-  },
-  {
-    href: "/edit_content",
-    title: "Edit content",
-    icon: {
-      element: "v-icon",
-      attributes: {
-        icon: "mdi-note-text-outline",
       },
     },
   },
@@ -112,7 +105,19 @@ onBeforeMount(async () => {
 });
 const callbackURL = "http://localhost:3000/callback";
 const loginURL = `https://github.com/login/oauth/authorize?client_id=4cbe74a4e3199244ad4b&scope=repo:status read:repo_hook user:email&redirect_uri=${callbackURL}`;
-const auth = () => {
-  // location.href(loginURL);
-};
 </script>
+
+<style>
+.sidebar_header,
+.subline {
+  color: white;
+}
+.sidebar_header {
+  text-align: center;
+}
+.subline {
+  text-align: left;
+  padding-left: 10px;
+  margin: 10px 10px;
+}
+</style>
