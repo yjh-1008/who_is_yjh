@@ -1,21 +1,29 @@
 <template>
-  <div class="d-flex align-center my-10">
+  <div class="d-flex align-center mt-10">
     <v-sheet class="flex-1-0">
-      <v-breadcrumbs :items="items" divider=">"></v-breadcrumbs>
-    </v-sheet>
-    <v-sheet class="flex-1-0">
-      <v-text-field
-        class="mr-10 w-25 ml-auto"
-        v-model="searchText"
-        label="검색"
-        variant="solo"
-        rounded
-        filled
-        single-line
-        hide-details
-        append-inner-icon="mdi-magnify"
-        placeholder="검색"
-      ></v-text-field>
+      <div class="d-flex w-25 align-start ml-10">
+        <v-select
+          v-model="searchTp"
+          label="Select"
+          variant="outlined"
+          :items="categories"
+          item-title="text"
+          item-value="val"
+          return-object
+        ></v-select>
+        <v-text-field
+          class="ml-10"
+          v-model="searchText"
+          label="검색"
+          variant="solo"
+          rounded
+          filled
+          single-line
+          hide-details
+          append-inner-icon="mdi-magnify"
+          placeholder="검색"
+        ></v-text-field>
+      </div>
     </v-sheet>
     <v-sheet class="mr-10">
       <AuthBtn />
@@ -44,10 +52,29 @@ const items = reactive([
     href: "breadcrumbs_link_2",
   },
 ]);
+
+const categories = ref([
+  {
+    text: "카테고리",
+    val: "category",
+  },
+  {
+    text: "제목",
+    val: "title",
+  },
+]);
+const searchTp = ref(categories.value[0]);
 </script>
 
 <style>
 .my-input.v-input .v-input__slot {
   border-radius: 25%;
+}
+.v-text-field {
+  width: 400px;
+}
+
+.v-select {
+  width: 20px;
 }
 </style>

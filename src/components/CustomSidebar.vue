@@ -4,17 +4,17 @@
       <div class="sidebar_header py-5">
         <div style="text-align: center">
           <img
-            width="130"
-            height="130"
+            width="150"
+            height="150"
             :src="require('@/assets/images/profile.webp')"
-            class="sidebar_profile mx-auto"
+            class="sidebar_profile mx-auto mt-10"
             fetchpriority="high"
           />
         </div>
-        <h2>JJunBLOG</h2>
-        <div class="subline">
-          <div>Frontend Developer/Algorithm</div>
-          <div>더 편한 서비스를 개발하고 싶은 개발자 유준호입니다.</div>
+        <div class="subline mt-3 mb-9">
+          <h1>JJunBLOG</h1>
+          <h2>Frontend Developer/Algorithm</h2>
+          <h2>더 편한 서비스를 개발하고 싶은 개발자 유준호입니다.</h2>
         </div>
       </div>
     </template>
@@ -33,7 +33,12 @@
           class="mx-5"
           >mdi-github</v-icon
         >
-        <v-icon :to="loginURL" size="x-large" color="white">mdi-github</v-icon>
+        <v-icon
+          @click="connect('https://www.instagram.com/db_wnsgh/')"
+          size="x-large"
+          color="white"
+          >mdi-instagram</v-icon
+        >
       </div>
     </template>
     <template v-slot:toggle-icon></template>
@@ -63,6 +68,26 @@ const menu = reactive<SidebarItem[]>([
     },
   },
   {
+    title: "Content",
+    icon: {
+      element: "v-icon",
+      attributes: {
+        icon: "mdi-note-text-outline",
+      },
+    },
+    child: [],
+  },
+  {
+    title: "Hobby",
+    icon: {
+      element: "v-icon",
+      attributes: {
+        icon: "mdi-controller-classic-outline",
+      },
+    },
+    child: [],
+  },
+  {
     href: "/about_me",
     title: "About me",
     icon: {
@@ -75,18 +100,8 @@ const menu = reactive<SidebarItem[]>([
 ]);
 onBeforeMount(async () => {
   await nextTick(async () => {
-    const item: SidebarItem = {
-      title: "Content",
-      icon: {
-        element: "v-icon",
-        attributes: {
-          icon: "mdi-note-text-outline",
-        },
-      },
-      child: [],
-    };
-    menu.push(item);
     let childItems: SidebarItem[] = [];
+    const hobbyItems: SidebarItem[] = [];
     await getCategories().then((data) => {
       const ret = data.val() as string[];
       childItems = ret.map((v: string) => {
@@ -96,9 +111,21 @@ onBeforeMount(async () => {
         };
       });
     });
+    await getCategories().then((data) => {
+      const ret = data.val() as string[];
+      ret.forEach((v: string) => {
+        hobbyItems.push({
+          href: `/categories/${v}`,
+          title: v,
+        });
+      });
+    });
     menu.forEach((data) => {
+      console.log(data.title);
       if (data.title === "Content") {
         data.child = childItems;
+      } else if (data.title === "Hobby") {
+        data.child = hobbyItems;
       }
     });
   });
