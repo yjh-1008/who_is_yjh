@@ -1,14 +1,15 @@
 <template>
-  <div class="d-flex align-center mt-10">
+  <div class="d-flex align-start mt-10">
     <v-sheet class="flex-1-0">
-      <div class="d-flex w-25 align-start ml-10">
+      <div class="d-flex w-25 align-start ml-5">
         <v-select
           v-model="searchTp"
-          label="Select"
-          variant="outlined"
+          density="comfortable"
+          variant="solo"
           :items="categories"
           item-title="text"
           item-value="val"
+          bg-color="grey-lighten-2"
           return-object
         ></v-select>
         <v-text-field
@@ -20,9 +21,13 @@
           filled
           single-line
           hide-details
-          append-inner-icon="mdi-magnify"
+          @keydown.enter="onSearch"
           placeholder="검색"
-        ></v-text-field>
+        >
+          <template v-slot:append-inner>
+            <v-icon icon="mdi-magnify" @click="onSearch" size="x-large" />
+          </template>
+        </v-text-field>
       </div>
     </v-sheet>
     <v-sheet class="mr-10">
@@ -34,7 +39,9 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
 import AuthBtn from "@/AuthBtn.vue";
+import { useRouter } from "vue-router";
 const searchText = ref("");
+const router = useRouter();
 const items = reactive([
   {
     title: "Dashboard",
@@ -64,6 +71,11 @@ const categories = ref([
   },
 ]);
 const searchTp = ref(categories.value[0]);
+
+const onSearch = () => {
+  router.push(`/search/${searchTp.value.val}/${searchText.value}`);
+  searchText.value = "";
+};
 </script>
 
 <style>

@@ -35,13 +35,17 @@ import { useRoute } from "vue-router";
 import { Content, PostContent } from "@/utils/types";
 import ContentItem from "@/components/ContentItem.vue";
 import { getFilterContents } from "@/models/content";
+import router from "@/router";
 const route = useRoute();
 const id = computed<string>(() => {
   return route.params.id as string;
 });
+const type = computed<string>(() => {
+  return route.params.type as string;
+});
 const docs = ref<Content[]>([]);
 onMounted(async () => {
-  const querySnapshot = await getFilterContents("category", id.value);
+  const querySnapshot = await getFilterContents(type.value, id.value);
   querySnapshot.docs.forEach((doc) => {
     console.log(doc.data());
     docs.value.push(doc.data());

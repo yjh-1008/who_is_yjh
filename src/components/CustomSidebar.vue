@@ -7,15 +7,12 @@
             width="150"
             height="150"
             :src="require('@/assets/images/profile.webp')"
-            class="sidebar_profile mx-auto mt-10"
             fetchpriority="high"
           />
         </div>
-        <div class="subline mt-3 mb-9">
-          <h1>JJunBLOG</h1>
-          <h2>Frontend Developer/Algorithm</h2>
-          <h2>더 편한 서비스를 개발하고 싶은 개발자 유준호입니다.</h2>
-        </div>
+        <div>JJunBLOG</div>
+        <div>Frontend Developer/Algorithm</div>
+        <div>더 편한 서비스를 개발하고 싶은 개발자 유준호입니다.</div>
       </div>
     </template>
     <template v-slot:footer>
@@ -106,7 +103,7 @@ onBeforeMount(async () => {
       const ret = data.val() as string[];
       childItems = ret.map((v: string) => {
         return {
-          href: `/categories/${v}`,
+          href: `/search/category/${v}`,
           title: v,
         };
       });
@@ -115,7 +112,7 @@ onBeforeMount(async () => {
       const ret = data.val() as string[];
       ret.forEach((v: string) => {
         hobbyItems.push({
-          href: `/categories/${v}`,
+          href: `/search/category/${v}`,
           title: v,
         });
       });
