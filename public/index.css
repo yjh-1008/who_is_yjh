@@ -2,9 +2,8 @@
   margin:0px;
   padding:0;
 } */
-  
 
-.sidebar_header{
+.sidebar_header {
   font-size: 1rem;
   color: white;
   font-weight: bold;
@@ -32,9 +31,9 @@
   text-align: center;
 }
 
-.card-content {
+/* .card-content {
   font-size: 18px;
   text-align: left;
   max-width: 350px;
   text-align: center;
-}
+} */

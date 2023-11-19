@@ -47,8 +47,11 @@ const docs = ref<Content[]>([]);
 onMounted(async () => {
   const querySnapshot = await getFilterContents(type.value, id.value);
   querySnapshot.docs.forEach((doc) => {
-    console.log(doc.data());
     docs.value.push(doc.data());
   });
+  // docs.value.sort((a, b) => {
+  //   if (a.createdAt === undefined || b.createdAt === undefined) return;
+  //   return a.createdAt - b.createdAt;
+  // });
 });
 </script>

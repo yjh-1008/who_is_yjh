@@ -12,6 +12,10 @@ import {
   updateDoc,
   serverTimestamp,
   where,
+  startAt,
+  limit,
+  orderBy,
+  startAfter,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { db } from "@/utils/firebase";
@@ -96,9 +100,9 @@ export const setPost = async (
   return id;
 };
 
-export const getPosts = () => {
+export const getPosts = (start: number) => {
   const ref = collection(db, "documents").withConverter(converter);
-  const q = query(ref);
+  const q = query(ref, orderBy("createdAt"), startAt(0), limit(6));
   return getDocs(q);
 };
 
