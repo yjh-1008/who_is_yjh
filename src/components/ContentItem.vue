@@ -36,8 +36,6 @@
       <TuiViewer :content="(content.postContent as string)" />
     </v-card>
   </template>
-
-  <v-btn></v-btn>
 </template>
 
 <script setup lang="ts">

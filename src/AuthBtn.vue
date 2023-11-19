@@ -1,12 +1,12 @@
 <template>
-  <v-icon
-    size="large"
+  <v-btn
     :icon="store.getters.getAuthState ? 'mdi-logout' : 'mdi-account'"
+    size="large"
     @click="store.getters.getAuthState ? fsSignOut() : signIn()"
   />
 </template>
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
 import {
   signInWithPopup,

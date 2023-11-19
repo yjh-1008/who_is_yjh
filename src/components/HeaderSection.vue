@@ -83,7 +83,7 @@ const onSearch = () => {
   border-radius: 25%;
 }
 .v-text-field {
-  width: 400px;
+  width: 300px;
 }
 
 .v-select {

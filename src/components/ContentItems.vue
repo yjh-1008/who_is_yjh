@@ -1,53 +1,67 @@
 <template>
   <v-card
     v-for="doc in docs"
-    class="ma-3"
+    class="mx-3 my-5"
+    border
     :key="doc.title"
     :to="`/content/${doc.id}`"
   >
     <div class="d-flex flex-no-wrap">
-      <v-avatar size="125" rounded="0">
+      <v-avatar size="200" rounded="0">
         <img :src="doc.tumbnail" alt="img" />
       </v-avatar>
       <div class="w-100">
         <div class="d-flex justify-space-between">
-          <v-card-title>{{ doc.title }}</v-card-title>
-          <v-btn v-if="authState !== null" :to="`content/update/${doc.id}`">
-            수정하기
+          <v-card-title class="mt-5 text-h4 pb-0">{{ doc.title }}</v-card-title>
+          <v-btn
+            class="my-5"
+            border
+            icon
+            v-show="authState !== null"
+            :to="`content/update/${doc.id}`"
+          >
+            <v-icon icon="mdi-file-edit-outline" />
           </v-btn>
         </div>
-
-        <v-card-subtitle>{{
-          typeof doc.createdAt === "object"
-            ? `${doc.createdAt.getFullYear()}-${
-                doc.createdAt.getMonth() + 1
-              }-${doc.createdAt.getDate()}`
-            : ""
-        }}</v-card-subtitle>
-        <v-card-text> {{ doc.content }}</v-card-text>
+        <v-card-text class="text-h6 pt-0 mb-5">
+          <div>{{ doc.content }}</div></v-card-text
+        >
+        <v-card-subtitle
+          >{{
+            typeof doc.createdAt === "object"
+              ? `${doc.createdAt.getFullYear()}-${
+                  doc.createdAt.getMonth() + 1
+                }-${doc.createdAt.getDate()}`
+              : ""
+          }}
+        </v-card-subtitle>
       </div>
-      <v-btn @click="remove(doc.title)">삭제</v-btn>
+      <v-btn class="my-5 mx-3" @click="remove(doc.title)" icon border>
+        <v-icon icon="mdi-file-remove-outline" />
+      </v-btn>
     </div>
   </v-card>
   <v-pagination
     v-model="page"
-    :length="5"
-    rounded="circle"
-    :first="onFirst"
-    :last="onLast"
-    :next="onNext"
-    :prev="onPrev"
-    :show-first-last-page="true"
-  >
-  </v-pagination>
+    length="6"
+    rounted="circle"
+    :total-visible="6"
+    @next="onNext"
+    @prev="onPrev"
+  />
 </template>
 
 <script setup>
 import { computed, ref, onBeforeMount, onMounted } from "vue";
 import { db } from "@/utils/firebase";
+import { collection, doc } from "firebase/firestore";
 import { getPosts, Content, updatePost } from "@/models/content";
 import { deleteContent } from "@/models/content";
 import { useStore } from "vuex";
+import {
+  getPostContents,
+  converter as postConverter,
+} from "@/models/postContent";
 const store = useStore();
 const authState = computed(() => store.getters.getAuthState);
 const emit = defineEmits(["refresh"]);
@@ -58,10 +72,10 @@ const remove = async (title) => {
   emit("refresh");
 };
 const onNext = () => {
-  page.value++;
+  console.log("next");
 };
 const onPrev = () => {
-  page.value--;
+  console.log("prev");
 };
 const onLast = () => {
   page.value =
@@ -81,9 +95,17 @@ const props = defineProps({
 const docs = ref([]);
 onMounted(async () => {
   const querySnapshot = await getPosts();
-  querySnapshot.docs.forEach((doc) => {
-    console.log(doc.data());
-    docs.value.push(doc.data());
+  querySnapshot.docs.forEach(async (d) => {
+    const obj = {};
+    let postContents = "";
+    await getPostContents(d.data().id).then((res) => {
+      res.forEach((v) => {
+        const content = v.data().content;
+        postContents +=
+          content.length > 300 ? content.slice(0, 300) + "..." : content;
+      });
+    });
+    docs.value.push({ ...d.data(), content: postContents });
   });
 });
 const onUpdate = async () => {

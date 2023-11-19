@@ -129,7 +129,8 @@ export const getPost = async (id: string) => {
 export const deleteContent = async (id: string) => {
   const batch = writeBatch(db);
   const sn = await getPostContents(id);
-  sn.docs.forEach((d) => batch.delete(d.ref));
-  batch.delete(doc(db, "documents", id));
-  return await batch.commit();
+  console.log(id);
+  // sn.docs.forEach((d) => batch.delete(d.ref));
+  // batch.delete(doc(db, "documents", id));
+  // return await batch.commit();
 };

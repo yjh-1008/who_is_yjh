@@ -1,18 +1,19 @@
 <template>
-  <SidebarMenu :menu="menu" :hideToggle="true" style="max-width: 290px">
+  <SidebarMenu :menu="menu" :hideToggle="true">
     <template v-slot:header>
       <div class="sidebar_header py-5">
-        <div style="text-align: center">
+        <div style="text-align: center" class="mt-10">
           <img
-            width="150"
-            height="150"
+            width="200"
+            height="200"
             :src="require('@/assets/images/profile.webp')"
             fetchpriority="high"
           />
         </div>
-        <div>JJunBLOG</div>
-        <div>Frontend Developer/Algorithm</div>
-        <div>더 편한 서비스를 개발하고 싶은 개발자 유준호입니다.</div>
+        <div class="mx-10">
+          <h3>JJunBLOG</h3>
+          <h5>Frontend Developer/Algorithm</h5>
+        </div>
       </div>
     </template>
     <template v-slot:footer>
@@ -135,9 +136,6 @@ const loginURL = `https://github.com/login/oauth/authorize?client_id=4cbe74a4e31
 .sidebar_header,
 .subline {
   color: white;
-}
-.sidebar_header {
-  text-align: center;
 }
 .subline {
   text-align: left;
