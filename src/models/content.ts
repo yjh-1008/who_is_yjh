@@ -102,9 +102,15 @@ export const setPost = async (
 
 export const getPosts = (start: number) => {
   const ref = collection(db, "documents").withConverter(converter);
-  const q = query(ref, orderBy("createdAt"), startAt(0), limit(6));
+  const q = query(ref, orderBy("createdAt"), startAt(start), limit(6));
   return getDocs(q);
 };
+
+// export const getPostsLength = () => {
+//   const ref = collection(db, "documents").withConverter(converter);
+//   const q = query(ref, orderBy("createdAt"), startAt(start), limit(6));
+//   return getDocs(q);
+// };
 
 export const getFilterContents = (tp: string, val: string) => {
   const ref = collection(db, "documents").withConverter(converter);
