@@ -1,22 +1,22 @@
 <template>
   <v-overlay v-if="!content" />
   <template v-else>
-    <v-card density="comfortable" class="mx-auto w-100 viewer-title">
+    <v-card
+      density="comfortable"
+      fill-height
+      class="mx-auto w-100 viewer-title"
+    >
       <v-card-title>
         <div class="d-flex justify-center">
-          <div class="title w-50">
-            <v-text-field :value="content.title" readonly>
-              <template v-slot:append>
-                <v-btn v-if="authState" @click="onModify" size="large">
-                  수정
-                </v-btn>
-              </template>
-            </v-text-field>
+          <div class="title w-75 mx-auto">
+            <div class="title-text">
+              {{ content.title }}
+            </div>
           </div>
         </div>
       </v-card-title>
       <v-card-subtitle>
-        <div class="w-50 mx-auto">
+        <div class="w-100 mb-3 d-flex mx-auto">
           <v-expansion-panels>
             <v-expansion-panel>
               <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
@@ -30,11 +30,16 @@
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
+          <!-- <v-btn v-if="authState" @click="onModify" class="mx-5" icon>
+            <v-icon icon="mdi-pencil" />
+          </v-btn>
+          <v-btn v-if="authState" @click="onModify" icon>
+            <v-icon icon="mdi-pencil" />
+          </v-btn> -->
         </div>
       </v-card-subtitle>
-
-      <TuiViewer :content="(content.postContent as string)" />
     </v-card>
+    <TuiViewer :content="(content.postContent as string)" />
   </template>
 </template>
 
@@ -71,5 +76,9 @@ const onModify = () => {
 }
 .title {
   width: 500px;
+}
+.title-text {
+  font-weight: bold;
+  font-size: 3rem;
 }
 </style>
