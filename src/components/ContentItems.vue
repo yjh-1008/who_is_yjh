@@ -11,33 +11,30 @@
         <img :src="doc.tumbnail" alt="img" />
       </v-avatar>
       <div class="w-100">
-        <v-card-title class="text-h5">
+        <v-card-title class="text-h5 mt-3">
           <div class="d-flex justify-space-between">
             <div>{{ doc.title }}</div>
             <v-btn
               class="ml-auto"
-              size="small"
-              border
-              icon
               v-show="authState !== null"
-              :to="`content/update/${doc.id}`"
+              @click="remove(doc.title)"
+              border
+              icon="mdi-trash-can"
             >
-              <v-icon icon="mdi-file-edit-outline" />
             </v-btn>
             <v-btn
               class="mx-4"
-              size="small"
-              v-show="authState !== null"
-              @click="remove(doc.title)"
-              icon
               border
+              v-show="authState !== null"
+              :to="`content/update/${doc.id}`"
+              icon="mdi-pencil"
+              color="blue-lighten-5"
             >
-              <v-icon icon="mdi-file-remove-outline" />
             </v-btn>
           </div>
         </v-card-title>
         <v-card-subtitle>
-          <div class="mb-2">{{ doc.content }}</div>
+          <div class="mb-2">{{ doc.text.slice(0, 200) }}...</div>
           <v-chip
             class="mb-6 mt-2"
             size="small"

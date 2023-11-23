@@ -30,12 +30,6 @@
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
-          <!-- <v-btn v-if="authState" @click="onModify" class="mx-5" icon>
-            <v-icon icon="mdi-pencil" />
-          </v-btn>
-          <v-btn v-if="authState" @click="onModify" icon>
-            <v-icon icon="mdi-pencil" />
-          </v-btn> -->
         </div>
       </v-card-subtitle>
     </v-card>
