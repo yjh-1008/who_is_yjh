@@ -1,37 +1,50 @@
 <template>
-  <div class="d-flex align-start mt-10">
+  <div class="d-flex align-start mt-11 mb-5">
     <v-sheet class="flex-1-0">
-      <div class="d-flex w-25 align-start ml-5">
-        <v-select
-          v-model="searchTp"
-          density="comfortable"
-          variant="solo"
-          :items="categories"
-          item-title="text"
-          item-value="val"
-          bg-color="grey-lighten-2"
-          return-object
-        ></v-select>
-        <v-text-field
-          class="ml-10"
-          v-model="searchText"
-          label="검색"
-          variant="solo"
-          rounded
-          filled
-          single-line
-          hide-details
-          @keydown.enter="onSearch"
-          placeholder="검색"
-        >
-          <template v-slot:append-inner>
-            <v-icon icon="mdi-magnify" @click="onSearch" size="x-large" />
-          </template>
-        </v-text-field>
+      <div class="d-flex w-100 align-start px-4">
+        <v-responsive max-width="200">
+          <v-select
+            class="prepend_select"
+            v-model="searchTp"
+            density="comfortable"
+            variant="solo"
+            :items="categories"
+            item-title="text"
+            item-value="val"
+            bg-color="grey-lighten-2"
+            return-object
+          ></v-select>
+        </v-responsive>
+        <v-responsive class="mx-auto px-4" max-width="85%" height="70">
+          <v-text-field
+            v-model="searchText"
+            label="검색"
+            variant="solo"
+            rounded
+            filled
+            single-line
+            hide-details
+            @keydown.enter="onSearch"
+            placeholder="검색"
+          >
+            <template v-slot:append-inner>
+              <v-icon icon="mdi-magnify" @click="onSearch" size="x-large" />
+            </template>
+          </v-text-field>
+        </v-responsive>
+        <v-sheet>
+          <v-btn
+            icon="mdi-file-document-edit"
+            class="mr-4"
+            size="large"
+            :disabled="!store.getters.getAuthStte"
+          >
+          </v-btn>
+        </v-sheet>
+        <v-sheet class="mx-4">
+          <AuthBtn />
+        </v-sheet>
       </div>
-    </v-sheet>
-    <v-sheet class="mr-10">
-      <AuthBtn />
     </v-sheet>
   </div>
 </template>
@@ -40,8 +53,10 @@
 import { reactive, ref } from "vue";
 import AuthBtn from "@/AuthBtn.vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 const searchText = ref("");
 const router = useRouter();
+const store = useStore();
 const items = reactive([
   {
     title: "Dashboard",
@@ -78,15 +93,4 @@ const onSearch = () => {
 };
 </script>
 
-<style>
-.my-input.v-input .v-input__slot {
-  border-radius: 25%;
-}
-.v-text-field {
-  width: 300px;
-}
-
-.v-select {
-  width: 20px;
-}
-</style>
+<style></style>
