@@ -1,7 +1,13 @@
 <template>
   <div>
-    <div v-if="!post">null</div>
-    <v-card v-else>
+    <v-overlay v-model="loading" class="align-center justify-center">
+      <v-progress-circular
+        color="blue"
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+    <v-card v-if="post">
       <EditContent
         :id="props.id"
         :title="post.title || ''"
@@ -16,14 +22,14 @@ import { Content } from "@/utils/types";
 import { ref, onMounted } from "vue";
 import { getPost } from "@/models/content";
 import EditContent from "@/views/EditContent.vue";
+import { computed } from "vue";
 const props = defineProps<{
   id: string;
 }>();
 const post = ref<Content | null>();
+const loading = computed(() => post.value === undefined);
 onMounted(async () => {
-  console.log(props.id);
   return getPost(props.id).then((data): void => {
-    console.log(data);
     post.value = data;
   });
 });
