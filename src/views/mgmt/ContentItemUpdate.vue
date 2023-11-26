@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-overlay v-model="loading" class="align-center justify-center">
-      <v-progress-circular
-        color="blue"
-        indeterminate
-        size="64"
-      ></v-progress-circular>
-    </v-overlay>
+    <LoadingOverlay :modelValue="loading" />
     <v-card v-if="post">
       <EditContent
         :id="props.id"
@@ -23,6 +17,7 @@ import { ref, onMounted } from "vue";
 import { getPost } from "@/models/content";
 import EditContent from "@/views/EditContent.vue";
 import { computed } from "vue";
+import LoadingOverlay from "@/components/LoadingOverlay.vue";
 const props = defineProps<{
   id: string;
 }>();
