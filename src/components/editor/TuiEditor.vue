@@ -1,5 +1,5 @@
 <template>
-  <div ref="editorRef" class="w-50" />
+  <div ref="editorRef" class="w-100 px-5 pb-5" />
 </template>
 
 <script setup lang="ts">

@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import SelectCategory from "@/components/SelectCategory.vue";
 import SelectTags from "@/components/SelectTags.vue";
 const emit = defineEmits<{
@@ -30,6 +30,8 @@ const emit = defineEmits<{
 }>();
 const props = defineProps<{
   modelValue: boolean;
+  Tags: string[];
+  Category: string;
 }>();
 const dialogState = computed({
   get: () => {
@@ -41,6 +43,11 @@ const dialogState = computed({
 });
 const tags = ref<string[]>([]);
 const category = ref<string>("");
+
+onMounted(() => {
+  tags.value = props.Tags;
+  category.value = props.Category;
+});
 const onSubmit = () => {
   emit("onSubmit", tags.value, category.value);
   dialogState.value = false;

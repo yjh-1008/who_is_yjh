@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex align-start mt-11 mb-5">
+  <div class="d-flex align-start mt-11">
     <v-sheet class="flex-1-0">
       <div class="d-flex w-100 align-start px-4">
         <v-responsive max-width="200">
@@ -37,7 +37,8 @@
             icon="mdi-file-document-edit"
             class="mr-4"
             size="large"
-            :disabled="!store.getters.getAuthStte"
+            @click="router.push({ name: '작성페이지' })"
+            :disabled="!store.getters.getAuthState"
           >
           </v-btn>
         </v-sheet>

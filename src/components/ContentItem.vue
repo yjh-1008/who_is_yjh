@@ -8,26 +8,34 @@
             <div class="title-text py-3">
               {{ content.title }}
             </div>
-            <div class="date">
-              {{ date }}
-            </div>
           </div>
         </div>
       </v-card-title>
       <v-card-subtitle>
         <div class="w-100 mb-3 mx-auto">
           <v-expansion-panels>
-            <v-expansion-panel>
-              <v-expansion-panel-title
-                ><div>카테고리: {{ content.category }}</div>
+            <v-expansion-panel bg-color="grey-lighten-2">
+              <v-expansion-panel-title class="text-h5" color="#90A4AE">
+                <div style="color: #000000; font-weight: 600">상세보기</div>
               </v-expansion-panel-title>
 
               <v-expansion-panel-text class="d-flex">
+                <div class="text-h6 subtitle">
+                  카테고리: {{ content.category }}
+                </div>
                 <v-chip-group>
-                  <v-chip v-for="chip in content.tags" :key="chip">{{
-                    chip
-                  }}</v-chip>
+                  <v-chip
+                    v-for="chip in content.tags"
+                    :key="chip"
+                    variant="elevated"
+                    color="indigo"
+                    >{{ chip }}</v-chip
+                  >
                 </v-chip-group>
+                <div class="text-h6 subtitle">등록일자</div>
+                <div class="date">
+                  {{ date }}
+                </div>
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
@@ -72,21 +80,22 @@ const onModify = () => {
 }
 .title {
   width: 100%;
-  border: 1px solid #d3d3d3;
   min-height: 100px;
   padding: 1%;
 }
 .title-text {
   font-weight: bold;
   font-size: 2rem;
+  white-space: normal;
 }
 
-.date {
-  color: #d3d3d3;
-  font-size: 1rem;
+.subtitle {
+  color: black;
+  font-weight: bold;
 }
 
-.v-expansion-panel-text {
-  background-color: lightgray;
+.v-chip {
+  background-color: #fafafa;
+  color: black;
 }
 </style>

@@ -1,24 +1,33 @@
 <template>
   <v-container class="mr-0 ml-0 pa-0" fluid>
     <v-card>
-      <v-row justify="space-between" align="start" class="mt-2">
-        <v-col cols="6" offset="3">
+      <v-row justify="start" align="start" class="mt-2 heade">
+        <v-col cols="12" offset="0">
           <v-text-field
             v-model="title"
             density="compact"
             variant="outlined"
             label="제목"
             :rules="[validLen, validSign]"
-          />
-        </v-col>
-
-        <v-col cols="1">
-          <v-btn @click="onUpload"
-            >업로드
+          >
             <template v-slot:append>
-              <v-icon icon="mdi-upload" />
+              <v-btn @click="onUpload" class="mr-4"
+                >업로드
+                <template v-slot:append>
+                  <v-icon icon="mdi-upload" />
+                </template>
+              </v-btn>
             </template>
-          </v-btn>
+            <template v-slot:prepend>
+              <v-btn
+                icon="mdi-arrow-left"
+                class="ml-4"
+                variant="plain"
+                size="large¬"
+                @click="router.go(-1)"
+              />
+            </template>
+          </v-text-field>
         </v-col>
       </v-row>
 
@@ -33,6 +42,8 @@
     </v-card>
     <UploadDialog
       :modelValue="uploadDialog"
+      :Tags="tags === undefined ? [] : tags"
+      :Category="category === undefined ? '' : category"
       @update:modelValue="(val) => (uploadDialog = val)"
       @on-submit="onSubmit"
     />
@@ -42,7 +53,7 @@
 <script setup lang="ts">
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRouter } from "vue-router";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { setPost, getPost } from "@/models/content";
 import TuiEditor from "@/components/editor/TuiEditor.vue";
@@ -52,7 +63,6 @@ import useStorage from "@/composable/useStorage";
 import { deleteContent } from "@/models/content";
 import UploadDialog from "@/components/UploadDialog.vue";
 import { Content } from "@/utils/types";
-
 import { validLen, validSign } from "@/utils/textFieldRule";
 const store = useStore();
 const { getURL } = useStorage();
@@ -62,14 +72,14 @@ const props = defineProps<{
   text: string;
 }>();
 const content = ref<Content | null>();
-const title = ref("");
-const postContent = ref("");
+const title = ref(props.title);
+const postContent = ref(props.text);
 const tumbnail = ref("");
-const options = ref();
 const router = useRouter();
 const uploadDialog = ref(false);
 const loading = ref(false);
-
+const tags = ref<string[]>();
+const category = ref<string>();
 onMounted(async () => {
   if (!store.getters.getAuthState) {
     alert("인증된 사용자만 작성할 수 있습니다.");
@@ -81,10 +91,10 @@ onMounted(async () => {
     return;
   }
   await getPost(props.id).then((data) => {
+    tags.value = data.tags;
+    category.value = data.category;
     content.value = data;
-    title.value = content.value.title;
-    postContent.value = content.value.postContent || "";
-    tumbnail.value = content.value.tumbnail;
+    tumbnail.value = content.value.tumbnail ? "" : content.value.tumbnail;
     //TODO Write Update EDIT CONTENT 분리해야함.
     loading.value = false;
   });
@@ -170,3 +180,9 @@ const onSubmit = async (tags: string[], category: string) => {
   await router.push(`/content/${id}`);
 };
 </script>
+
+<style setup>
+.header {
+  border: 1px solid black;
+}
+</style>

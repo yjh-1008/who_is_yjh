@@ -17,6 +17,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/edit_content",
+    name: "작성페이지",
     component: () => import("@/views/WritePage.vue"),
   },
   {
