@@ -12,7 +12,7 @@
           >
             <template v-slot:append>
               <v-btn @click="onUpload" class="mr-4"
-                >업로드
+                >{{ route.name === "수정페이지" ? "수정" : "업로드" }}
                 <template v-slot:append>
                   <v-icon icon="mdi-upload" />
                 </template>
@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { ref, onMounted, computed, watch } from "vue";
 import { useStore } from "vuex";
 import { setPost, getPost } from "@/models/content";
@@ -60,7 +60,7 @@ import TuiEditor from "@/components/editor/TuiEditor.vue";
 import TuiViewer from "@/components/editor/TuiViewer.vue";
 import { setImage } from "@/models/image";
 import useStorage from "@/composable/useStorage";
-import { deleteContent } from "@/models/content";
+import { deleteContent, updatePost } from "@/models/content";
 import UploadDialog from "@/components/UploadDialog.vue";
 import { Content } from "@/utils/types";
 import { validLen, validSign } from "@/utils/textFieldRule";
@@ -76,11 +76,13 @@ const title = ref(props.title);
 const postContent = ref(props.text);
 const tumbnail = ref("");
 const router = useRouter();
+const route = useRoute();
 const uploadDialog = ref(false);
 const loading = ref(false);
 const tags = ref<string[]>();
 const category = ref<string>();
 onMounted(async () => {
+  console.log(route);
   if (!store.getters.getAuthState) {
     alert("인증된 사용자만 작성할 수 있습니다.");
     router.push("/");
@@ -163,21 +165,25 @@ const onUpload = () => {
   uploadDialog.value = true;
 };
 const onSubmit = async (tags: string[], category: string) => {
-  // const user = stroe.getAuthState;
-  if (props.id) {
-    if (props.title !== title.value) await deleteContent(props.id);
+  if (route.name === "수정페이지") {
+    console.log(await updatePost(props.id, postContent.value, [], "2"));
+  } else {
+    // const user = stroe.getAuthState;
+    if (props.id) {
+      if (props.title !== title.value) await deleteContent(props.id);
+    }
+    let t = tumbnail.value;
+    if (!t && tumbnails.value.length) t = tumbnails.value[0];
+    const id = await setPost(
+      title.value,
+      postContent.value,
+      t,
+      category,
+      tags === undefined ? [""] : tags,
+      store.getters.getAuthState
+    );
+    await router.push(`/content/${id}`);
   }
-  let t = tumbnail.value;
-  if (!t && tumbnails.value.length) t = tumbnails.value[0];
-  const id = await setPost(
-    title.value,
-    postContent.value,
-    t,
-    category,
-    tags === undefined ? [""] : tags,
-    store.getters.getAuthState
-  );
-  await router.push(`/content/${id}`);
 };
 </script>
 

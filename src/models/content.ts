@@ -118,9 +118,28 @@ export const getFilterContents = (tp: string, val: string) => {
   return getDocs(q);
 };
 
-export const updatePost = (id: string, content: string) => {
+export const updatePost = async (
+  id: string,
+  content = "",
+  tags: string[],
+  category: string
+) => {
   const ref = doc(db, "documents", id).withConverter(converter);
-  return updateDoc(ref, { content: content, updateAt: new Date() });
+  const batch = writeBatch(db);
+  const sn = await getPostContents(id);
+  sn.docs.forEach((d) => batch.delete(d.ref));
+  const chunks = textsToChunks(content);
+  console.log(chunks);
+  chunks.forEach((c, i) => {
+    const ref = doc(collection(db, "documents", id, "contents")).withConverter(
+      postConverter
+    );
+    batch.set(ref, new PostContent(i, c));
+  });
+  await batch.commit();
+  return updateDoc(ref, {
+    updateAt: new Date(),
+  });
 };
 
 export const getPost = async (id: string) => {

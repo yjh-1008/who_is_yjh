@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, watch } from "vue";
 import SelectCategory from "@/components/SelectCategory.vue";
 import SelectTags from "@/components/SelectTags.vue";
 const emit = defineEmits<{
@@ -41,13 +41,26 @@ const dialogState = computed({
     emit("update:modelValue", c);
   },
 });
-const tags = ref<string[]>([]);
-const category = ref<string>("");
+const tags = ref<string[]>(props.Tags);
+const category = ref<string>(props.Category);
 
-onMounted(() => {
-  tags.value = props.Tags;
-  category.value = props.Category;
-});
+watch(
+  () => props.Tags,
+  (c) => {
+    tags.value = c;
+  }
+);
+
+watch(
+  () => props.Category,
+  (c) => {
+    if (typeof c === "string") {
+      category.value = c;
+    }
+    // tags.value = c;
+  }
+);
+
 const onSubmit = () => {
   emit("onSubmit", tags.value, category.value);
   dialogState.value = false;

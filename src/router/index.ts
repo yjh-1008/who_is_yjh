@@ -26,6 +26,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/content/update/:id",
+    name: "수정페이지",
     component: () => import("@/views/mgmt/UpdatePage.vue"),
   },
   {
