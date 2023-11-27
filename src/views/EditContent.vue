@@ -79,8 +79,8 @@ const router = useRouter();
 const route = useRoute();
 const uploadDialog = ref(false);
 const loading = ref(false);
-const tags = ref<string[]>();
-const category = ref<string>();
+const tags = ref<string[]>([]);
+const category = ref<string>("");
 onMounted(async () => {
   console.log(route);
   if (!store.getters.getAuthState) {
@@ -166,7 +166,13 @@ const onUpload = () => {
 };
 const onSubmit = async (tags: string[], category: string) => {
   if (route.name === "수정페이지") {
-    console.log(await updatePost(props.id, postContent.value, [], "2"));
+    await updatePost(
+      props.id,
+      title.value,
+      postContent.value,
+      tags === undefined ? [""] : tags,
+      category
+    );
   } else {
     // const user = stroe.getAuthState;
     if (props.id) {

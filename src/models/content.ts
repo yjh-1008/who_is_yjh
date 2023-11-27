@@ -52,6 +52,7 @@ const converter: FirestoreDataConverter<Content> = {
 const textsToChunks = (str: string) => {
   const chunks = [];
   const tmps = [];
+  console.log(str);
   const lines = str.split("\n");
   for (const line of lines) {
     tmps.push(line);
@@ -120,6 +121,7 @@ export const getFilterContents = (tp: string, val: string) => {
 
 export const updatePost = async (
   id: string,
+  title: string,
   content = "",
   tags: string[],
   category: string
@@ -138,7 +140,10 @@ export const updatePost = async (
   });
   await batch.commit();
   return updateDoc(ref, {
+    title: title,
     updateAt: new Date(),
+    tags: tags,
+    category: category,
   });
 };
 
