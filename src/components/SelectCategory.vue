@@ -1,7 +1,7 @@
 <template>
   <v-combobox
     v-model="select"
-    label="I'm readonly"
+    :label="props.label"
     chips
     :items="items"
     clearable
@@ -16,6 +16,7 @@ import { validLen } from "@/utils/textFieldRule";
 const { getCategories } = useDatabase();
 const props = defineProps<{
   modelValue: string;
+  label: string;
 }>();
 const emit = defineEmits<{
   (e: "update:modelValue", value: string): void;

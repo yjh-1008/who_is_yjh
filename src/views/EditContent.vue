@@ -190,6 +190,7 @@ const onSubmit = async (tags: string[], category: string) => {
     );
     await router.push(`/content/${id}`);
   }
+  router.go(-1);
 };
 </script>
 

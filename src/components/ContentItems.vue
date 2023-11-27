@@ -28,7 +28,7 @@
               v-show="authState !== null"
               :to="`content/update/${doc.id}`"
               icon="mdi-pencil"
-              color="blue-lighten-5"
+              color="blue-grey-darken-1"
             >
             </v-btn>
           </div>
@@ -70,21 +70,6 @@ const remove = async (title) => {
   console.log(title);
   await deleteContent(title);
   emit("refresh");
-};
-const onNext = () => {
-  console.log("next");
-};
-const onPrev = () => {
-  console.log("prev");
-};
-const onLast = () => {
-  page.value =
-    Math.floor(props.conents.length / 5) - 1 < 0
-      ? 0
-      : Math.floor(props.conents.length / 5) - 1;
-};
-const onFirst = () => {
-  page.value = 1;
 };
 const props = defineProps({
   contents: {

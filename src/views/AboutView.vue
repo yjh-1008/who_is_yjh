@@ -2,6 +2,7 @@
   <div class="d-flex">
     <v-card height="100vh" class="flex-1-0">
       <v-container class="mr-10 mt-10">
+        <!-- TODO... 슬라이딩 윈도우로 내 소개 화면 만들기 -->
         <v-row class="pl-auto"><h2>About me!</h2></v-row>
         <v-row class="pl-auto">
           <v-col cols="9">

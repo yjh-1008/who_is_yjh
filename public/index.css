@@ -1,7 +1,6 @@
-/* body {
-  margin:0px;
-  padding:0;
-} */
+body {
+  font-family: "Noto Sans Glagolitic", sans-serif;
+}
 
 .sidebar_header {
   font-size: 1rem;

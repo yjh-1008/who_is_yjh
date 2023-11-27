@@ -15,7 +15,7 @@
         <div class="w-100 mb-3 mx-auto">
           <v-expansion-panels>
             <v-expansion-panel bg-color="grey-lighten-2">
-              <v-expansion-panel-title class="text-h5" color="#90A4AE">
+              <v-expansion-panel-title class="text-h5" color="#546e7a">
                 <div style="color: #000000; font-weight: 600">상세보기</div>
               </v-expansion-panel-title>
 

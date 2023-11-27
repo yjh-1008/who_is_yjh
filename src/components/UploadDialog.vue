@@ -1,14 +1,18 @@
 <template>
   <v-dialog width="700px" v-model="dialogState">
     <v-card>
-      <v-card-title>포스트 업로드</v-card-title>
+      <v-card-title style="background-color: #546e7a; color: white"
+        >포스트 업로드</v-card-title
+      >
       <v-card-item>
         <SelectCategory
           :model-value="category"
+          label="카테고리"
           @update:modelValue="(val) => (category = val)"
         />
         <SelectTags
           :model-value="tags"
+          label="태그"
           @update:modelValue="(val) => (tags = val)"
         />
       </v-card-item>
