@@ -90,13 +90,20 @@
 import { onMounted, ref, Ref } from "vue";
 import MyBadges from "@/components/MyBadges.vue";
 import GithubStacks from "@/components/GithubStacks.vue";
+import { VuePDF, usePDF } from "@tato30/vue-pdf";
+import { getProfile } from "@/models/pofol";
+import { useStore } from "vuex";
+const store = useStore();
+// const { pdf, pages, info } = usePDF("document.pdf");
 const windows = ref(-1);
 
 onMounted(async () => {
+  const user = store.getters.getAuthState;
   // await loadFile("").then((res: any) => {
   //   console.log(res);
   //   profile_pircutre.value = res;
   // });
+  await getProfile(store.getters.getAuthState);
 });
 </script>
 <style scoped>
