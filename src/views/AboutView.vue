@@ -94,7 +94,7 @@ import { VuePDF, usePDF } from "@tato30/vue-pdf";
 import { getProfile } from "@/models/pofol";
 import { useStore } from "vuex";
 const store = useStore();
-// const { pdf, pages, info } = usePDF("document.pdf");
+const { pdf, pages, info } = usePDF("document.pdf");
 const windows = ref(-1);
 
 onMounted(async () => {

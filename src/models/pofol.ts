@@ -28,14 +28,5 @@ export const getProfile = async (firebaseUser: User) => {
   if (!firebaseUser) throw Error("user not exist");
   const userRef = doc(db, "users", firebaseUser.uid);
   const imageRef = doc(collection(db, "profile")).withConverter(converter);
-  console.log(await getURL("profile/pofol.pdf"));
-  // const originPath = `images/${imageRef.id}/origin`;
-  console.log(imageRef);
-  // await uploadFile(originPath, file);
-  // const tumbnailPath = `images/${imageRef.id}/tumbnail`;
-  // const tumbnailFile = await imageCompress(file);
-  // await uploadFile(tumbnailPath, tumbnailFile);
-  // const contentImage = new ContentImage(file.name, file.size, userRef);
-  // await setDoc(imageRef, contentImage);
-  return imageRef.id;
+  return await getURL("profile/pofol.pdf");
 };
