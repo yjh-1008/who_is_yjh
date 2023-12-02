@@ -15,6 +15,19 @@ export interface HomeContentType {
   readonly updatedAt: Date;
 }
 
+export interface Pofol {
+  readonly title: string;
+  readonly content: string;
+  readonly tumbnail: string;
+  readonly sttDtti: Date;
+  readonly endDtti: Date;
+}
+
+export interface Projects extends Pofol {
+  readonly githubLink: string;
+  readonly tags: string[];
+}
+
 export class Content {
   constructor(
     readonly id: string,

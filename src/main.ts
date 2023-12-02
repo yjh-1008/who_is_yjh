@@ -10,6 +10,8 @@ import * as directives from "vuetify/directives";
 import VueSidebarMenu from "vue-sidebar-menu";
 import "vue-sidebar-menu/dist/vue-sidebar-menu.css";
 import "@/utils/firebase";
+// import "@tato30/vue-pdf/style.css";
+
 //firebase
 const vuetify = createVuetify({
   components,
