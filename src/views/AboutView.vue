@@ -43,7 +43,7 @@
             </div>
           </v-row>
           <v-row>
-            <GithubStacks />
+            <DevProjects />
           </v-row>
         </v-container>
       </v-card>
@@ -54,7 +54,6 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import MyBadges from "@/components/MyBadges.vue";
-import GithubStacks from "@/components/GithubStacks.vue";
 import { useStore } from "vuex";
 import { getProfile } from "@/models/pofol";
 import DevProjects from "@/components/DevProjects.vue";

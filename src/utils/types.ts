@@ -20,12 +20,42 @@ export interface Pofol {
   readonly content: string;
   readonly tumbnail: string;
   readonly sttDtti: Date;
-  readonly endDtti: Date;
+  readonly endDtti?: Date;
 }
 
-export interface Projects extends Pofol {
+export interface Project extends Pofol {
   readonly githubLink: string;
   readonly tags: string[];
+}
+
+export class Project {
+  constructor(
+    readonly title: string,
+    readonly content: string,
+    readonly tumbnail: string,
+    readonly githubLink: string,
+    readonly tags: string[],
+    readonly userRef: DocumentReference,
+    readonly sttDtti: Date,
+    readonly endDtti?: Date
+  ) {}
+
+  toJSON() {
+    return {
+      title: this.title,
+      content: this.content,
+      tumbnail: this.tumbnail,
+      tags: this.tags,
+      userRef: this.userRef,
+      sttDtti: this.sttDtti || serverTimestamp(),
+      endDtti: this.endDtti || undefined,
+    };
+  }
+
+  remove(id: string) {
+    const ref = doc(db, "documents", id);
+    return deleteDoc(ref);
+  }
 }
 
 export class Content {

@@ -104,7 +104,6 @@ export const setPost = async (
 export const getPosts = <T>(qs: T[]) => {
   const ref = collection(db, "documents").withConverter(converter);
   let q;
-  console.log("qs", qs);
   if (qs !== undefined)
     q = query(
       ref,
