@@ -1,6 +1,15 @@
 <template>
   <v-window v-model="windows" show-arrows>
-    <v-window-item :key="0">
+    <v-window-item :value="0">
+      <DevProjects />
+    </v-window-item>
+
+    <v-window-item :key="1">
+      <v-card width="50%">
+        <div>section 1</div>
+      </v-card>
+    </v-window-item>
+    <v-window-item :key="2">
       <v-card class="mx-auto">
         <v-container fill-height>
           <!-- TODO... 슬라이딩 윈도우로 내 소개 화면 만들기 -->
@@ -37,14 +46,6 @@
             <GithubStacks />
           </v-row>
         </v-container>
-      </v-card>
-    </v-window-item>
-    <v-window-item :value="1">
-      <DevProjects />
-    </v-window-item>
-    <v-window-item :key="2">
-      <v-card width="50%">
-        <div>section 1</div>
       </v-card>
     </v-window-item>
   </v-window>
