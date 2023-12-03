@@ -29,8 +29,10 @@ const converter: FirestoreDataConverter<Project> = {
     const data = snapshot.data();
     return new Project(
       data.title,
+      data.subtitle,
       data.content,
       data.tumbnail,
+      data.githubLink,
       data.tags,
       data.userRef,
       data.sttDtti instanceof Timestamp ? data.sttDtti.toDate() : undefined,
@@ -42,7 +44,8 @@ const converter: FirestoreDataConverter<Project> = {
 export const getProjects = <T>(qs: T[]) => {
   const ref = collection(db, "projects").withConverter(converter);
   let q;
-  if (q !== undefined) {
+  console.log(qs);
+  if (qs !== undefined) {
     q = query(ref, orderBy("sttDtti"), startAfter(qs[qs.length - 1]), limit(2));
   } else q = query(ref, orderBy("sttDtti"), limit(2));
   return getDocs(q);

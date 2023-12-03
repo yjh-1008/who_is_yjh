@@ -1,46 +1,57 @@
 <template>
-  <v-card :loading="loading" class="mx-auto my-12" width="70%" height="40vh">
+  <v-card :loading="loading" class="mx-auto my-6" width="70%" height="500px">
     <v-container>
       <v-row>
-        <v-col>
+        <v-col cols="5">
           <v-img
             cover
-            height="40vh"
+            height="500px"
             src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
           ></v-img>
         </v-col>
         <v-col class="mt-4">
           <v-card-item>
-            <v-card-title
-              ><div class="text-h3">
+            <v-card-title class="d-flex align-center"
+              ><div class="text-h4">
                 {{ props.project.title }}
-              </div></v-card-title
-            >
+              </div>
+              <v-icon
+                icon="mdi-github"
+                class="ml-auto"
+                @click="() => onLinkClick(project.githubLink)"
+              />
+            </v-card-title>
 
             <v-card-subtitle>
-              <span class="me-1">{{ props.project.sttDtti }}</span>
+              <div>
+                {{ project.subtitle }}
+              </div>
+              <span>{{ props.project.sttDtti }}</span>
             </v-card-subtitle>
           </v-card-item>
 
-          <v-card-text>
-            <div>
-              {{ project.content }}
-            </div>
-          </v-card-text>
-
           <v-divider class="mx-4 mb-1"></v-divider>
 
-          <v-card-title>Tonight's availability</v-card-title>
-
-          <div class="px-4">
-            <!-- <v-chip
-              class="mb-6 mt-2"
+          <v-card-text
+            style="height: 300px; overflow-y: auto"
+            class="px-4 pa-2"
+          >
+            <div style="line-height: 1.3rem; font-size: 1rem">
+              {{ project.content }} {{ project.content }} {{ project.content }}
+              {{ project.content }} {{ project.content }} {{ project.content }}
+              {{ project.content }} {{ project.content }} {{ project.content }}
+              {{ project.content }} {{ project.content }}
+            </div>
+          </v-card-text>
+          <div>
+            <v-chip
+              class="mx-2"
               size="small"
               label
               v-for="(tag, i) in props.project.tags"
               :key="`${tag}_${i}`"
               >{{ tag }}</v-chip
-            > -->
+            >
           </div>
         </v-col>
       </v-row>
@@ -57,4 +68,8 @@ const props = defineProps<{
 const loading: Ref<boolean> = ref(false);
 const selection: Ref<number> = ref(1);
 // const height: Ref<number> = ref("40vh");
+
+const onLinkClick = (link: string) => {
+  window.location.href = link;
+};
 </script>

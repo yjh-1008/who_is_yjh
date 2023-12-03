@@ -31,6 +31,7 @@ export interface Project extends Pofol {
 export class Project {
   constructor(
     readonly title: string,
+    readonly subtitle: string,
     readonly content: string,
     readonly tumbnail: string,
     readonly githubLink: string,
@@ -43,8 +44,10 @@ export class Project {
   toJSON() {
     return {
       title: this.title,
+      subtitle: this.subtitle,
       content: this.content,
       tumbnail: this.tumbnail,
+      githubLink: this.githubLink,
       tags: this.tags,
       userRef: this.userRef,
       sttDtti: this.sttDtti || serverTimestamp(),

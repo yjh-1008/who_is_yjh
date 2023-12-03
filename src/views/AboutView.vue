@@ -1,17 +1,18 @@
 <template>
   <v-window v-model="windows" show-arrows>
+    <template v-slot:prev="{ props }">
+      <v-btn color="success" @click="props.onClick"> Previous slide </v-btn>
+    </template>
+    <template v-slot:next="{ props }">
+      <v-btn color="info" @click="props.onClick"> Next slide </v-btn>
+    </template>
     <v-window-item :value="0">
       <DevProjects />
     </v-window-item>
 
     <v-window-item :key="1">
-      <v-card width="50%">
-        <div>section 1</div>
-      </v-card>
-    </v-window-item>
-    <v-window-item :key="2">
-      <v-card class="mx-auto">
-        <v-container fill-height>
+      <v-card fill-height class="mx-auto">
+        <v-container>
           <!-- TODO... 슬라이딩 윈도우로 내 소개 화면 만들기 -->
           <v-card-title> <div class="text-h2">About me</div> </v-card-title>
           <div>
@@ -42,10 +43,12 @@
               <v-icon icon="mdi-chevron-down" />
             </div>
           </v-row>
-          <v-row>
-            <DevProjects />
-          </v-row>
         </v-container>
+      </v-card>
+    </v-window-item>
+    <v-window-item :key="2">
+      <v-card width="50%">
+        <div>section 1</div>
       </v-card>
     </v-window-item>
   </v-window>
