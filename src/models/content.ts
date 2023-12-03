@@ -101,9 +101,18 @@ export const setPost = async (
   return id;
 };
 
-export const getPosts = (start: number) => {
+export const getPosts = <T>(qs: T[]) => {
   const ref = collection(db, "documents").withConverter(converter);
-  const q = query(ref, orderBy("createdAt"), startAt(start), limit(6));
+  let q;
+  console.log("qs", qs);
+  if (qs !== undefined)
+    q = query(
+      ref,
+      orderBy("createdAt"),
+      startAfter(qs[qs.length - 1]),
+      limit(2)
+    );
+  else q = query(ref, orderBy("createdAt"), limit(6));
   return getDocs(q);
 };
 

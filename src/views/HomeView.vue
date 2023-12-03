@@ -29,15 +29,15 @@ import ContentItems from "@/components/ContentItems.vue";
 import { getPosts, updatePost } from "@/models/content";
 import { getPostContents } from "@/models/postContent";
 const router = useRouter();
-const page = ref(0);
 const contents = ref<any[]>([]);
 const disabled = ref<boolean>(false);
+const qs = ref();
 onMounted(async () => {
   await add();
 });
 const add = async () => {
-  const querySnapshot = await getPosts(page.value);
-  page.value += 1;
+  const querySnapshot = await getPosts(qs.value);
+  qs.value = querySnapshot.docs;
   if (querySnapshot.docs.length < 6) disabled.value = true;
   querySnapshot.docs.forEach(async (d) => {
     let postContents = "";
