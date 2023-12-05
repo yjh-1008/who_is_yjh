@@ -11,13 +11,22 @@
     </v-window-item>
 
     <v-window-item :key="1">
-      <v-card fill-height class="mx-auto">
-        <v-container>
-          <!-- TODO... 슬라이딩 윈도우로 내 소개 화면 만들기 -->
-          <v-card-title> <div class="text-h2">About me</div> </v-card-title>
+      <v-card height="90vh">
+        <div style="width: 70%" class="mx-auto">
+          <v-card-title>About me </v-card-title>
           <div>
             <h2>편리함을 주고싶은 개발자 유준호입니다.</h2>
-            <MyBadges />
+            <v-card-item>
+              <div class="d-flex">
+                <v-sheet>
+                  <MyBadges />
+                </v-sheet>
+                <v-sheet class="ml-4">
+                  <MyBadges />
+                </v-sheet>
+              </div>
+            </v-card-item>
+
             <ul>
               <li>
                 Typescript, Jacascript, React, Vue를 주로 사용하는 프론트엔드
@@ -31,19 +40,15 @@
             </ul>
           </div>
           <h2>My Commits</h2>
-          <v-row class="py-5">
-            <img
-              src="https://ghchart.rshah.org/yjh-1008"
-              class="github_commits"
-            />
-          </v-row>
-          <v-row>
-            <div>
-              Show My Github Stack!
-              <v-icon icon="mdi-chevron-down" />
-            </div>
-          </v-row>
-        </v-container>
+          <img
+            src="https://ghchart.rshah.org/yjh-1008"
+            class="github_commits"
+          />
+          <div>
+            Show My Github Stack!
+            <v-icon icon="mdi-chevron-down" />
+          </div>
+        </div>
       </v-card>
     </v-window-item>
     <v-window-item :key="2">
