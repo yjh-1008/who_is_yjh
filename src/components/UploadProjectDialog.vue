@@ -33,7 +33,15 @@
             ></v-textarea>
           </v-row>
           <v-row>
-            <DatePicker v-model.range="range" mode="dateTime" />
+            <v-menu v-model="calendarState" :close-on-content-click="false">
+              <template v-slot:activator="{ props }">
+                <v-text-field color="indigo" v-bind="props">
+                  Menu as Popover
+                </v-text-field>
+              </template>
+
+              <DatePicker v-model.range="range" mode="dateTime" />
+            </v-menu>
           </v-row>
         </v-container>
       </v-card-text>
@@ -62,6 +70,7 @@ const range = ref({
   start: new Date(2020, 0, 6),
   end: new Date(2020, 0, 10),
 });
+const calendarState: Ref<boolean> = ref(false);
 const modelValue: Ref<boolean> = computed({
   get: () => props.modelValue,
   set: (val) => emits("update:modelValue", val),
