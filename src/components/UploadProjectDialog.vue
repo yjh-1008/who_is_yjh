@@ -25,6 +25,16 @@
             </v-col>
           </v-row>
           <v-row>
+            <v-col cols="12">
+              <ImageLoader />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <RangeDatePicker ref="rangePickerRef" />
+            </v-col>
+          </v-row>
+          <v-row>
             <v-textarea
               v-model="uploadValue.content"
               clearable
@@ -33,15 +43,31 @@
             ></v-textarea>
           </v-row>
           <v-row>
-            <v-menu v-model="calendarState" :close-on-content-click="false">
-              <template v-slot:activator="{ props }">
-                <v-text-field color="indigo" v-bind="props">
-                  Menu as Popover
-                </v-text-field>
-              </template>
-
-              <DatePicker v-model.range="range" mode="dateTime" />
-            </v-menu>
+            <v-col cols="12">
+              <v-combobox
+                v-model="chips"
+                :items="items"
+                chips
+                clearable
+                label="Your favorite hobbies"
+                multiple
+                prepend-icon="mdi-filter-variant"
+                variant="solo"
+              >
+                <template v-slot:selection="{ attrs, item, select, selected }">
+                  <v-chip
+                    v-bind="attrs"
+                    :model-value="selected"
+                    closable
+                    @click="select"
+                  >
+                    <strong>{{ item }}</strong
+                    >&nbsp;
+                    <span>(interest)</span>
+                  </v-chip>
+                </template>
+              </v-combobox>
+            </v-col>
           </v-row>
         </v-container>
       </v-card-text>
@@ -52,7 +78,9 @@
 <script setup lang="ts">
 import { computed, Ref, ref } from "vue";
 import { Project } from "@/utils/types";
-import { setupCalendar, Calendar, DatePicker } from "v-calendar";
+import RangeDatePicker from "./RangeDatePicker.vue";
+import { resolve } from "path";
+import ImageLoader from "./ImageLoader.vue";
 const emits = defineEmits(["update:modelValue"]);
 const props = defineProps<{
   modelValue: boolean;
@@ -66,11 +94,9 @@ const uploadValue = ref({
   endDtti: new Date(),
   githubLink: "",
 });
-const range = ref({
-  start: new Date(2020, 0, 6),
-  end: new Date(2020, 0, 10),
-});
-const calendarState: Ref<boolean> = ref(false);
+const chips: Ref<string[]> = ref([]);
+const items: Ref<string[]> = ref([]);
+const rangePickerRef = ref(null);
 const modelValue: Ref<boolean> = computed({
   get: () => props.modelValue,
   set: (val) => emits("update:modelValue", val),
