@@ -19,39 +19,57 @@ export interface Pofol {
   readonly title: string;
   readonly content: string;
   readonly tumbnail: string;
+  readonly userRef: DocumentReference;
   readonly sttDtti: Date;
   readonly endDtti?: Date;
-}
-
-export interface Project extends Pofol {
+  readonly id: string;
   readonly githubLink: string;
   readonly tags: string[];
 }
 
-export class Project {
+// export interface DevProjectInterface extends Pofol {
+
+// }
+
+// export class PostContent {
+//   constructor(readonly no: number, readonly content: string) {
+//     this.no = no;
+//     this.content = content;
+//   }
+
+//   toJSON() {
+//     return {
+//       no: this.no,
+//       content: this.content,
+//     };
+//   }
+// }
+
+export class Dp {
   constructor(
     readonly title: string,
-    readonly subtitle: string,
     readonly content: string,
     readonly tumbnail: string,
     readonly githubLink: string,
     readonly tags: string[],
     readonly userRef: DocumentReference,
     readonly sttDtti: Date,
-    readonly endDtti?: Date
+    readonly endDtti?: Date,
+    readonly id?: string,
+    public userSnapshot?: DocumentSnapshot<User> | undefined
   ) {}
 
   toJSON() {
     return {
       title: this.title,
-      subtitle: this.subtitle,
       content: this.content,
       tumbnail: this.tumbnail,
-      githubLink: this.githubLink,
       tags: this.tags,
+      githubLink: this.githubLink,
       userRef: this.userRef,
       sttDtti: this.sttDtti || serverTimestamp(),
-      endDtti: this.endDtti || undefined,
+      endDtti: this.endDtti || serverTimestamp(),
+      id: this.id,
     };
   }
 

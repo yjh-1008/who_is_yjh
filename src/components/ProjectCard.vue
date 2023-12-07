@@ -23,9 +23,6 @@
             </v-card-title>
 
             <v-card-subtitle>
-              <div>
-                {{ project.subtitle }}
-              </div>
               <span>{{ props.project.sttDtti }}</span>
             </v-card-subtitle>
           </v-card-item>
@@ -61,9 +58,9 @@
 
 <script setup lang="ts">
 import { Ref, ref } from "vue";
-import { Project } from "@/utils/types";
+import { Dp } from "@/utils/types";
 const props = defineProps<{
-  project: Project;
+  project: Dp;
 }>();
 const loading: Ref<boolean> = ref(false);
 const selection: Ref<number> = ref(1);

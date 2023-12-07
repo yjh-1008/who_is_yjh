@@ -8,7 +8,7 @@
         <v-toolbar-title>Settings</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn variant="text"> Save </v-btn>
+          <v-btn variant="text" @click="onSave"> Save </v-btn>
         </v-toolbar-items>
       </v-toolbar>
       <v-card-text>
@@ -24,9 +24,10 @@
               </v-text-field>
             </v-col>
           </v-row>
+
           <v-row>
             <v-col cols="12">
-              <ImageLoader />
+              <ImageLoader :model-value="uploadValue.tumbnail" />
             </v-col>
           </v-row>
           <v-row>
@@ -39,19 +40,18 @@
               v-model="uploadValue.content"
               clearable
               clear-icon="mdi-close-circle"
-              label="Text"
+              label="설명"
             ></v-textarea>
           </v-row>
           <v-row>
             <v-col cols="12">
               <v-combobox
-                v-model="chips"
+                v-model="uploadValue.tags"
                 :items="items"
                 chips
                 clearable
-                label="Your favorite hobbies"
+                label="태그"
                 multiple
-                prepend-icon="mdi-filter-variant"
                 variant="solo"
               >
                 <template v-slot:selection="{ attrs, item, select, selected }">
@@ -69,6 +69,17 @@
               </v-combobox>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col cols="12">
+              <v-text-field
+                v-model="uploadValue.githubLink"
+                density="compact"
+                variant="outlined"
+                label="githubLink"
+              >
+              </v-text-field>
+            </v-col>
+          </v-row>
         </v-container>
       </v-card-text>
     </v-card>
@@ -76,23 +87,24 @@
 </template>
 
 <script setup lang="ts">
-import { computed, Ref, ref } from "vue";
-import { Project } from "@/utils/types";
+import { computed, Ref, ref, unref } from "vue";
 import RangeDatePicker from "./RangeDatePicker.vue";
-import { resolve } from "path";
 import ImageLoader from "./ImageLoader.vue";
+import { setProject } from "@/models/pofolCard";
+import { useStore } from "vuex";
 const emits = defineEmits(["update:modelValue"]);
+const store = useStore();
 const props = defineProps<{
   modelValue: boolean;
 }>();
 const uploadValue = ref({
   title: "",
-  subtitle: "",
   content: "",
+  tumbnail: "",
+  githubLink: "",
   tags: [],
   sttDtti: new Date(),
   endDtti: new Date(),
-  githubLink: "",
 });
 const chips: Ref<string[]> = ref([]);
 const items: Ref<string[]> = ref([]);
@@ -101,4 +113,18 @@ const modelValue: Ref<boolean> = computed({
   get: () => props.modelValue,
   set: (val) => emits("update:modelValue", val),
 });
+
+const onSave = async () => {
+  const obj = unref(uploadValue);
+  await setProject(
+    uploadValue.value.title,
+    uploadValue.value.content,
+    uploadValue.value.tumbnail,
+    uploadValue.value.githubLink,
+    uploadValue.value.tags,
+    store.getters.getAuthState,
+    uploadValue.value.sttDtti,
+    uploadValue.value.endDtti
+  );
+};
 </script>
