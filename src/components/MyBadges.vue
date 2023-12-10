@@ -1,21 +1,14 @@
 <template>
-  <v-list width="300" v-model="open" bg-color="grey-lighten-3">
-    <v-list-group value="stacks">
-      <template v-slot:activator="{ props }">
-        <v-list-item v-bind="props"> My Stacks </v-list-item>
-      </template>
-      <v-list-item
-        v-for="item in items"
-        :key="item.name"
-        @click="onMove(item.href)"
-      >
-        <div class="d-flex">
-          <img :src="item.src" />
-          {{ item.name }}
-        </div>
-      </v-list-item>
-    </v-list-group>
-  </v-list>
+  <div class="d-flex flex-row mx-auto justify-center">
+    <div
+      v-for="item in items"
+      :key="item.name"
+      @click="onMove(item.href)"
+      class="mx-4"
+    >
+      <img :src="item.src" :id="item.name" />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -25,7 +18,6 @@ interface itemType {
   href: string;
   name: string;
 }
-const open = ref(false);
 const items = ref<itemType[]>([
   {
     src: "https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg",

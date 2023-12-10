@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col cols="5">
-          <v-img cover height="500px" :src="project.tumbnail"></v-img>
+          <v-img cover height="500px" :src="props.project.tumbnail"></v-img>
         </v-col>
         <v-col class="mt-4">
           <v-card-item>
@@ -19,7 +19,10 @@
             </v-card-title>
 
             <v-card-subtitle>
-              <span>{{ props.project.sttDtti }}</span>
+              <span
+                >{{ dateFormatter(props.project.sttDtti) }} ~
+                {{ dateFormatter(props.project.endDtti) }}</span
+              >
             </v-card-subtitle>
           </v-card-item>
 
@@ -52,6 +55,7 @@
 <script setup lang="ts">
 import { Ref, ref } from "vue";
 import { Dp } from "@/utils/types";
+import { dateFormatter } from "@/utils/dateFormatter";
 const props = defineProps<{
   project: Dp;
 }>();

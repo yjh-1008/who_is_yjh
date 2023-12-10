@@ -133,6 +133,7 @@ const onSave = async () => {
       uploadValue.value.endDtti
     );
   });
+  modelValue.value = false;
 };
 //이미지를 db에 저장하는 함수
 const addImage = async (file: Blob | File) => {

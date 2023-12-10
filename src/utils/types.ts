@@ -54,7 +54,7 @@ export class Dp {
     readonly tags: string[],
     readonly userRef: DocumentReference,
     readonly sttDtti: Date,
-    readonly endDtti?: Date,
+    readonly endDtti: Date,
     readonly id?: string,
     public userSnapshot?: DocumentSnapshot<User> | undefined
   ) {}
