@@ -15,13 +15,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, Ref } from "vue";
+import { computed, onMounted, ref, Ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { Content, PostContent } from "@/utils/types";
 import ContentItem from "@/components/ContentItem.vue";
 import { getFilterContents } from "@/models/content";
 import ContentItems from "@/components/ContentItems.vue";
-import router from "@/router";
 import { getPostContents } from "@/models/postContent";
 const route = useRoute();
 const id = computed<string>(() => {
@@ -33,9 +32,14 @@ const type = computed<string>(() => {
 const disabled = ref<boolean>(true);
 const qs = ref();
 const contents = ref<any[]>([]);
-onMounted(async () => {
-  await add();
-});
+watch(
+  () => id.value,
+  async (c) => {
+    console.log(c);
+    contents.value = [];
+    await add();
+  }
+);
 const add = async () => {
   const querySnapshot = await getFilterContents(type.value, id.value);
   querySnapshot.docs.forEach((doc) => {
@@ -54,4 +58,8 @@ const add = async () => {
     contents.value.unshift({ ...d.data(), text: postContents });
   });
 };
+
+// watch((), route.query.id , (c) =>{
+//   console.log(c);
+// })
 </script>

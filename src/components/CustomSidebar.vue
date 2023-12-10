@@ -89,7 +89,6 @@ const menu = reactive<SidebarItem[]>([
 onBeforeMount(async () => {
   await nextTick(async () => {
     let childItems: SidebarItem[] = [];
-    const hobbyItems: SidebarItem[] = [];
     await getCategories().then((data) => {
       const ret = data.val() as string[];
       childItems = ret.map((v: string) => {
@@ -99,21 +98,11 @@ onBeforeMount(async () => {
         };
       });
     });
-    await getCategories().then((data) => {
-      const ret = data.val() as string[];
-      ret.forEach((v: string) => {
-        hobbyItems.push({
-          href: `/search/category/${v}`,
-          title: v,
-        });
-      });
-    });
+    console.log(childItems);
     menu.forEach((data) => {
       console.log(data.title);
       if (data.title === "Content") {
         data.child = childItems;
-      } else if (data.title === "Hobby") {
-        data.child = hobbyItems;
       }
     });
   });
