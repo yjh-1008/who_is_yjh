@@ -1,4 +1,4 @@
-import { Dp } from "@/utils/types";
+import { Dp, ContentImage } from "@/utils/types";
 import {
   FirestoreDataConverter,
   doc,
@@ -20,7 +20,8 @@ import {
 } from "firebase/firestore";
 import { User } from "firebase/auth";
 import { db } from "@/utils/firebase";
-
+import useStorage from "@/composable/useStorage";
+const { uploadFile, imageCompress } = useStorage();
 const converter: FirestoreDataConverter<Dp> = {
   toFirestore(model: Dp, options?: SetOptions) {
     if (options) return Object.assign(model, { updatedAt: serverTimestamp() });

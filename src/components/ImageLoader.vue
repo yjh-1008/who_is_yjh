@@ -16,39 +16,24 @@
       :src="previewImage"
       :aspect-ratio="1"
       style="border: 1px solid black; background-color: #d3d3d3"
-    >
-      <template v-slot:placeholder>
-        <div class="d-flex align-center justify-center fill-height">
-          <v-progress-circular
-            color="grey-lighten-4"
-            indeterminate
-          ></v-progress-circular>
-        </div>
-      </template>
-    </v-img>
+    />
   </label>
 </template>
 
 <script setup lang="ts">
 import { InputHTMLAttributes } from "vue";
 import { ref, Ref, computed } from "vue";
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:file"]);
 // const previewImage: Ref<any> = ref();
-const props = defineProps({
-  modelValue: String,
-});
-const previewImage = computed({
-  get: () => props.modelValue,
-  set: (val) => emits("update:modelValue", val),
-});
+const previewImage: Ref<string> = ref("");
 const base64 = (event: any) => {
   const target = event.target;
-  if (target.files === null) return;
-  const files = target?.files;
+  if (target.files === undefined) return;
+  const files = target.files;
   if (!files.length) return;
   const file = files[0];
   const reader = new FileReader();
-
+  emits("update:file", file);
   reader.onload = (e) => {
     if (typeof e.target?.result === "string")
       previewImage.value = e.target?.result;

@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="modelValue">
-    <v-card height="50vh" width="50%" class="mx-auto">
+    <v-card height="fit-content" width="50%" class="mx-auto">
       <v-toolbar dark color="blue-grey-darken-1">
         <v-btn icon dark @click="modelValue = false">
           <v-icon>mdi-close</v-icon>
@@ -27,7 +27,7 @@
 
           <v-row>
             <v-col cols="12">
-              <ImageLoader :model-value="uploadValue.tumbnail" />
+              <ImageLoader @update:file="(val) => (tumbFile = val)" />
             </v-col>
           </v-row>
           <v-row>
@@ -92,6 +92,9 @@ import RangeDatePicker from "./RangeDatePicker.vue";
 import ImageLoader from "./ImageLoader.vue";
 import { setProject } from "@/models/pofolCard";
 import { useStore } from "vuex";
+import { setProjectImage } from "@/models/image";
+import useStorage from "@/composable/useStorage";
+const { getURL } = useStorage();
 const emits = defineEmits(["update:modelValue"]);
 const store = useStore();
 const props = defineProps<{
@@ -106,25 +109,42 @@ const uploadValue = ref({
   sttDtti: new Date(),
   endDtti: new Date(),
 });
-const chips: Ref<string[]> = ref([]);
+const tumbFile: Ref<File | undefined> = ref();
 const items: Ref<string[]> = ref([]);
 const rangePickerRef = ref(null);
 const modelValue: Ref<boolean> = computed({
   get: () => props.modelValue,
   set: (val) => emits("update:modelValue", val),
 });
-
 const onSave = async () => {
-  const obj = unref(uploadValue);
-  await setProject(
-    uploadValue.value.title,
-    uploadValue.value.content,
-    uploadValue.value.tumbnail,
-    uploadValue.value.githubLink,
-    uploadValue.value.tags,
-    store.getters.getAuthState,
-    uploadValue.value.sttDtti,
-    uploadValue.value.endDtti
+  if (tumbFile.value === undefined) return;
+  await addImage(tumbFile.value, store.getters.getAuthState).then(
+    async (res: string) => {
+      if (typeof tumbFile.value === "string") return;
+      uploadValue.value.tumbnail = res;
+      const obj = unref(uploadValue);
+      await setProject(
+        uploadValue.value.title,
+        uploadValue.value.content,
+        res,
+        uploadValue.value.githubLink,
+        uploadValue.value.tags,
+        store.getters.getAuthState,
+        uploadValue.value.sttDtti,
+        uploadValue.value.endDtti
+      );
+    }
   );
+};
+//이미지를 db에 저장하는 함수
+const addImage = async (
+  file: Blob | File,
+  callback: (url: string, text?: string) => void
+) => {
+  const user = store.getters.getAuthState;
+  const id = await setProjectImage(file as File, user);
+  const origin = await getURL(`project/images/${id}/origin`);
+  const tumbnail = await getURL(`project/images/${id}/tumbnail`);
+  return tumbnail;
 };
 </script>

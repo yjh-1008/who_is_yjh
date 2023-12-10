@@ -38,3 +38,18 @@ export const setImage = async (file: File, firebaseUser: User) => {
   await setDoc(imageRef, contentImage);
   return imageRef.id;
 };
+
+export const setProjectImage = async (file: File, firebaseUser: User) => {
+  if (!firebaseUser) throw Error("user not exist");
+  const userRef = doc(db, "users", firebaseUser.uid);
+  const imageRef = doc(collection(db, "images")).withConverter(converter);
+  const originPath = `project/images/${imageRef.id}/origin`;
+
+  await uploadFile(originPath, file);
+  const tumbnailPath = `project/images/${imageRef.id}/tumbnail`;
+  const tumbnailFile = await imageCompress(file);
+  await uploadFile(tumbnailPath, tumbnailFile);
+  const contentImage = new ContentImage(file.name, file.size, userRef);
+  await setDoc(imageRef, contentImage);
+  return imageRef.id;
+};
