@@ -122,6 +122,7 @@ export const getPosts = <T>(qs: T[]) => {
 // };
 
 export const getFilterContents = (tp: string, val: string) => {
+  console.log(tp);
   const ref = collection(db, "documents").withConverter(converter);
   const q = query(ref, where(tp, "==", val));
   return getDocs(q);

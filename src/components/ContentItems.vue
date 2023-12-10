@@ -1,19 +1,25 @@
 <template>
-  <v-card
-    v-for="doc in contents"
-    class="mx-3 my-5"
-    border
-    :key="doc.title"
-    :to="`/content/${doc.id}`"
-  >
+  <v-card v-for="doc in contents" class="mx-3 my-5" border :key="doc.title">
     <div class="d-flex flex-no-wrap">
-      <v-avatar size="170" rounded="0">
-        <img :src="doc.tumbnail" alt="img" />
+      <v-avatar
+        size="170"
+        rounded="0"
+        @click="router.push(`/content/${doc.id}`)"
+      >
+        <v-img
+          class="align-end text-white"
+          height="200"
+          cover
+          :src="doc.tumbnail"
+          alt="img"
+        />
       </v-avatar>
       <div class="w-100">
         <v-card-title class="text-h5 mt-3">
           <div class="d-flex justify-space-between">
-            <div>{{ doc.title }}</div>
+            <div @click="router.push(`/content/${doc.id}`)">
+              {{ doc.title }}
+            </div>
             <v-btn
               class="ml-auto"
               v-show="authState !== null"
@@ -26,15 +32,15 @@
               class="mx-4"
               border
               v-show="authState !== null"
-              :to="`content/update/${doc.id}`"
+              @click="router.push(`/content/update/${doc.id}`)"
               icon="mdi-pencil"
               color="blue-grey-darken-1"
             >
             </v-btn>
           </div>
         </v-card-title>
-        <v-card-subtitle>
-          <div class="mb-2">{{ doc.text.slice(0, 200) }}...</div>
+        <v-card-subtitle :to="`/content/${doc.id}`">
+          <div class="mb-2">{{ text(doc.text) }}</div>
           <v-chip
             class="mb-6 mt-2"
             size="small"
@@ -62,12 +68,13 @@
 import { computed, ref, onBeforeMount, onMounted } from "vue";
 import { deleteContent } from "@/models/content";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 const store = useStore();
 const authState = computed(() => store.getters.getAuthState);
 const emit = defineEmits(["refresh"]);
 const page = ref(1);
+const router = useRouter();
 const remove = async (title) => {
-  console.log(title);
   await deleteContent(title);
   emit("refresh");
 };
@@ -77,5 +84,12 @@ const props = defineProps({
     required: true,
   },
 });
+const text = (val) => {
+  if (typeof val !== "string") return "";
+  else {
+    if (val.length < 200) return val;
+    else return val.slice(0, 200) + "...";
+  }
+};
 // const docs = ref([]);
 </script>

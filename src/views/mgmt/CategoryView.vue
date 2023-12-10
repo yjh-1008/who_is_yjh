@@ -1,41 +1,28 @@
 <template>
-  <v-card
-    v-for="doc in docs"
-    class="ma-3"
-    :key="doc.title"
-    :to="`/content/${doc.title}`"
-  >
-    <div class="d-flex flex-no-wrap">
-      <v-avatar size="125" rounded="0">
-        <img :src="doc.tumbnail" alt="img" />
-        <div>{{ doc.tumbnail }}</div>
-      </v-avatar>
-      <div class="w-100">
-        <div class="d-flex justify-space-between">
-          <v-card-title>{{ doc.title }}</v-card-title>
-          <v-btn :to="`content/update/${doc.title}`"> 수정하기 </v-btn>
-        </div>
-
-        <v-card-subtitle>{{
-          typeof doc.createdAt === "object"
-            ? `${doc.createdAt.getFullYear()}-${
-                doc.createdAt.getMonth() + 1
-              }-${doc.createdAt.getDate()}`
-            : ""
-        }}</v-card-subtitle>
-        <v-card-text> {{ doc.postContent }}</v-card-text>
-      </div>
-    </div>
-  </v-card>
+  <div class="white--text green d-flex flex-column darken-3 ƒ-auto w-100">
+    <ContentItems :contents="contents" />
+    <v-btn
+      class="text-none mb-4 mx-auto"
+      :width="500"
+      color="blue-grey-darken-1"
+      size="x-large"
+      variant="flat"
+      @click="add"
+      :disabled="disabled"
+      >더보기</v-btn
+    >
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, Ref } from "vue";
 import { useRoute } from "vue-router";
 import { Content, PostContent } from "@/utils/types";
 import ContentItem from "@/components/ContentItem.vue";
 import { getFilterContents } from "@/models/content";
+import ContentItems from "@/components/ContentItems.vue";
 import router from "@/router";
+import { getPostContents } from "@/models/postContent";
 const route = useRoute();
 const id = computed<string>(() => {
   return route.params.id as string;
@@ -43,15 +30,28 @@ const id = computed<string>(() => {
 const type = computed<string>(() => {
   return route.params.type as string;
 });
-const docs = ref<Content[]>([]);
+const disabled = ref<boolean>(true);
+const qs = ref();
+const contents = ref<any[]>([]);
 onMounted(async () => {
+  await add();
+});
+const add = async () => {
   const querySnapshot = await getFilterContents(type.value, id.value);
   querySnapshot.docs.forEach((doc) => {
-    docs.value.push(doc.data());
+    contents.value.push(doc.data());
   });
-  // docs.value.sort((a, b) => {
-  //   if (a.createdAt === undefined || b.createdAt === undefined) return;
-  //   return a.createdAt - b.createdAt;
-  // });
-});
+  qs.value = querySnapshot.docs;
+  disabled.value = querySnapshot.docs.length < 6;
+  querySnapshot.docs.forEach(async (d) => {
+    let postContents = "";
+    await getPostContents(d.data().id).then((res) => {
+      res.forEach((v) => {
+        const content = v.data().content;
+        postContents += content;
+      });
+    });
+    contents.value.unshift({ ...d.data(), text: postContents });
+  });
+};
 </script>
