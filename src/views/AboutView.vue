@@ -1,11 +1,5 @@
 <template>
   <v-window v-model="windows" show-arrows>
-    <template v-slot:prev="{ props }">
-      <v-btn color="success" @click="props.onClick"> Previous slide </v-btn>
-    </template>
-    <template v-slot:next="{ props }">
-      <v-btn color="info" @click="props.onClick"> Next slide </v-btn>
-    </template>
     <v-window-item :value="0">
       <DevProjects />
     </v-window-item>
@@ -49,11 +43,6 @@
             <v-icon icon="mdi-chevron-down" />
           </div>
         </div>
-      </v-card>
-    </v-window-item>
-    <v-window-item :key="2">
-      <v-card width="50%">
-        <div>section 1</div>
       </v-card>
     </v-window-item>
   </v-window>

@@ -118,29 +118,24 @@ const modelValue: Ref<boolean> = computed({
 });
 const onSave = async () => {
   if (tumbFile.value === undefined) return;
-  await addImage(tumbFile.value, store.getters.getAuthState).then(
-    async (res: string) => {
-      if (typeof tumbFile.value === "string") return;
-      uploadValue.value.tumbnail = res;
-      const obj = unref(uploadValue);
-      await setProject(
-        uploadValue.value.title,
-        uploadValue.value.content,
-        res,
-        uploadValue.value.githubLink,
-        uploadValue.value.tags,
-        store.getters.getAuthState,
-        uploadValue.value.sttDtti,
-        uploadValue.value.endDtti
-      );
-    }
-  );
+  await addImage(tumbFile.value).then(async (res: string) => {
+    if (typeof tumbFile.value === "string") return;
+    uploadValue.value.tumbnail = res;
+    const obj = unref(uploadValue);
+    await setProject(
+      uploadValue.value.title,
+      uploadValue.value.content,
+      res,
+      uploadValue.value.githubLink,
+      uploadValue.value.tags,
+      store.getters.getAuthState,
+      uploadValue.value.sttDtti,
+      uploadValue.value.endDtti
+    );
+  });
 };
 //이미지를 db에 저장하는 함수
-const addImage = async (
-  file: Blob | File,
-  callback: (url: string, text?: string) => void
-) => {
+const addImage = async (file: Blob | File) => {
   const user = store.getters.getAuthState;
   const id = await setProjectImage(file as File, user);
   const origin = await getURL(`project/images/${id}/origin`);

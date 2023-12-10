@@ -23,22 +23,22 @@ export default {
 </script>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
 import ContentItems from "@/components/ContentItems.vue";
 import { getPosts, updatePost } from "@/models/content";
 import { getPostContents } from "@/models/postContent";
 const router = useRouter();
 const contents = ref<any[]>([]);
-const disabled = ref<boolean>(false);
+const disabled = ref<boolean>(true);
 const qs = ref();
-onMounted(async () => {
+onBeforeMount(async () => {
   await add();
 });
 const add = async () => {
   const querySnapshot = await getPosts(qs.value);
   qs.value = querySnapshot.docs;
-  if (querySnapshot.docs.length < 6) disabled.value = true;
+  disabled.value = querySnapshot.docs.length < 6;
   querySnapshot.docs.forEach(async (d) => {
     let postContents = "";
     await getPostContents(d.data().id).then((res) => {

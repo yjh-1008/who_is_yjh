@@ -76,16 +76,6 @@ const menu = reactive<SidebarItem[]>([
     child: [],
   },
   {
-    title: "Hobby",
-    icon: {
-      element: "v-icon",
-      attributes: {
-        icon: "mdi-controller-classic-outline",
-      },
-    },
-    child: [],
-  },
-  {
     href: "/about_me",
     title: "About me",
     icon: {

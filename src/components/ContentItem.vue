@@ -5,18 +5,18 @@
       <v-card-title>
         <div class="d-flex justify-center">
           <div class="title w-100 mx-auto">
-            <div class="title-text py-3">
+            <div class="title-text">
               {{ content.title }}
             </div>
           </div>
         </div>
       </v-card-title>
       <v-card-subtitle>
-        <div class="w-100 mb-3 mx-auto">
+        <div class="w-100 my-4 mx-auto">
           <v-expansion-panels>
-            <v-expansion-panel bg-color="grey-lighten-2">
-              <v-expansion-panel-title class="text-h5" color="#546e7a">
-                <div style="color: #000000; font-weight: 600">상세보기</div>
+            <v-expansion-panel bg-color="grey-lighten-1">
+              <v-expansion-panel-title class="text-h5" color="grey-lighten-1">
+                <div style="color: black; font-weight: 600">상세보기</div>
               </v-expansion-panel-title>
 
               <v-expansion-panel-text class="d-flex">
@@ -32,7 +32,7 @@
                     >{{ chip }}</v-chip
                   >
                 </v-chip-group>
-                <div class="text-h6 subtitle">등록일자</div>
+                <div class="text-h6 subtitle">업로드 일자</div>
                 <div class="date">
                   {{ date }}
                 </div>
@@ -42,7 +42,7 @@
         </div>
       </v-card-subtitle>
     </v-card>
-    <TuiViewer :content="(content.postContent as string)" />
+    <TuiViewer :content="(content.postContent as string)" class="px-5" />
   </template>
 </template>
 
@@ -81,7 +81,10 @@ const onModify = () => {
 .title {
   width: 100%;
   min-height: 100px;
-  padding: 1%;
+  padding: 1.5%;
+  border: 1px solid #d3d3d3;
+  box-shadow: 5px 5px 5px lightgray;
+  border-radius: 10px;
 }
 .title-text {
   font-weight: bold;

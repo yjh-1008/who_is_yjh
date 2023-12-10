@@ -3,11 +3,7 @@
     <v-container>
       <v-row>
         <v-col cols="5">
-          <v-img
-            cover
-            height="500px"
-            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-          ></v-img>
+          <v-img cover height="500px" :src="project.tumbnail"></v-img>
         </v-col>
         <v-col class="mt-4">
           <v-card-item>
@@ -34,10 +30,7 @@
             class="px-4 pa-2"
           >
             <div style="line-height: 1.3rem; font-size: 1rem">
-              {{ project.content }} {{ project.content }} {{ project.content }}
-              {{ project.content }} {{ project.content }} {{ project.content }}
-              {{ project.content }} {{ project.content }} {{ project.content }}
-              {{ project.content }} {{ project.content }}
+              {{ project.content }}
             </div>
           </v-card-text>
           <div>
