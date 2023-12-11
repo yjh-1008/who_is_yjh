@@ -1,29 +1,35 @@
 <template>
   <v-card
-    style="background-color: #bdbdbd"
-    width="50%"
-    height="30vh"
-    class="mx-auto my-8"
+    style="background-color: #546e7a"
+    width="30%"
+    rounded
+    elevation="16"
+    class="mx-auto my-5"
+    variant="elevated"
   >
-    <v-card-title>
-      <div>미디어로그</div>
-      <div class="date">2023-04-17 ~</div>
-    </v-card-title>
+    <v-img
+      class="align-end"
+      height="350"
+      :src="require('@/assets/images/medialog.png')"
+      cover
+    >
+      <v-card-title> 미디어로그 </v-card-title>
+    </v-img>
+    <v-card-subtitle class="py-1" style="color: white; font-weight: bold"
+      >2023-04-17 ~ 2024~06-17</v-card-subtitle
+    >
     <hr />
-    <div class="d-flex flex-row mx-auto justify-center">
-      <v-img
-        class="ml-5"
-        height="20vh"
-        width="200px"
-        :src="require('@/assets/images/medialog.jpeg')"
-        cover
-      />
-      <v-card-text>
+    <v-card-text style="color: white; font-weight: bold">
+      <div>
         미디어로그에서 NW 개발팀의 FE Developer 활동했습니다. 네트워크 상태를
         확인하는 웹 사이트와 데이터베이스를 관리할 수 있는 프로젝트에
-        참여하였습니다.
-      </v-card-text>
-    </div>
+        참여했습니다.미디어로그에서 NW 개발팀의 FE Developer 활동했습니다.
+        네트워크 상태를 확인하는 웹 사이트와 데이터베이스를 관리할 수 있는
+        프로젝트에 참여했습니다.미디어로그에서 NW 개발팀의 FE Developer
+        활동했습니다. 네트워크 상태를 확인하는 웹 사이트와 데이터베이스를 관리할
+        수 있는 프로젝트에 참여했습니다.
+      </div>
+    </v-card-text>
   </v-card>
 </template>
 
