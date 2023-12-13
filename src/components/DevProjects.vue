@@ -52,7 +52,6 @@ const load = async () => {
   if (disabled.value) return;
   const querySnapshot = await getProjects(qs.value);
   qs.value = querySnapshot.docs;
-  console.log(querySnapshot.docs.length);
   querySnapshot.docs.forEach(async (d) => {
     projects.value.unshift(d.data());
   });

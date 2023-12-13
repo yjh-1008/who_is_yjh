@@ -27,23 +27,45 @@ export interface Pofol {
   readonly tags: string[];
 }
 
-// export interface DevProjectInterface extends Pofol {
+export interface record {
+  readonly title: string;
+  readonly content: string;
+  readonly tumbnail: string;
+  readonly userRef: DocumentReference;
+  readonly sttDtti: Date;
+  readonly endDtti?: Date;
+  readonly id: string;
+}
 
-// }
+export class Record {
+  constructor(
+    readonly title: string,
+    readonly content: string,
+    readonly tumbnail: string,
+    readonly userRef: DocumentReference,
+    readonly sttDtti: Date,
+    readonly endDtti: Date,
+    readonly id: string,
+    public userSnapshot?: DocumentSnapshot<User> | undefined
+  ) {}
 
-// export class PostContent {
-//   constructor(readonly no: number, readonly content: string) {
-//     this.no = no;
-//     this.content = content;
-//   }
+  toJSON() {
+    return {
+      title: this.title,
+      content: this.content,
+      tumbnail: this.tumbnail,
+      userRef: this.userRef,
+      sttDtti: this.sttDtti || serverTimestamp(),
+      endDtti: this.endDtti || serverTimestamp(),
+      id: this.id,
+    };
+  }
 
-//   toJSON() {
-//     return {
-//       no: this.no,
-//       content: this.content,
-//     };
-//   }
-// }
+  remove(id: string) {
+    const ref = doc(db, "documents", id);
+    return deleteDoc(ref);
+  }
+}
 
 export class Dp {
   constructor(
