@@ -45,6 +45,7 @@ import { Record, Dp } from "@/utils/types";
 import MyStacks from "@/components/MyStacks.vue";
 import UploadProjectDialog from "@/components/UploadProjectDialog.vue";
 import UploadRecordDialog from "@/components/UploadRecordDialog.vue";
+import { QuerySnapshot } from "firebase-admin/firestore";
 const store = useStore();
 const windows = ref(0);
 const pdf = ref();
@@ -58,12 +59,13 @@ const qs = ref();
 //method
 const load = async () => {
   if (disabled.value) return;
-  const querySnapshot = await getProjects(qs.value);
-  qs.value = querySnapshot.docs;
-  querySnapshot.docs.forEach(async (d) => {
-    projects.value.unshift(d.data());
+  await getProjects(qs.value).then((querySnapshot) => {
+    qs.value = querySnapshot.docs;
+    querySnapshot.docs.forEach(async (d) => {
+      projects.value.unshift(d.data());
+    });
+    if (querySnapshot.docs.length < 2) disabled.value = true;
   });
-  if (querySnapshot.docs.length < 2) disabled.value = true;
 };
 
 const onRecordLoad = async () => {

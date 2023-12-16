@@ -1,18 +1,21 @@
 <template>
   <div class="d-flex flex-column mb-6">
-    <div class="white--text green d-flex flex-column darken-3 ƒ-auto w-100">
+    <div
+      class="white--text green d-flex flex-column darken-3 ƒ-auto w-100"
+      style="overflow-y: auto"
+    >
       <ContentItems :contents="contents" />
-      <v-btn
-        class="text-none mb-4 mx-auto"
-        :width="500"
-        color="blue-grey-darken-1"
-        size="x-large"
-        variant="flat"
-        @click="add"
-        :disabled="disabled"
-        >더보기</v-btn
-      >
     </div>
+    <v-btn
+      class="text-none mb-4 mx-auto"
+      width="25%"
+      color="blue-grey-darken-1"
+      size="x-large"
+      variant="flat"
+      @click="add"
+      :disabled="disabled"
+      >더보기</v-btn
+    >
   </div>
 </template>
 

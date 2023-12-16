@@ -1,13 +1,15 @@
 <template>
   <v-card
     style="background-color: #546e7a"
+    max-width="50%"
     width="30%"
+    height="400px"
     rounded
     elevation="16"
     class="mx-auto my-5"
     variant="elevated"
   >
-    <v-img class="align-end" height="350" :src="data.tumbnail" cover>
+    <v-img class="align-end" height="150px" :src="data.tumbnail" cover>
       <v-card-title> {{ data.title }} </v-card-title>
     </v-img>
     <v-card-subtitle class="py-1" style="color: white; font-weight: bold"

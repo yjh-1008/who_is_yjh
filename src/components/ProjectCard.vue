@@ -1,9 +1,21 @@
 <template>
-  <v-card :loading="loading" class="mx-auto my-6" width="70%" height="500px">
-    <v-container>
+  <v-card
+    :loading="loading"
+    class="mx-auto my-6"
+    width="70%"
+    max-height="300px"
+    min-height="200px"
+    elevation="6"
+  >
+    <v-container class="pa-0">
       <v-row>
-        <v-col cols="5">
-          <v-img cover height="500px" :src="props.project.tumbnail"></v-img>
+        <v-col cols="3" md="5">
+          <v-img
+            cover
+            height="500px"
+            width="100%"
+            :src="props.project.tumbnail"
+          ></v-img>
         </v-col>
         <v-col class="mt-4">
           <v-card-item>

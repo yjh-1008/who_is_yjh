@@ -1,19 +1,22 @@
 <template>
-  <v-card v-for="doc in contents" class="mx-3 my-5" border :key="doc.title">
+  <v-card
+    v-for="doc in contents"
+    class="my-5 w-75 mx-auto"
+    max-height="400px"
+    min-height="200px"
+    elevation="6"
+    :key="doc.title"
+    md="2"
+  >
     <div class="d-flex flex-no-wrap">
-      <v-avatar
-        size="170"
-        rounded="0"
-        @click="router.push(`/content/${doc.id}`)"
-      >
-        <v-img
-          class="align-end text-white"
-          height="200"
-          cover
-          :src="doc.tumbnail"
-          alt="img"
-        />
-      </v-avatar>
+      <v-img
+        class="align-end text-white"
+        width="25%"
+        height="100%"
+        cover
+        :src="doc.tumbnail"
+        alt="img"
+      />
       <div class="w-100">
         <v-card-title class="text-h5 mt-3">
           <div class="d-flex justify-space-between">

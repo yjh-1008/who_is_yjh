@@ -1,24 +1,8 @@
 <template>
-  <div class="d-flex flex-column">
-    <!-- <v-btn
-      v-if="store.getters.getAuthState"
-      class="uploadBtn"
-      icon="mdi-plus"
-      color="blue-grey-darken-1"
-      @click="dialog = true"
-    />
-    <v-btn
-      v-if="store.getters.getAuthState"
-      class="loadBtn"
-      icon="mdi-more"
-      color="blue-grey-darken-1"
-      :disabled="disabled"
-      @click="load"
-    /> -->
+  <div class="d-flex">
     <template v-for="r in props.record" :key="r.title">
       <MyCareer :data="r" />
     </template>
-    <!-- <MyCareer /> -->
   </div>
 </template>
 

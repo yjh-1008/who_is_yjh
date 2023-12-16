@@ -21,12 +21,12 @@ const props = defineProps<{
   position: absolute !important;
   z-index: 999;
   bottom: 50px;
-  right: 50px;
+  right: 30px;
 }
 .loadBtn {
   position: absolute !important;
   z-index: 999;
   bottom: 50px;
-  right: 130px;
+  right: 100px;
 }
 </style>
