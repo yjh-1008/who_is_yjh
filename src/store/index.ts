@@ -8,6 +8,7 @@ export default createStore({
       title: "",
       content: "",
     },
+    loading: false,
   },
   getters: {
     getAuthState(state) {
@@ -15,6 +16,9 @@ export default createStore({
     },
     getAlDialog(state) {
       return state.alDialog;
+    },
+    getLoadingState(state) {
+      return state.loading;
     },
   },
   mutations: {
@@ -25,6 +29,9 @@ export default createStore({
       state.alDialog.state = obj.state;
       state.alDialog.title = obj.title;
       state.alDialog.content = obj.content;
+    },
+    setLoadingState(state, val: boolean) {
+      state.loading = val;
     },
   },
   actions: {},

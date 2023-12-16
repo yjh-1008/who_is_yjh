@@ -75,9 +75,11 @@ const onRecordLoad = async () => {
     record.value.unshift(d.data());
   });
 };
-const onLoad = () => {
-  if (windows.value) onRecordLoad();
-  else load();
+const onLoad = async () => {
+  store.commit("setLoadingState", true);
+  if (windows.value) await onRecordLoad();
+  else await load();
+  store.commit("setLoadingState", false);
 };
 watch(
   () => windows.value,

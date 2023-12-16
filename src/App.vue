@@ -2,8 +2,10 @@
   <v-app>
     <CustomSidebar />
     <AlertDialog />
+    <ProcressCircular />
     <v-main class="content-view">
       <HeaderSection />
+
       <router-view> </router-view>
     </v-main>
   </v-app>
@@ -20,6 +22,7 @@ export default defineComponent({
 import CustomSidebar from "@/components/CustomSidebar.vue";
 import HeaderSection from "./components/HeaderSection.vue";
 import AlertDialog from "./components/AlertDialog.vue";
+import ProcressCircular from "./components/ProcressCircular.vue";
 </script>
 
 <style>
