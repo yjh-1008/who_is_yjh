@@ -3,8 +3,8 @@
     :loading="loading"
     class="mx-auto my-6"
     width="70%"
-    max-height="300px"
-    min-height="200px"
+    max-height="350px"
+    min-height="300px"
     elevation="6"
   >
     <v-container class="pa-0">

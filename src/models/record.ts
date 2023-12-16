@@ -89,7 +89,7 @@ export const getRecord = <T>(qs: T[]) => {
   let q;
   if (qs !== undefined)
     q = query(ref, orderBy("sttDtti"), startAfter(qs[qs.length - 1]), limit(2));
-  else q = query(ref, orderBy("sttDtti"), limit(6));
+  else q = query(ref, orderBy("sttDtti"), limit(2));
 
   return getDocs(q);
 };

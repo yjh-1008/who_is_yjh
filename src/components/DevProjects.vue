@@ -17,16 +17,11 @@ const props = defineProps<{
 </script>
 
 <style>
-.uploadBtn {
-  position: absolute !important;
-  z-index: 999;
-  bottom: 50px;
-  right: 30px;
-}
 .loadBtn {
   position: absolute !important;
   z-index: 999;
-  bottom: 50px;
-  right: 100px;
+  bottom: 30px;
+  right: 10px;
+  flex-direction: column;
 }
 </style>

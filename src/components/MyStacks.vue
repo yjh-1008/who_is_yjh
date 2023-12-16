@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex">
+  <div class="container mx-auto px-16 w-100">
     <template v-for="r in props.record" :key="r.title">
       <MyCareer :data="r" />
     </template>
@@ -7,33 +7,41 @@
 </template>
 
 <script setup lang="ts">
-import MyBadges from "@/components/MyBadges.vue";
 import MyCareer from "@/components/MyCareer.vue";
 import { ref, Ref, onBeforeMount } from "vue";
 import { Record } from "@/utils/types";
-import process from "process";
-import { useStore } from "vuex";
 import { getRecord } from "@/models/record";
 const props = defineProps<{
   record: Record[];
 }>();
-const pofolUrl = "https://www.notion.so/797e20874e794772b38b0ff3bf1ac90d?pvs=4";
-const careers: Ref<Record[]> = ref([]);
 const qs = ref();
 const record: Ref<Record[]> = ref([]);
-onBeforeMount(async () => {
-  await load();
-});
+// onBeforeMount(async () => {
+//   await load();
+// });
 
-const load = async () => {
-  const querySnapshot = await getRecord(qs.value);
-  qs.value = querySnapshot.docs;
-  querySnapshot.docs.forEach((d) => {
-    record.value.unshift(d.data());
-  });
-};
-
-const onClick = (url: string) => {
-  window.document.location = url;
-};
+// const load = async () => {
+//   const querySnapshot = await getRecord(qs.value);
+//   qs.value = querySnapshot.docs;
+//   querySnapshot.docs.forEach((d) => {
+//     record.value.unshift(d.data());
+//   });
+// };
 </script>
+
+<style script>
+.container {
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  height: fit-content;
+}
+
+@media (max-width: 1500px) {
+  .container {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+    height: fit-content;
+  }
+}
+</style>

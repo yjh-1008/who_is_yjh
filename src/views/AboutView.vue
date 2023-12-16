@@ -1,19 +1,21 @@
 <template>
-  <v-btn
-    v-if="store.getters.getAuthState"
-    class="uploadBtn"
-    icon="mdi-plus"
-    color="blue-grey-darken-1"
-    @click="openDialog"
-  />
-  <v-btn
-    v-if="store.getters.getAuthState"
-    class="loadBtn"
-    icon="mdi-more"
-    color="blue-grey-darken-1"
-    :disabled="disabled"
-    @click="onLoad"
-  />
+  <div class="d-flex loadBtn">
+    <v-btn
+      v-if="store.getters.getAuthState"
+      class="my-3"
+      icon="mdi-plus"
+      color="blue-grey-darken-1"
+      @click="openDialog"
+    />
+    <v-btn
+      v-if="store.getters.getAuthState"
+      icon="mdi-more"
+      color="blue-grey-darken-1"
+      :disabled="disabled"
+      @click="onLoad"
+    />
+  </div>
+
   <v-window v-model="windows" show-arrows>
     <v-window-item :value="0">
       <DevProjects :projects="projects" />
@@ -58,6 +60,7 @@ const qs = ref();
 
 //method
 const load = async () => {
+  console.log("here");
   if (disabled.value) return;
   await getProjects(qs.value).then((querySnapshot) => {
     qs.value = querySnapshot.docs;
@@ -69,13 +72,17 @@ const load = async () => {
 };
 
 const onRecordLoad = async () => {
+  if (disabled.value) return;
   const querySnapshot = await getRecord(qs.value);
   qs.value = querySnapshot.docs;
   querySnapshot.docs.forEach((d) => {
+    console.log(d);
     record.value.unshift(d.data());
   });
+  if (querySnapshot.docs.length < 2) disabled.value = true;
 };
 const onLoad = async () => {
+  console.log(windows.value);
   store.commit("setLoadingState", true);
   if (windows.value) await onRecordLoad();
   else await load();
@@ -84,6 +91,7 @@ const onLoad = async () => {
 watch(
   () => windows.value,
   (c) => {
+    disabled.value = false;
     qs.value = undefined;
     projects.value = [];
     record.value = [];
