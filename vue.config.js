@@ -6,7 +6,7 @@ module.exports = defineConfig({
       // https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
     },
   },
-  outputDir: "./docs",
+  outputDir: "/docs",
   publicPath: "/who-is-yjh",
   configureWebpack: {
     devServer: {
