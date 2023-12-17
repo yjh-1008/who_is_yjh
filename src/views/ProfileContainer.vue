@@ -43,12 +43,6 @@ import { onMounted, ref, Ref } from "vue";
 import MyBadges from "@/components/MyBadges.vue";
 import GithubStacks from "@/components/GithubStacks.vue";
 const profile_pircutre: Ref<any> = ref("");
-onMounted(async () => {
-  // await loadFile("").then((res: any) => {
-  //   console.log(res);
-  //   profile_pircutre.value = res;
-  // });
-});
 </script>
 <style scoped>
 .github_commits {

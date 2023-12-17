@@ -69,10 +69,6 @@ onMounted(async () => {
     content.value = data;
   });
 });
-
-const onModify = () => {
-  console.log("modify");
-};
 </script>
 
 <style>

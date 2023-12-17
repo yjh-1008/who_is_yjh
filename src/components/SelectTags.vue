@@ -23,9 +23,6 @@ const emit = defineEmits<{
 }>();
 const items = ref<string[]>();
 const select = ref(props.modelValue);
-const remove = (item: any) => {
-  console.log(item);
-};
 onMounted(async () => {
   await getTags().then((data) => {
     items.value = (data.val() as string[]) || [];

@@ -59,7 +59,6 @@ const qs = ref();
 
 //method
 const load = async () => {
-  console.log("here");
   if (disabled.value) return;
   await getProjects(qs.value).then((querySnapshot) => {
     qs.value = querySnapshot.docs;
@@ -75,7 +74,6 @@ const onRecordLoad = async () => {
   const querySnapshot = await getRecord(qs.value);
   qs.value = querySnapshot.docs;
   querySnapshot.docs.forEach((d) => {
-    console.log(d);
     record.value.unshift(d.data());
   });
   if (querySnapshot.docs.length < 2) disabled.value = true;

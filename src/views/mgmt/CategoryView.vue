@@ -36,7 +36,6 @@ const qs: Ref<any[] | undefined> = ref();
 const contents = ref<any[]>([]);
 onMounted(async () => {
   await add();
-  console.log("here");
 });
 
 watch(
@@ -50,10 +49,6 @@ watch(
 const add = async () => {
   store.commit("setLoadingState", true);
   const querySnapshot = await getFilterContents(type.value, id.value, qs.value);
-  console.log(querySnapshot.docs);
-  // querySnapshot.docs.forEach((doc) => {
-  //   contents.value.unshift(doc.data());
-  // });
   qs.value = querySnapshot.docs;
   disabled.value = querySnapshot.docs.length < 6;
   querySnapshot.docs.forEach(async (d) => {

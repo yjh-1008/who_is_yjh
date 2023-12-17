@@ -22,7 +22,6 @@ const firebaseUser = ref<User | null>(null);
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
   firebaseUser.value = user;
-  console.log(firebaseUser.value);
   store.commit("setAuthState", user);
 });
 const provider = new GithubAuthProvider();
@@ -30,17 +29,11 @@ provider.setCustomParameters({
   allow_signup: "false",
 });
 const signIn = async () => {
-  console.log("here");
-  await signInWithPopup(auth, provider)
-    .then((result) => {
-      console.log(result);
-    })
-    .catch((err) => {
-      alert("에러 : " + err.message);
-    });
+  await signInWithPopup(auth, provider).catch((err) => {
+    alert("에러 : " + err.message);
+  });
 };
 const fsSignOut = () => {
-  console.log("here");
   signOut(auth);
 };
 </script>

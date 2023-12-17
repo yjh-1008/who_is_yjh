@@ -11,7 +11,6 @@ const viewer = ref<Viewer | null>();
 const props = defineProps<{ content: string }>();
 const editorRef = ref();
 onMounted(() => {
-  console.log(props);
   viewer.value = new Viewer({
     el: editorRef.value as HTMLDivElement,
     initialValue: props.content,

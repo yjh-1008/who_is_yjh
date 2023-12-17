@@ -116,62 +116,8 @@ export const getPosts = <T>(qs: T[]) => {
   return getDocs(q);
 };
 
-// export const getPostsLength = () => {
-//   const ref = collection(db, "documents").withConverter(converter);
-//   const q = query(ref, orderBy("createdAt"), startAt(start), limit(6));
-//   return getDocs(q);
-// };
-
 export const getFilterContents = (tp: string, val: string) => {
   const ref = collection(db, "documents").withConverter(converter);
   const q = query(ref, where(tp, "==", val));
   return getDocs(q);
 };
-
-// export const updatePost = async (
-//   id: string,
-//   title: string,
-//   content = "",
-//   tags: string[],
-//   category: string
-// ) => {
-//   const ref = doc(db, "documents", id).withConverter(converter);
-//   const batch = writeBatch(db);
-//   const sn = await getPostContents(id);
-//   sn.docs.forEach((d) => batch.delete(d.ref));
-//   const chunks = textsToChunks(content);
-//   console.log(chunks);
-//   // chunks.forEach((c, i) => {
-//   //   const ref = doc(collection(db, "projects", id, "contents")).withConverter(
-//   //     postConverter
-//   //   );
-//   //   batch.set(ref, new PostContent(i, c));
-//   // });
-//   await batch.commit();
-//   return updateDoc(ref, {
-//     title: title,
-//     updateAt: new Date(),
-//     tags: tags,
-//     category: category,
-//   });
-// };
-
-// export const getPost = async (id: string) => {
-//   console.group(id);
-//   const ref = doc(db, "projects", id).withConverter(converter);
-//   const contentSnapshot = await getDoc(ref);
-
-//   const content = contentSnapshot.data();
-//   if (!content) throw Error("post not exist");
-//   const postContentSnpashot = await getPostContents(id);
-//   return content;
-// };
-
-// export const deleteContent = async (id: string) => {
-//   const batch = writeBatch(db);
-//   const sn = await getPostContents(id);
-//   console.log(id);
-//   // sn.docs.forEach((d) => batch.delete(d.ref));
-//   // batch.delete(doc(db, "documents", id));
-//   // return await batch.commit();
-// };
