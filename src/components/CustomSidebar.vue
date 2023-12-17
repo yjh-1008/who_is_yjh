@@ -57,7 +57,7 @@ const { getCategories } = useDatabase();
 const store = useStore();
 const menu = reactive<SidebarItem[]>([
   {
-    href: "/",
+    href: "/who_is_yjh",
     title: "Home",
     icon: {
       element: "v-icon",
@@ -78,7 +78,7 @@ const menu = reactive<SidebarItem[]>([
     child: [],
   },
   {
-    href: "/about_me",
+    href: "/who_is_yjh/about_me",
     title: "About me",
     icon: {
       element: "v-icon",
@@ -95,7 +95,7 @@ onBeforeMount(async () => {
       const ret = data.val() as string[];
       childItems = ret.map((v: string) => {
         return {
-          href: `/search/category/${v}`,
+          href: `/who_is_yjh/search/category/${v}`,
           title: v,
         };
       });
