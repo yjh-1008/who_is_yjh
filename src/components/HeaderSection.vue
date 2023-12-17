@@ -2,7 +2,7 @@
   <div class="d-flex align-start mt-11">
     <v-sheet class="flex-1-0">
       <div class="d-flex w-100 align-start px-4">
-        <v-responsive max-width="200">
+        <v-responsive max-width="130">
           <v-select
             class="prepend_select"
             v-model="searchTp"
@@ -34,8 +34,9 @@
         </v-responsive>
         <v-sheet>
           <v-btn
+            v-if="store.getters.getAuthState"
             icon="mdi-file-document-edit"
-            class="mr-4"
+            class="mr-2"
             size="large"
             @click="router.push({ name: '작성페이지' })"
             :disabled="!store.getters.getAuthState"
@@ -78,12 +79,12 @@ const items = reactive([
 
 const categories = ref([
   {
-    text: "카테고리",
-    val: "category",
-  },
-  {
     text: "제목",
     val: "title",
+  },
+  {
+    text: "카테고리",
+    val: "category",
   },
 ]);
 const searchTp = ref(categories.value[0]);

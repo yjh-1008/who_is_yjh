@@ -1,16 +1,17 @@
 <template>
-  <SidebarMenu :menu="menu" :hideToggle="true">
+  <SidebarMenu :menu="menu" :hideToggle="true" showOneChild>
     <template v-slot:header>
       <div class="sidebar_header py-5">
-        <div style="text-align: center" class="mt-10">
-          <img
-            width="200"
-            height="200"
+        <div class="mt-4">
+          <v-img
+            class="mx-auto"
+            width="40%"
+            cover
             :src="require('@/assets/images/profile.webp')"
             fetchpriority="high"
           />
         </div>
-        <div class="mx-10">
+        <div class="mx-10 mt-2">
           <h3>JJunBLOG</h3>
           <h5>Frontend Developer/Algorithm</h5>
         </div>
@@ -64,6 +65,7 @@ const menu = reactive<SidebarItem[]>([
         icon: "mdi-home",
       },
     },
+    hiddenOnCollapse: true,
   },
   {
     title: "Content",
@@ -105,8 +107,6 @@ onBeforeMount(async () => {
     });
   });
 });
-const callbackURL = "http://localhost:3000/callback";
-const loginURL = `https://github.com/login/oauth/authorize?client_id=4cbe74a4e3199244ad4b&scope=repo:status read:repo_hook user:email&redirect_uri=${callbackURL}`;
 </script>
 
 <style>
