@@ -8,7 +8,6 @@
       @click="openDialog"
     />
     <v-btn
-      v-if="store.getters.getAuthState"
       icon="mdi-more"
       color="blue-grey-darken-1"
       :disabled="disabled"
@@ -82,7 +81,6 @@ const onRecordLoad = async () => {
   if (querySnapshot.docs.length < 2) disabled.value = true;
 };
 const onLoad = async () => {
-  console.log(windows.value);
   store.commit("setLoadingState", true);
   if (windows.value) await onRecordLoad();
   else await load();

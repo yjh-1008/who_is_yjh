@@ -21,7 +21,7 @@ const props = defineProps<{
   position: absolute !important;
   z-index: 999;
   bottom: 30px;
-  right: 10px;
+  right: 30px;
   flex-direction: column;
 }
 </style>

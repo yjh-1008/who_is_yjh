@@ -27,6 +27,7 @@
                   <v-chip
                     v-for="chip in content.tags"
                     :key="chip"
+                    class="mx-5"
                     variant="elevated"
                     color="indigo"
                     >{{ chip }}</v-chip

@@ -20,7 +20,7 @@
       <div class="w-100">
         <v-card-title class="text-h5 mt-3">
           <div class="d-flex justify-space-between">
-            <div @click="router.push(`/content/${doc.id}`)">
+            <div @click="linkClick(`/content/${doc.id}`)">
               {{ doc.title }}
             </div>
             <v-btn
@@ -28,6 +28,7 @@
               v-show="authState !== null"
               @click="remove(doc.title)"
               border
+              size="small"
               icon="mdi-trash-can"
             >
             </v-btn>
@@ -35,24 +36,20 @@
               class="mx-4"
               border
               v-show="authState !== null"
-              @click="router.push(`/content/update/${doc.id}`)"
+              @click="linkClick(`/content/update/${doc.id}`)"
               icon="mdi-pencil"
+              size="small"
               color="blue-grey-darken-1"
             >
             </v-btn>
           </div>
         </v-card-title>
-        <v-card-subtitle :to="`/content/${doc.id}`">
-          <div class="mb-2">{{ text(doc.text) }}</div>
-          <v-chip
-            class="mb-6 mt-2"
-            size="small"
-            label
-            v-for="(tag, i) in doc.tags"
-            :key="`${tag}_${i}`"
-            >{{ tag }}</v-chip
-          >
-          <div>
+        <v-card-text @click="() => linkClick(`/content/${doc.id}`)">
+          <div class="mb-2" style="min-height: 110px">
+            {{ text(doc.text) }}
+          </div>
+          <hr class="mt-1" />
+          <div class="date my-1">
             {{
               typeof doc.createdAt === "object"
                 ? `${doc.createdAt.getFullYear()}-${
@@ -61,14 +58,23 @@
                 : ""
             }}
           </div>
-        </v-card-subtitle>
+          <v-chip
+            class="mr-1"
+            size="x-small"
+            label
+            v-for="(tag, i) in doc.tags"
+            :key="`${tag}_${i}`"
+            >{{ tag }}</v-chip
+          >
+        </v-card-text>
       </div>
     </div>
   </v-card>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed, ref, onBeforeMount, onMounted } from "vue";
+import { Content } from "@/utils/types";
 import { deleteContent } from "@/models/content";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
@@ -77,22 +83,29 @@ const authState = computed(() => store.getters.getAuthState);
 const emit = defineEmits(["refresh"]);
 const page = ref(1);
 const router = useRouter();
-const remove = async (title) => {
+const remove = async (title: string) => {
   await deleteContent(title);
   emit("refresh");
 };
-const props = defineProps({
-  contents: {
-    type: Array,
-    required: true,
-  },
-});
-const text = (val) => {
+const props = defineProps<{
+  contents: any[];
+}>();
+const text = (val: string | undefined) => {
   if (typeof val !== "string") return "";
   else {
-    if (val.length < 200) return val;
-    else return val.slice(0, 200) + "...";
+    if (val.length < 150) return val;
+    else return val.slice(0, 150) + "...";
   }
+};
+const linkClick = (url: string) => {
+  store.commit("setLoadingState", true);
+  router.push(url);
 };
 // const docs = ref([]);
 </script>
+
+<style scoped>
+.date {
+  font-size: 0.8rem;
+}
+</style>

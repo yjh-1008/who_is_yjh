@@ -111,20 +111,21 @@ export const getPosts = <T>(qs: T[]) => {
       startAfter(qs[qs.length - 1]),
       limit(2)
     );
-  else q = query(ref, orderBy("createdAt"), limit(6));
+  else q = query(ref, orderBy("createdAt", "asc"), limit(6));
   return getDocs(q);
 };
 
-// export const getPostsLength = () => {
-//   const ref = collection(db, "documents").withConverter(converter);
-//   const q = query(ref, orderBy("createdAt"), startAt(start), limit(6));
-//   return getDocs(q);
-// };
-
-export const getFilterContents = (tp: string, val: string) => {
-  console.log(tp);
+export const getFilterContents = <T>(
+  tp: string,
+  val: string,
+  qs: T[] | undefined
+) => {
   const ref = collection(db, "documents").withConverter(converter);
-  const q = query(ref, where(tp, "==", val));
+  let q;
+  console.log("qs", qs, tp, val);
+  if (qs !== undefined) {
+    q = query(ref, where("tags", "array-contains", val), limit(2));
+  } else q = query(ref, where("tags", "array-contains", val), limit(6));
   return getDocs(q);
 };
 

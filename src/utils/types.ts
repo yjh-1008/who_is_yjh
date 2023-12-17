@@ -113,7 +113,7 @@ export class Content {
     readonly createdAt?: Date | undefined,
     readonly updatedAt?: Date | undefined,
     public userSnapshot?: DocumentSnapshot<User> | undefined,
-    public postContent?: string | undefined
+    public postContent?: string
   ) {}
 
   toJSON() {

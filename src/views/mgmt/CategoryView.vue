@@ -16,12 +16,14 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, Ref, watch } from "vue";
+import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import { Content, PostContent } from "@/utils/types";
 import ContentItem from "@/components/ContentItem.vue";
 import { getFilterContents } from "@/models/content";
 import ContentItems from "@/components/ContentItems.vue";
 import { getPostContents } from "@/models/postContent";
+const store = useStore();
 const route = useRoute();
 const id = computed<string>(() => {
   return route.params.id as string;
@@ -30,21 +32,28 @@ const type = computed<string>(() => {
   return route.params.type as string;
 });
 const disabled = ref<boolean>(true);
-const qs = ref();
+const qs: Ref<any[] | undefined> = ref();
 const contents = ref<any[]>([]);
+onMounted(async () => {
+  await add();
+  console.log("here");
+});
+
 watch(
   () => id.value,
   async (c) => {
-    console.log(c);
+    qs.value = undefined;
     contents.value = [];
     await add();
   }
 );
 const add = async () => {
-  const querySnapshot = await getFilterContents(type.value, id.value);
-  querySnapshot.docs.forEach((doc) => {
-    contents.value.push(doc.data());
-  });
+  store.commit("setLoadingState", true);
+  const querySnapshot = await getFilterContents(type.value, id.value, qs.value);
+  console.log(querySnapshot.docs);
+  // querySnapshot.docs.forEach((doc) => {
+  //   contents.value.unshift(doc.data());
+  // });
   qs.value = querySnapshot.docs;
   disabled.value = querySnapshot.docs.length < 6;
   querySnapshot.docs.forEach(async (d) => {
@@ -57,9 +66,6 @@ const add = async () => {
     });
     contents.value.unshift({ ...d.data(), text: postContents });
   });
+  store.commit("setLoadingState", false);
 };
-
-// watch((), route.query.id , (c) =>{
-//   console.log(c);
-// })
 </script>

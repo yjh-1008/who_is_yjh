@@ -98,9 +98,7 @@ onBeforeMount(async () => {
         };
       });
     });
-    console.log(childItems);
     menu.forEach((data) => {
-      console.log(data.title);
       if (data.title === "Content") {
         data.child = childItems;
       }
