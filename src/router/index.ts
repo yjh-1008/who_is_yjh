@@ -3,38 +3,38 @@ import HomeView from "../views/HomeView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/",
+    path: "/who-is-yjh",
     name: "home",
     component: HomeView,
   },
   {
-    path: "/essay",
+    path: "/who-is-yjh/essay",
     component: () => import("@/views/BlogContent.vue"),
   },
   {
-    path: "/about_me",
+    path: "/who-is-yjh/about_me",
     component: () => import("@/views/AboutView.vue"),
   },
   {
-    path: "/edit_content",
+    path: "/who-is-yjh/edit_content",
     name: "작성페이지",
     component: () => import("@/views/WritePage.vue"),
   },
   {
-    path: "/content/:id",
+    path: "/who-is-yjh/content/:id",
     component: () => import("@/views/ContentView.vue"),
   },
   {
-    path: "/content/update/:id",
+    path: "/who-is-yjh/content/update/:id",
     name: "수정페이지",
     component: () => import("@/views/mgmt/UpdatePage.vue"),
   },
   {
-    path: "/categories/:id",
+    path: "/who-is-yjh/categories/:id",
     component: () => import("@/views/mgmt/CategoryView.vue"),
   },
   {
-    path: "/search/:type/:id",
+    path: "/who-is-yjh/search/:type/:id",
     component: () => import("@/views/mgmt/CategoryView.vue"),
   },
 ];
