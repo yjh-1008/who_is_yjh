@@ -7,7 +7,7 @@ module.exports = defineConfig({
     },
   },
   outputDir: "./docs",
-  publicPath: "/who-is-yjh/",
+  publicPath: "/who-is-yjh",
   configureWebpack: {
     devServer: {
       headers: {
