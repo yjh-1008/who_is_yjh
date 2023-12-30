@@ -4,15 +4,14 @@
     class="mx-auto my-6"
     width="70%"
     max-height="350px"
-    min-height="300px"
+    min-height="330px"
     elevation="6"
   >
     <v-container class="pa-0">
       <v-row>
-        <v-col cols="3" md="5">
+        <v-col cols="3" md="4">
           <v-img
-            cover
-            height="500px"
+            height="350px"
             width="100%"
             :src="props.project.tumbnail"
           ></v-img>
@@ -20,7 +19,7 @@
         <v-col class="mt-4">
           <v-card-item>
             <v-card-title class="d-flex align-center"
-              ><div class="text-h4">
+              ><div class="text-h5">
                 {{ props.project.title }}
               </div>
               <v-icon
@@ -40,11 +39,8 @@
 
           <v-divider class="mx-4 mb-1"></v-divider>
 
-          <v-card-text
-            style="height: 300px; overflow-y: auto"
-            class="px-4 pa-2"
-          >
-            <div style="line-height: 1.3rem; font-size: 1rem">
+          <v-card-text style="height: 20%; overflow-y: auto" class="px-4 pa-2">
+            <div style="line-height: 1.3rem; font-size: 1.1rem">
               {{ project.content }}
             </div>
           </v-card-text>

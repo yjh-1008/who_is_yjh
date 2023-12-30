@@ -118,6 +118,7 @@ const modelValue: Ref<boolean> = computed({
 });
 const onSave = async () => {
   if (tumbFile.value === undefined) return;
+  store.commit("setLoadingState", true);
   await addImage(tumbFile.value).then(async (res: string) => {
     if (typeof tumbFile.value === "string") return;
     uploadValue.value.tumbnail = res;
@@ -133,6 +134,7 @@ const onSave = async () => {
       uploadValue.value.endDtti
     );
   });
+  store.commit("setLoadingState", false);
   modelValue.value = false;
 };
 //이미지를 db에 저장하는 함수

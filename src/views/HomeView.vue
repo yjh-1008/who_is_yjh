@@ -27,12 +27,10 @@ export default {
 
 <script lang="ts" setup>
 import { ref, onBeforeMount } from "vue";
-import { useRouter } from "vue-router";
 import ContentItems from "@/components/ContentItems.vue";
-import { getPosts, updatePost } from "@/models/content";
+import { getPosts } from "@/models/content";
 import { getPostContents } from "@/models/postContent";
 import { useStore } from "vuex";
-const router = useRouter();
 const contents = ref<any[]>([]);
 const disabled = ref<boolean>(true);
 const store = useStore();
@@ -41,7 +39,7 @@ onBeforeMount(async () => {
   await add();
 });
 const add = async () => {
-  store.commit("setLoadingState", true);
+  // store.commit("setLoadingState", true);
   const querySnapshot = await getPosts(qs.value);
   qs.value = querySnapshot.docs;
   disabled.value = querySnapshot.docs.length < 6;
@@ -55,6 +53,6 @@ const add = async () => {
     });
     contents.value.unshift({ ...d.data(), text: postContents });
   });
-  store.commit("setLoadingState", false);
+  // store.commit("setLoadingState", false);
 };
 </script>

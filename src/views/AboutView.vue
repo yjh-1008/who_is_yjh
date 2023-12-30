@@ -26,7 +26,7 @@
   </v-window>
   <UploadProjectDialog
     :modelValue="projectDialog"
-    @update:modelValue="(val:boolean) => (projectDialog = val)"
+    @update:modelValue="onClose"
   />
   <UploadRecordDialog
     :windows="windows"
@@ -99,6 +99,11 @@ watch(
 const openDialog = () => {
   if (windows.value) recordDialog.value = true;
   else projectDialog.value = true;
+};
+
+const onClose = async (val: boolean) => {
+  projectDialog.value = val;
+  await load();
 };
 </script>
 <style scoped>
