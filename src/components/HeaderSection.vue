@@ -90,7 +90,7 @@ const categories = ref([
 const searchTp = ref(categories.value[0]);
 
 const onSearch = () => {
-  router.push(`/search/${searchTp.value.val}/${searchText.value}`);
+  router.push(`/who_is_yjh/search/${searchTp.value.val}/${searchText.value}`);
   searchText.value = "";
 };
 </script>

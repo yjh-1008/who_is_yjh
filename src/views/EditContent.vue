@@ -84,7 +84,7 @@ const category = ref<string>("");
 onMounted(async () => {
   if (!store.getters.getAuthState) {
     alert("인증된 사용자만 작성할 수 있습니다.");
-    router.push("/");
+    router.push("/who_is_yjh");
   }
 
   if (!props.id.length) {
