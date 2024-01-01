@@ -1,6 +1,5 @@
 <template>
   <v-card
-    style="background: rgb(33, 33, 33); color: #f3f4f9"
     width="80%"
     height="400px"
     rounded
@@ -8,7 +7,7 @@
     class="mx-auto my-5"
     variant="elevated"
   >
-    <v-img class="align-end" height="200px" :src="data.tumbnail" cover>
+    <v-img class="align-end" height="300px" cover :src="data.tumbnail">
       <v-card-title> {{ data.title }} </v-card-title>
     </v-img>
     <v-card-subtitle class="py-1"
@@ -16,7 +15,7 @@
       {{ dateFormatter(data.endDtti) }}</v-card-subtitle
     >
     <hr />
-    <v-card-text style="color: #f3f4f9">
+    <v-card-text>
       <div>
         {{ data.content }}
       </div>

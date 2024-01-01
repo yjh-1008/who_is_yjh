@@ -111,7 +111,7 @@ export const getPosts = <T>(qs: T[]) => {
   const ref = collection(db, "projects").withConverter(converter);
   let q;
   if (qs !== undefined)
-    q = query(ref, orderBy("sttDtti"), startAfter(qs[qs.length - 1]), limit(2));
+    q = query(ref, orderBy("sttDtti"), startAfter(qs[qs.length - 1]), limit(6));
   else q = query(ref, orderBy("sttDtti"), limit(6));
   return getDocs(q);
 };

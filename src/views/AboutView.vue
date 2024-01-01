@@ -16,12 +16,11 @@
   </div>
 
   <v-window v-model="windows" show-arrows>
-    <v-window-item :value="0">
-      <DevProjects :projects="projects" />
-    </v-window-item>
-
-    <v-window-item :key="1">
+    <v-window-item :key="0">
       <MyStacks :record="record" />
+    </v-window-item>
+    <v-window-item :key="1">
+      <DevProjects :projects="projects" />
     </v-window-item>
   </v-window>
   <UploadProjectDialog
@@ -36,17 +35,15 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, Ref, onMounted, watch } from "vue";
+import { ref, Ref, watch } from "vue";
 import { useStore } from "vuex";
 import { getProjects } from "@/models/pofolCard";
 import { getRecord } from "@/models/record";
-import { getProfile } from "@/models/pofol";
 import DevProjects from "@/components/DevProjects.vue";
 import { Record, Dp } from "@/utils/types";
 import MyStacks from "@/components/MyStacks.vue";
 import UploadProjectDialog from "@/components/UploadProjectDialog.vue";
 import UploadRecordDialog from "@/components/UploadRecordDialog.vue";
-import { QuerySnapshot } from "firebase-admin/firestore";
 const store = useStore();
 const windows = ref(0);
 const pdf = ref();
@@ -80,7 +77,7 @@ const onRecordLoad = async () => {
 };
 const onLoad = async () => {
   store.commit("setLoadingState", true);
-  if (windows.value) await onRecordLoad();
+  if (!windows.value) await onRecordLoad();
   else await load();
   store.commit("setLoadingState", false);
 };
@@ -97,7 +94,7 @@ watch(
 );
 
 const openDialog = () => {
-  if (windows.value) recordDialog.value = true;
+  if (!windows.value) recordDialog.value = true;
   else projectDialog.value = true;
 };
 

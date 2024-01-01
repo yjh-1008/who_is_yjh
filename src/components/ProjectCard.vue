@@ -39,7 +39,7 @@
 
           <v-divider class="mx-4 mb-1"></v-divider>
 
-          <v-card-text style="height: 20%; overflow-y: auto" class="px-4 pa-2">
+          <v-card-text style="height: 60%; overflow-y: auto" class="px-4 pa-2">
             <div style="line-height: 1.3rem; font-size: 1.1rem">
               {{ project.content }}
             </div>

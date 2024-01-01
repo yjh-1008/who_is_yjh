@@ -1,9 +1,9 @@
 <template>
-  <div class="container mx-auto px-16 w-100">
-    <template v-for="r in props.record" :key="r.title">
-      <MyCareer :data="r" />
-    </template>
-  </div>
+  <template v-for="project in props.record" :key="project.title">
+    <v-card style="overflow-y: auto">
+      <ProjectCard :project="project" />
+    </v-card>
+  </template>
 </template>
 
 <script setup lang="ts">
@@ -11,6 +11,7 @@ import MyCareer from "@/components/MyCareer.vue";
 import { ref, Ref, onBeforeMount } from "vue";
 import { Record } from "@/utils/types";
 import { getRecord } from "@/models/record";
+import ProjectCard from "./ProjectCard.vue";
 const props = defineProps<{
   record: Record[];
 }>();

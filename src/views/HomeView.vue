@@ -53,6 +53,5 @@ const add = async () => {
     });
     contents.value.unshift({ ...d.data(), text: postContents });
   });
-  // store.commit("setLoadingState", false);
 };
 </script>
