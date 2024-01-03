@@ -36,6 +36,17 @@
             </v-col>
           </v-row>
           <v-row>
+            <v-col cols="12">
+              <v-text-field
+                v-model="uploadValue.githubLink"
+                density="compact"
+                variant="outlined"
+                label="githubLink"
+              >
+              </v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
             <v-textarea
               v-model="uploadValue.content"
               clearable
@@ -59,7 +70,7 @@ import { useStore } from "vuex";
 import { setRecordImage } from "@/models/image";
 import useStorage from "@/composable/useStorage";
 const { getURL } = useStorage();
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "refreshRecord"]);
 const store = useStore();
 const props = defineProps<{
   modelValue: boolean;
@@ -70,6 +81,7 @@ const uploadValue = ref({
   tumbnail: "",
   sttDtti: new Date(),
   endDtti: new Date(),
+  githubLink: "",
 });
 const tumbFile: Ref<File | undefined> = ref();
 const rangePickerRef = ref(null);
@@ -79,18 +91,23 @@ const modelValue: Ref<boolean> = computed({
 });
 const onSave = async () => {
   if (tumbFile.value === undefined) return;
+  store.commit("setLoadingState", true);
   await addImage(tumbFile.value).then(async (res: string) => {
     if (typeof tumbFile.value === "string") return;
     uploadValue.value.tumbnail = res;
+    const date: any = rangePickerRef.value?.range;
     await setRecord(
       uploadValue.value.title,
       uploadValue.value.content,
       res,
+      uploadValue.value.githubLink,
       store.getters.getAuthState,
-      uploadValue.value.sttDtti,
-      uploadValue.value.endDtti
+      date.start,
+      date.end
     );
   });
+  store.commit("setLoadingState", false);
+  emits("refreshRecord");
   modelValue.value = false;
 };
 //이미지를 db에 저장하는 함수

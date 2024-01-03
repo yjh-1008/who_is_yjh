@@ -34,8 +34,12 @@
 
 <script setup lang="ts">
 import { setupCalendar, Calendar, DatePicker } from "v-calendar";
-import { ref, Ref } from "vue";
-const range: Ref<object> = ref({
+import { ref, Ref, unref } from "vue";
+interface RangeDate {
+  start: Date;
+  end: Date;
+}
+const range: Ref<RangeDate> = ref({
   start: new Date(),
   end: new Date(),
 });
@@ -47,5 +51,9 @@ const masks: Ref<object> = ref({
   input: "YYYY-MM-DD",
 });
 
-defineExpose({ range });
+const getRange = (): RangeDate => {
+  return range.value;
+};
+
+defineExpose({ range, getRange });
 </script>

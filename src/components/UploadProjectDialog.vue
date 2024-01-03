@@ -95,7 +95,7 @@ import { useStore } from "vuex";
 import { setProjectImage } from "@/models/image";
 import useStorage from "@/composable/useStorage";
 const { getURL } = useStorage();
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "refreshProject"]);
 const store = useStore();
 const props = defineProps<{
   modelValue: boolean;
@@ -109,6 +109,10 @@ const uploadValue = ref({
   sttDtti: new Date(),
   endDtti: new Date(),
 });
+interface RangeDate {
+  start: Date;
+  end: Date;
+}
 const tumbFile: Ref<File | undefined> = ref();
 const items: Ref<string[]> = ref([]);
 const rangePickerRef = ref(null);
@@ -122,7 +126,7 @@ const onSave = async () => {
   await addImage(tumbFile.value).then(async (res: string) => {
     if (typeof tumbFile.value === "string") return;
     uploadValue.value.tumbnail = res;
-    const obj = unref(uploadValue);
+    const date: RangeDate = rangePickerRef.value?.range;
     await setProject(
       uploadValue.value.title,
       uploadValue.value.content,
@@ -130,11 +134,12 @@ const onSave = async () => {
       uploadValue.value.githubLink,
       uploadValue.value.tags,
       store.getters.getAuthState,
-      uploadValue.value.sttDtti,
-      uploadValue.value.endDtti
+      date.start,
+      date.end
     );
   });
   store.commit("setLoadingState", false);
+  emits("refreshProject");
   modelValue.value = false;
 };
 //이미지를 db에 저장하는 함수

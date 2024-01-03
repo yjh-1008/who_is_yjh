@@ -34,6 +34,7 @@ const converter: FirestoreDataConverter<Record> = {
       data.title,
       data.content,
       data.tumbnail,
+      data.githubLink,
       data.userRef,
       data.sttDtti instanceof Timestamp ? data.sttDtti.toDate() : undefined,
       data.uendDtti instanceof Timestamp ? data.uendDtti.toDate() : undefined,
@@ -61,6 +62,7 @@ export const setRecord = async (
   title: string,
   content: string,
   tumbnail: string,
+  githubLink: string,
   user: User,
   sttDtti: Date,
   endDtti: Date
@@ -74,6 +76,7 @@ export const setRecord = async (
     title,
     content,
     tumbnail,
+    githubLink,
     userRef,
     sttDtti,
     endDtti,

@@ -26,11 +26,13 @@
   <UploadProjectDialog
     :modelValue="projectDialog"
     @update:modelValue="onClose"
+    @refresh-project="refreshProject"
   />
   <UploadRecordDialog
     :windows="windows"
     :modelValue="recordDialog"
     @update:modelValue="(val:boolean) => (recordDialog = val)"
+    @refresh-record="refreshRecord"
   />
 </template>
 
@@ -101,6 +103,19 @@ const openDialog = () => {
 const onClose = async (val: boolean) => {
   projectDialog.value = val;
   await load();
+};
+
+const refreshProject = async () => {
+  projects.value = [];
+  qs.value = undefined;
+  await load();
+};
+
+const refreshRecord = async () => {
+  console.log("here");
+  record.value = [];
+  qs.value = undefined;
+  await onRecordLoad();
 };
 </script>
 <style scoped>
