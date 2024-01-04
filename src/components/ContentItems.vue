@@ -10,10 +10,9 @@
   >
     <div class="d-flex flex-no-wrap">
       <v-img
-        class="align-end text-white"
+        class="align-end text-white my-auto"
         width="25%"
         height="100%"
-        cover
         :src="doc.tumbnail"
         alt="img"
       />
@@ -22,7 +21,17 @@
           <div class="d-flex justify-space-between">
             <div @click="linkClick(`/content/${doc.id}`)">
               {{ doc.title }}
+              <div class="date">
+                {{
+                  typeof doc.createdAt === "object"
+                    ? `${doc.createdAt.getFullYear()}/${
+                        doc.createdAt.getMonth() + 1
+                      }/${doc.createdAt.getDate()}`
+                    : ""
+                }}
+              </div>
             </div>
+            <hr />
             <v-btn
               class="ml-auto"
               v-show="authState !== null"
@@ -45,19 +54,10 @@
           </div>
         </v-card-title>
         <v-card-text @click="() => linkClick(`/content/${doc.id}`)">
-          <div class="mb-2" style="min-height: 110px">
+          <div class="mb-2" style="min-height: 150px">
             {{ text(doc.text) }}
           </div>
-          <hr class="mt-1" />
-          <div class="date my-1">
-            {{
-              typeof doc.createdAt === "object"
-                ? `${doc.createdAt.getFullYear()}-${
-                    doc.createdAt.getMonth() + 1
-                  }-${doc.createdAt.getDate()}`
-                : ""
-            }}
-          </div>
+          <hr class="my-3" />
           <v-chip
             class="mr-1"
             size="x-small"
@@ -93,8 +93,8 @@ const props = defineProps<{
 const text = (val: string | undefined) => {
   if (typeof val !== "string") return "";
   else {
-    if (val.length < 150) return val;
-    else return val.slice(0, 150) + "...";
+    const tmp = val.split("썸네일")[1];
+    return tmp.length > 400 ? tmp.slice(0, 401) + "..." : tmp;
   }
 };
 const linkClick = (url: string) => {

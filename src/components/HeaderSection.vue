@@ -24,7 +24,7 @@
             filled
             single-line
             hide-details
-            @keydown.enter="onSearch"
+            @keyup.enter="onSearch"
             placeholder="검색"
           >
             <template v-slot:append-inner>
@@ -90,8 +90,7 @@ const categories = ref([
 const searchTp = ref(categories.value[0]);
 
 const onSearch = () => {
-  router.push(`/who_is_yjh/search/${searchTp.value.val}/${searchText.value}`);
-  searchText.value = "";
+  router.push(`/search/${searchTp.value.val}/${searchText.value}`);
 };
 </script>
 

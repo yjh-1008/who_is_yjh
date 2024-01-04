@@ -37,7 +37,7 @@
           @addImage="addImage"
           :loading="loading"
         />
-        <TuiViewer :content="postContent" />
+        <!-- <TuiViewer :content="postContent" /> -->
       </v-row>
     </v-card>
     <UploadDialog
@@ -53,11 +53,10 @@
 <script setup lang="ts">
 import "@toast-ui/editor/dist/toastui-editor.css";
 import { useRouter, useRoute } from "vue-router";
-import { ref, onMounted, computed, watch } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { setPost, getPost } from "@/models/content";
 import TuiEditor from "@/components/editor/TuiEditor.vue";
-import TuiViewer from "@/components/editor/TuiViewer.vue";
 import { setImage } from "@/models/image";
 import useStorage from "@/composable/useStorage";
 import { deleteContent, updatePost } from "@/models/content";
