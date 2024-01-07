@@ -100,7 +100,7 @@ export const setPost = async (
   return id;
 };
 
-export const getPosts = <T>(qs: T[]) => {
+export const getPosts = async <T>(qs: T[]) => {
   const ref = collection(db, "documents").withConverter(converter);
   let q;
   if (qs !== undefined)
@@ -108,9 +108,9 @@ export const getPosts = <T>(qs: T[]) => {
       ref,
       orderBy("createdAt"),
       startAfter(qs[qs.length - 1]),
-      limit(2)
+      limit(10)
     );
-  else q = query(ref, orderBy("createdAt", "asc"), limit(6));
+  else q = query(ref, orderBy("createdAt", "asc"), limit(10));
   return getDocs(q);
 };
 

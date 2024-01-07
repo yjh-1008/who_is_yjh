@@ -2,17 +2,16 @@
   <v-card
     v-for="doc in contents"
     class="my-5 w-75 mx-auto"
-    max-height="400px"
-    min-height="200px"
+    height="200px"
     elevation="6"
     :key="doc.title"
     md="2"
   >
     <div class="d-flex flex-no-wrap">
       <v-img
-        class="align-end text-white my-auto"
-        width="25%"
-        height="100%"
+        class="align-center text-white"
+        width="20%"
+        height="200px"
         :src="doc.tumbnail"
         alt="img"
       />
@@ -54,7 +53,7 @@
           </div>
         </v-card-title>
         <v-card-text @click="() => linkClick(`/content/${doc.id}`)">
-          <div class="mb-2" style="min-height: 150px">
+          <div class="mb-2" style="height: 50px">
             {{ text(doc.text) }}
           </div>
           <hr class="my-3" />
