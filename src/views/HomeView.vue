@@ -33,7 +33,6 @@ import { getPostContents } from "@/models/postContent";
 import { useStore } from "vuex";
 const contents = ref<any[]>([]);
 const disabled = ref<boolean>(true);
-const store = useStore();
 const qs = ref();
 onBeforeMount(async () => {
   await add();

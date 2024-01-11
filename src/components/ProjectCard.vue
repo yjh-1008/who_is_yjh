@@ -2,19 +2,14 @@
   <v-card
     :loading="loading"
     class="mx-auto my-6"
-    width="70%"
-    max-height="350px"
-    min-height="330px"
+    width="90%"
+    height="200px"
     elevation="6"
   >
     <v-container class="pa-0">
-      <v-row>
-        <v-col cols="3" md="4">
-          <v-img
-            height="350px"
-            width="100%"
-            :src="props.project.tumbnail"
-          ></v-img>
+      <v-row align-content="stretch">
+        <v-col cols="2" class="my-auto">
+          <v-img class="my-auto" :src="props.project.tumbnail"></v-img>
         </v-col>
         <v-col class="mt-4">
           <v-card-item>
@@ -39,8 +34,8 @@
 
           <v-divider class="mx-4 mb-1"></v-divider>
 
-          <v-card-text style="height: 60%; overflow-y: auto" class="px-4 pa-2">
-            <div style="line-height: 1.3rem; font-size: 1.1rem">
+          <v-card-text style="height: 100px; overflow-y: auto" class="px-4">
+            <div style="line-height: 1.2rem; font-size: 1rem">
               {{ project.content }}
             </div>
           </v-card-text>

@@ -1,5 +1,7 @@
 <template>
-  <div ref="editorRef" />
+  <div class="toast-viewer">
+    <div ref="editorRef" />
+  </div>
 </template>
 
 <script setup lang="ts">
