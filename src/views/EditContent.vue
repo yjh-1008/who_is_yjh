@@ -186,7 +186,7 @@ const onSubmit = async (tags: string[], category: string) => {
       tags === undefined ? [""] : tags,
       store.getters.getAuthState
     );
-    await router.push(`/content/${id}`);
+    await router.push({ name: "home" });
   }
   router.go(-1);
 };
