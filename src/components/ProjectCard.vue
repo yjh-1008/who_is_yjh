@@ -7,9 +7,13 @@
     elevation="6"
   >
     <v-container class="pa-0">
-      <v-row align-content="stretch">
+      <v-row>
         <v-col cols="2" class="my-auto">
-          <v-img class="my-auto" :src="props.project.tumbnail"></v-img>
+          <v-img
+            class="my-auto"
+            height="200px"
+            :src="props.project.tumbnail"
+          ></v-img>
         </v-col>
         <v-col class="mt-4">
           <v-card-item>

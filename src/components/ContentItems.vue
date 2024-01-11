@@ -1,3 +1,4 @@
+<!-- eslint-disable no-empty-character-class -->
 <template>
   <v-card
     v-for="doc in contents"
@@ -90,8 +91,8 @@ const props = defineProps<{
 const text = (val: string | undefined) => {
   if (typeof val !== "string") return "";
   else {
-    const tmp = val.split("썸네일")[1];
-    return tmp.slice(0, 151) + "...";
+    const tmp = val.split("1.")[1].split("2.")[0];
+    return tmp.slice(0, 451) + "...";
   }
 };
 const linkClick = (url: string) => {
