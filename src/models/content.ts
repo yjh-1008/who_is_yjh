@@ -15,6 +15,7 @@ import {
   startAt,
   limit,
   orderBy,
+  deleteDoc,
   startAfter,
 } from "firebase/firestore";
 import { User } from "firebase/auth";
@@ -103,14 +104,16 @@ export const setPost = async (
 export const getPosts = async <T>(qs: T[]) => {
   const ref = collection(db, "documents").withConverter(converter);
   let q;
-  if (qs !== undefined)
+  console.log(qs);
+  if (qs !== undefined) {
+    console.log("here");
     q = query(
       ref,
-      orderBy("createdAt"),
+      orderBy("createdAt", "desc"),
       startAfter(qs[qs.length - 1]),
-      limit(10)
+      limit(6)
     );
-  else q = query(ref, orderBy("createdAt", "asc"), limit(10));
+  } else q = query(ref, orderBy("createdAt", "desc"), limit(6));
   return getDocs(q);
 };
 
@@ -167,6 +170,9 @@ export const getPost = async (id: string) => {
 };
 
 export const deleteContent = async (id: string) => {
-  const batch = writeBatch(db);
+  // const batch = writeBatch(db);
+  console.log(id);
+  const ref = doc(db, "documents", id);
+  return deleteDoc(ref);
   const sn = await getPostContents(id);
 };

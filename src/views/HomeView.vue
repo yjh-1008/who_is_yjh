@@ -4,7 +4,7 @@
       class="white--text green d-flex flex-column darken-3 ƒ-auto w-100"
       style="overflow-y: auto"
     >
-      <ContentItems :contents="contents" />
+      <ContentItems :contents="contents" @refresh="onReload" />
     </div>
     <v-btn
       class="text-none mb-4 mx-auto"
@@ -37,6 +37,11 @@ const qs = ref();
 onBeforeMount(async () => {
   await add();
 });
+
+const onReload = async () => {
+  qs.value = undefined;
+  await add();
+};
 const add = async () => {
   // store.commit("setLoadingState", true);
   const querySnapshot = await getPosts(qs.value);
@@ -50,7 +55,7 @@ const add = async () => {
         postContents += content;
       });
     });
-    contents.value.unshift({ ...d.data(), text: postContents });
+    contents.value.push({ ...d.data(), text: postContents });
   });
 };
 </script>

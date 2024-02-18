@@ -1,6 +1,6 @@
 <template>
   <div class="white--text green d-flex flex-column darken-3 ƒ-auto w-100">
-    <ContentItems :contents="contents" />
+    <ContentItems :contents="contents" @refresh="onReload" />
     <v-btn
       class="text-none mb-4 mx-auto"
       :width="500"
@@ -38,6 +38,10 @@ onMounted(async () => {
   await add();
 });
 
+const onReload = async () => {
+  qs.value = undefined;
+  await add();
+};
 watch(
   () => id.value,
   async (c) => {

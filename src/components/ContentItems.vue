@@ -83,6 +83,7 @@ const emit = defineEmits(["refresh"]);
 const router = useRouter();
 const remove = async (title: string) => {
   await deleteContent(title);
+  // location.reload();
   emit("refresh");
 };
 const props = defineProps<{
@@ -91,7 +92,7 @@ const props = defineProps<{
 const text = (val: string | undefined) => {
   if (typeof val !== "string") return "";
   else {
-    const tmp = val.split("1.")[1].split("2.")[0];
+    const tmp = val;
     return tmp.slice(0, 451) + "...";
   }
 };
