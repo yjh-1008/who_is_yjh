@@ -1,2 +1,0 @@
-"use strict";(self["webpackChunkwho_is_yjh"]=self["webpackChunkwho_is_yjh"]||[]).push([[874],{6874:function(t,e,n){n.r(e),n.d(e,{default:function(){return a}});var u=n(6252),r=n(9719),i=(0,u.aZ)({__name:"WritePage",setup:function(t){return function(t,e){return(0,u.wg)(),(0,u.j4)(r.Z,{id:"",text:"",title:""})}}});const s=i;var a=s}}]);
-//# sourceMappingURL=874.e7399df4.js.map
