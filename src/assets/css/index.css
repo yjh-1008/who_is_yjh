@@ -1,0 +1,7 @@
+.ml-line {
+  text-overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-clamp: 3;
+  line-height: 50px;
+}

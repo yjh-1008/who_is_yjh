@@ -45,7 +45,7 @@
           </div>
         </v-card-title>
         <v-card-text @click="() => linkClick(`/content/${doc.id}`)">
-          <div class="mb-5" style="height: 50px">
+          <div class="ml-line">
             {{ text(doc.text) }}
           </div>
           <hr class="my-3" />
@@ -90,10 +90,15 @@ const props = defineProps<{
   contents: any[];
 }>();
 const text = (val: string | undefined) => {
-  if (typeof val !== "string") return "";
-  else {
-    const tmp = val;
-    return tmp.slice(0, 451) + "...";
+  const tmp = val?.split("1.")[1];
+  if (typeof val === "string") {
+    return val
+      .replaceAll(
+        // eslint-disable-next-line no-useless-escape
+        /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi,
+        ""
+      )
+      .replaceAll("![]()", "");
   }
 };
 const linkClick = (url: string) => {

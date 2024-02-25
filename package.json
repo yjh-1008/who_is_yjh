@@ -9,7 +9,7 @@
     "emul": "firebase emulators:start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "homepage": "https://yjh-1008.github.io/who_is_yjh/"
+    "homepage": "https://yjh-1008.github.io/who_is_yjh/#"
   },
   "dependencies": {
     "@boooooob/vue3-pdfjs": "^1.0.4",
@@ -81,5 +81,6 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
+  ],
+  "homepage": "https://yjh-1008.github.io/who_is_yjh/#"
 }

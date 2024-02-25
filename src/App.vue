@@ -29,6 +29,13 @@ import ProcressCircular from "./components/ProcressCircular.vue";
 .content-view {
   margin-left: 290px;
 }
+.ml-line {
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3 !important;
+  overflow: hidden;
+}
 </style>
 
 <!-- //-->
