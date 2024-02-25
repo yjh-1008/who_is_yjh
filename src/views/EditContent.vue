@@ -8,7 +8,7 @@
             density="compact"
             variant="outlined"
             label="제목"
-            :rules="[validLen, validSign]"
+            :rules="[validLen]"
           >
             <template v-slot:append>
               <v-btn @click="onUpload" class="mr-4"
@@ -62,7 +62,7 @@ import useStorage from "@/composable/useStorage";
 import { deleteContent, updatePost } from "@/models/content";
 import UploadDialog from "@/components/UploadDialog.vue";
 import { Content } from "@/utils/types";
-import { validLen, validSign } from "@/utils/textFieldRule";
+import { validLen } from "@/utils/textFieldRule";
 const store = useStore();
 const { getURL } = useStorage();
 const props = defineProps<{
